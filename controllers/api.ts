@@ -77,7 +77,7 @@ async function refreshTokens() {
 @MethodConfig('Api')
 export class Api {
     @Method(Verbs.Get, '/api/auth')
-    public async auth(@Query('code') code, @Query('returnto') returnto, @Response() res) {
+    public static async auth(@Query('code') code, @Query('returnto') returnto, @Response() res) {
         userInfo.auth = code;
         if (!userInfo.refresh_token) {
             await refreshTokens();
@@ -87,7 +87,7 @@ export class Api {
 
 
     @Method(Verbs.Get, '/api/clients', [authMiddleware])
-    public async listClients() {
+    public static async listClients() {
 
         if (!userInfo.refresh_token) {
             await refreshTokens();
@@ -111,7 +111,7 @@ export class Api {
     }
 
     @Method(Verbs.Get, '/api/adgroups', [authMiddleware])
-    public async listAdGroups() {
+    public static async listAdGroups() {
 
         if (!userInfo.refresh_token) {
             await refreshTokens();
@@ -137,7 +137,7 @@ export class Api {
 
 
     @Method(Verbs.Get, '/api/accounts', [authMiddleware])
-    public async listAccounts() {
+    public static async listAccounts() {
 
         if (!userInfo.refresh_token) {
             await refreshTokens();

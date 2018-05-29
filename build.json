@@ -1,0 +1,20 @@
+{
+    "skribo": {
+        "contractNameServer": "@skribo/server",
+        "contractNameClient": "@skribo/client",
+        "buildPath": "../",
+        "path": "./",
+        "contracts": {
+            "Scripts": {
+                "path": "./controllers/scripts.ts"
+            }
+        },
+        "includes": {
+            "ScriptModel": {
+                "path": "./models/script.model.ts"
+            }
+        },
+        "dependencies": {},
+        "bindings": {}
+    }
+}
