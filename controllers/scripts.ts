@@ -8,7 +8,7 @@ export class Scripts {
 
 
     @Method(Verbs.Get, '/scripts/list')
-    public static async list(): MethodResult<ScriptModel> {
+    public static async list(): Promise<MethodResult<ScriptModel>> {
 
 
         try {
