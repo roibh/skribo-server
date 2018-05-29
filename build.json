@@ -10,7 +10,7 @@
             }
         },
         "includes": {
-            "Script": {
+            "ScriptModel": {
                 "path": "./models/script.model.ts"
             }
         },

@@ -1,5 +1,5 @@
 
-export interface Script {
+export interface ScriptModel {
     ID: number;
     Variables: any;
     Code: string;
