@@ -1,6 +1,7 @@
 import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
 
 import { DB } from '../db';
+import { Script } from '../models/script.model';
 
 @MethodConfig('Scripts')
 export class Scripts {
@@ -34,7 +35,7 @@ export class Scripts {
 
         try {
             await client.connect()
-            const script = await client.query('SSELECT * FROM public.scripts WHERE "ID"=$1', [id]);
+            const script: Script = await client.query('SSELECT * FROM public.scripts WHERE "ID"=$1', [id]);
             return new MethodResult(script);
 
         }
@@ -45,10 +46,10 @@ export class Scripts {
 
     }
     @Method(Verbs.Post, '/scripts/')
-    public static async create(@Body() script: any) {
+    public static async create(@Body() script: Script) {
         const client = await DB();
-        if (!script.variables)
-            script.variables = {};
+        if (!script.Variables)
+            script.Variables = {};
 
         try {
             await client.connect()

@@ -9,6 +9,11 @@
                 "path": "./controllers/scripts.ts"
             }
         },
+        "includes": {
+            "Script": {
+                "path": "./models/script.model.ts"
+            }
+        },
         "dependencies": {},
         "bindings": {}
     }
