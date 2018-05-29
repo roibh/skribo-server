@@ -7,11 +7,64 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\index.js",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
-        }
+            "name": "R | local skribo server",
+            "program": "${workspaceRoot}\\index.js",
+            "cwd": "${workspaceRoot}\\",
+            "console": "internalConsole",
+            "outFiles": [],
+            "sourceMaps": true,
+            "env": {
+                "DEBUG": "none",
+                "NODE_ENV": "debug",
+                "NODE_LOG_LEVEL": "trace",
+                "NODE_CONFIG_ENV": "local",
+                "NODE_CONFIG_DIR": "${workspaceRoot}/config/",
+                "NODE_LOG_DIR": "./logs",
+                "NODE_CONFIG_VAR": "vars.json",
+                "PORT": "6200"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "U | build contracts",
+            "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\build.js",
+            "args": [
+                "./build.json",
+                "skribo-contracts"
+            ],
+            "cwd": "${workspaceRoot}\\",
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "env": {
+                "DEBUG": "tmla",
+                "NODE_ENV": "debug",
+                "NODE_LOG_LEVEL": "debug",
+                "NODE_CONFIG_ENV": "local",
+                "NODE_CONFIG_DIR": "${workspaceRoot}/config/",
+                "NODE_LOG_DIR": "./logs"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "U | build client contracts",
+            "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\client.js",
+            "args": [
+                "./build.json",
+                "@skribo-client"
+            ],
+            "cwd": "${workspaceRoot}\\",
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "env": {
+                "DEBUG": "tmla",
+                "NODE_ENV": "debug",
+                "NODE_LOG_LEVEL": "debug",
+                "NODE_CONFIG_ENV": "local",
+                "NODE_CONFIG_DIR": "${workspaceRoot}/config/",
+                "NODE_LOG_DIR": "./logs"
+            }
+        },
     ]
 }

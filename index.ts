@@ -5,7 +5,7 @@ import { ServerConfiguration, ClientConfiguration, ConfiguredServer, MethodType,
 console.log(ServerConfiguration, ClientConfiguration);
 
 @ServerConfiguration(ServerType.Express, { port: process.env.PORT || 6200 })
-@ClientConfiguration(Api, MethodType.Local, ServerType.Express)
+//@ClientConfiguration(Api, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Scripts, MethodType.Local, ServerType.Express)
 class SetupServer extends ConfiguredServer {
 
