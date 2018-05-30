@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@methodus/contracts": "^0.0.5",
+    "@methodus/contracts": "^0.0.6",
     "@methodus/server": "^0.0.18",
     "@types/node": "^10.0.4",
     "adwords-auth": "^0.0.10",
