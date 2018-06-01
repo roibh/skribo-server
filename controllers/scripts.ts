@@ -5,15 +5,12 @@ import { ScriptModel } from '../models/script.model';
 
 @MethodConfig('Scripts')
 export class Scripts {
-    @Method(Verbs.Get, '/scripts/list')
-    public static async list(): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Get, '/scripts/:user_id/list')
+    public static async list(@Param("user_id") user_id: string): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
-            const res = await client.query('SELECT * FROM public.scripts ORDER BY "ID" ASC');
-            if (res.rows) {
-                console.log(res.rows[0].message) // Hello world!
-            }
-            return new MethodResult(res.rows);           
+            const res = await client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [user_id]);
+            return new MethodResult(res.rows);
         }
         catch (error) {
             console.error(error);
@@ -24,11 +21,20 @@ export class Scripts {
     public static async get(@Param('id') id: number): Promise<MethodResult<ScriptModel>> {
         const client = await DB();
         try {
-            const script: ScriptModel = await client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [id]);
-            return new MethodResult(script);
+            const script: any = await client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [id]);
+            if (script.rows.length) {
+                return new MethodResult(script.rows[0] as ScriptModel);
+            } else {
+                throw (new MethodError('not found', 404));
+            }
         }
         catch (error) {
-            console.error(error);
+            if (error.statusCode) {
+                throw (error);
+            } else {
+                throw new MethodError(error);
+            }
+
         }
     }
 
@@ -50,8 +56,8 @@ export class Scripts {
         if (!script.Variables)
             script.Variables = {};
         try {
-            await client.connect()
-            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Decription") VALUES($1,$2,$3) RETURNING "ID"', [script.Name, script.Code, script.Variables, script.Description])
+
+            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description") VALUES($1,$2,$3,$4) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description])
             return new MethodResult(createdObject);
         }
         catch (error) {
@@ -65,9 +71,15 @@ export class Scripts {
         if (!script.Variables)
             script.Variables = {};
         try {
-            await client.connect()
-            const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Decription"=$4) WHERE "ID"=$5`, [script.Name, script.Code, script.Variables, script.Description, id])
-            return new MethodResult(updateObject)
+
+            const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 WHERE "ID"=$5 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, id])
+            if (updateObject.rows.length) {
+                return new MethodResult(updateObject.rows[0])
+            } else {
+                throw (new MethodError('not found', 404));
+            }
+
+
         }
         catch (error) {
             console.error(error);

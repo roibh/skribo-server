@@ -15,11 +15,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@methodus/contracts": "^0.0.6",
-    "@methodus/server": "^0.0.18",
+    "@methodus/contracts": "^0.0.7",
+    "@methodus/describe": "latest",
+    "@methodus/server": "latest",
     "@types/node": "^10.0.4",
     "adwords-auth": "^0.0.10",
     "chrome-bridge": "^0.1.2",
+    "logelas": "^1.0.24",
     "node-adwords": "^201802.2.0",
     "pg": "^7.4.3"
   }

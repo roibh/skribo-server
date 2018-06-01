@@ -5,4 +5,5 @@ export interface ScriptModel {
     Code?: string;
     Name?: string;
     Description?: string;
+    Owner?: string;
 }

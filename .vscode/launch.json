@@ -30,8 +30,8 @@
             "name": "U | build contracts",
             "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\build.js",
             "args": [
-                "./build.json",
-                "skribo-contracts"
+                "./build.json"
+                 
             ],
             "cwd": "${workspaceRoot}\\",
             "console": "internalConsole",
@@ -51,19 +51,16 @@
             "name": "U | build client contracts",
             "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\client.js",
             "args": [
-                "./build.json",
-                "@skribo-client"
+                "./build.json"
+                
             ],
             "cwd": "${workspaceRoot}\\",
             "console": "internalConsole",
             "sourceMaps": true,
             "env": {
-                "DEBUG": "tmla",
-                "NODE_ENV": "debug",
-                "NODE_LOG_LEVEL": "debug",
-                "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/config/",
-                "NODE_LOG_DIR": "./logs"
+                "DEBUG": "none",
+                "NODE_ENV": "debug"
+                
             }
         },
     ]
