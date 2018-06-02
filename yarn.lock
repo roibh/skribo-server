@@ -6,9 +6,9 @@
   version "0.0.7"
   resolved "https://registry.npmjs.org/@methodus/client/-/client-0.0.7.tgz#58c0932f6899822d25d55cc2e0b4ca06b2ebe03a"
 
-"@methodus/contracts@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/@methodus/contracts/-/contracts-0.0.7.tgz#aaba77f901bfb8dabc8a1c915f1faa04813fcc89"
+"@methodus/contracts@latest":
+  version "0.0.8"
+  resolved "https://registry.npmjs.org/@methodus/contracts/-/contracts-0.0.8.tgz#4e9ecefad1c1dea89943fca2e402984ce47d4f43"
   dependencies:
     "@methodus/client" "^0.0.7"
     "@methodus/server" "^0.0.18"
