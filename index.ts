@@ -1,5 +1,6 @@
 import { Api } from './controllers/api';
 import { Scripts } from './controllers/scripts';
+import { Embed } from './controllers/embed';
 import { ServerConfiguration, PluginConfiguration, ClientConfiguration, ConfiguredServer, MethodType, ServerType } from '@methodus/server';
 
 console.log(ServerConfiguration, ClientConfiguration);
@@ -8,6 +9,7 @@ console.log(ServerConfiguration, ClientConfiguration);
 @PluginConfiguration('@methodus/describe')
 //@ClientConfiguration(Api, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Scripts, MethodType.Local, ServerType.Express)
+@ClientConfiguration(Embed, MethodType.Local, ServerType.Express)
 
 class SetupServer extends ConfiguredServer {
 

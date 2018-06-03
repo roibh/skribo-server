@@ -57,7 +57,7 @@ export class Scripts {
             script.Variables = {};
         try {
 
-            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description") VALUES($1,$2,$3,$4) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description])
+            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "Owner") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.Owner])
             return new MethodResult(createdObject);
         }
         catch (error) {
