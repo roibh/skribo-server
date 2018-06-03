@@ -1,18 +1,13 @@
 const { Client } = require('pg')
+import { Config } from '../config';
 
 let activeClient = null;
 
 export async function DB() {
 
-
+    console.log(Config);
     if (!activeClient) {
-        const client = new Client({
-            user: 'postgres',
-            host: 'localhost',
-            database: 'skribo',
-            password: '1234',
-            port: 5432,
-        });
+        const client = new Client(Config.db.url);
         await client.connect()
         activeClient = client;
 

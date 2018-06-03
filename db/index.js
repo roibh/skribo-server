@@ -9,17 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const { Client } = require('pg');
+const config_1 = require("../config");
 let activeClient = null;
 function DB() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(config_1.Config);
         if (!activeClient) {
-            const client = new Client({
-                user: 'postgres',
-                host: 'localhost',
-                database: 'skribo',
-                password: '1234',
-                port: 5432,
-            });
+            const client = new Client(config_1.Config.db.url);
             yield client.connect();
             activeClient = client;
         }
