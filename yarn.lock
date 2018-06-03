@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@methodus/client@^0.0.7", "@methodus/client@^1.0.0":
+"@methodus/client@^0.0.7", "@methodus/client@latest":
   version "0.0.7"
   resolved "https://registry.npmjs.org/@methodus/client/-/client-0.0.7.tgz#58c0932f6899822d25d55cc2e0b4ca06b2ebe03a"
 
@@ -21,10 +21,11 @@
     typescript "^2.5.2"
 
 "@methodus/describe@latest":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@methodus/describe/-/describe-1.0.2.tgz#bbd0d685e22e2eef36ec05d3dbe492ca5275219f"
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@methodus/describe/-/describe-1.0.3.tgz#e9348c7980809b64a230abe96d24c78ee25046c5"
   dependencies:
-    "@methodus/client" "^1.0.0"
+    "@methodus/client" latest
+    "@methodus/server" latest
     "@types/jquery" "^3.2.16"
     "@types/node" "^8.0.53"
     ejs "^2.5.7"
@@ -1189,8 +1190,8 @@ jquery.json-viewer@^1.1.0:
   resolved "https://registry.npmjs.org/jquery.json-viewer/-/jquery.json-viewer-1.1.0.tgz#e97878cfa64c938a1eaf8d25cdf61f04d53df78d"
 
 js-yaml@^3.2.7, js-yaml@^3.9.0:
-  version "3.11.0"
-  resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.11.0.tgz#597c1a8bd57152f26d622ce4117851a51f5ebaef"
+  version "3.12.0"
+  resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
@@ -1481,8 +1482,8 @@ nested-error-stacks@^2.0.0:
   resolved "https://registry.npmjs.org/nested-error-stacks/-/nested-error-stacks-2.0.1.tgz#d2cc9fc5235ddb371fc44d506234339c8e4b0a4b"
 
 nise@^1.2.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/nise/-/nise-1.4.0.tgz#7aa1fe955f5ef121853d898cc4d660e91295d5e9"
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/nise/-/nise-1.4.1.tgz#78bc2b343d5ff1031ea9d1bb2c87a94c26db7250"
   dependencies:
     "@sinonjs/formatio" "^2.0.0"
     just-extend "^1.1.27"
