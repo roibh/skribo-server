@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - "node"
   - "10"
+before_deploy: "mv .gitignore ..gitignore" 
 deploy:
   provider: heroku
   api_key:
