@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "exit 0",
     "contracts": "npm version patch && npm run contract-publish && npm run client-publish",
     "postpublish": "npm run tag && npm run contract-publish && npm run client-publish",
     "contract": "node ./node_modules/@methodus/contracts/build.js ./build.json",
