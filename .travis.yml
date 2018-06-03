@@ -6,3 +6,6 @@ deploy:
   provider: heroku
   api_key:
     secure: "4a63897d-e32c-400a-9563-8ef938c5f8c5"
+  app:
+    master: skribo
+    staging: skribo
