@@ -15,7 +15,8 @@ function DB() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(config_1.Config);
         if (!activeClient) {
-            const client = new Client(config_1.Config.db.url);
+            const connectionObj = (config_1.Config.db.url) ? config_1.Config.db.url : config_1.Config.db;
+            const client = new Client(connectionObj);
             yield client.connect();
             activeClient = client;
         }
