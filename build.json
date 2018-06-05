@@ -7,6 +7,9 @@
         "contracts": {
             "Scripts": {
                 "path": "./controllers/scripts.ts"
+            },
+            "Embed": {
+                "path": "./controllers/embed.ts"
             }
         },
         "includes": {
