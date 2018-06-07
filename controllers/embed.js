@@ -23,12 +23,42 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 let Embed = class Embed {
-    static get(script_id, user_id) {
+    static get(script_id, user_id, token) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const res = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2', [script_id, user_id]);
-                return new server_1.MethodResult(res.rows);
+                const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2', [script_id, user_id]);
+                const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+                return new server_1.MethodResult(InstanceScript.rows);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
+    static create(variables, script_id, user_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const createdObject = yield client.query('INSERT INTO public.embeds("ScriptId", "UserId", "Variables") VALUES($1,$2,$3) RETURNING "ID"', [script_id, user_id, JSON.stringify(variables)]);
+                return new server_1.MethodResult(createdObject);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
+    static update(variables, script_id, user_id, embed_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const updateObject = yield client.query(`UPDATE public.embeds SET "Variables"=$1 WHERE "ID"=$2 and "ScriptId"=$3 and "UserId"=$4  RETURNING   "Variables";`, [JSON.stringify(variables), embed_id, script_id, user_id]);
+                if (updateObject.rows.length) {
+                    return new server_1.MethodResult(updateObject.rows[0]);
+                }
+                else {
+                    throw (new server_1.MethodError('not found', 404));
+                }
             }
             catch (error) {
                 console.error(error);
@@ -37,12 +67,26 @@ let Embed = class Embed {
     }
 };
 __decorate([
-    server_1.Method("GET" /* Get */, '/embed/:script_id/:user_id/'),
-    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("user_id")),
+    server_1.Method("GET" /* Get */, '/embed/:script_id/:user_id/:embed_id'),
+    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("user_id")), __param(2, server_1.Param("embed_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "get", null);
+__decorate([
+    server_1.Method("POST" /* Post */, '/embed/:script_id/:user_id'),
+    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, String]),
+    __metadata("design:returntype", Promise)
+], Embed, "create", null);
+__decorate([
+    server_1.Method("PUT" /* Put */, '/embed/:script_id/:user_id/:embed_id'),
+    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")), __param(3, server_1.Param('embed_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], Embed, "update", null);
 Embed = __decorate([
     server_1.MethodConfig('Embed')
 ], Embed);
