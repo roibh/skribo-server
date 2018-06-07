@@ -1,10 +1,10 @@
 {
   "name": "@skribo/angular",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node index.js",
+    "start": "node index.js",
     "test": "exit 0",
     "contracts": "npm version patch && npm run contract-publish && npm run client-publish",
     "postpublish": "npm run tag && npm run contract-publish && npm run client-publish",
