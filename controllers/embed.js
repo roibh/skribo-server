@@ -22,13 +22,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const uuidv1 = require('uuid/v1');
 let Embed = class Embed {
-    static get(script_id, user_id, token) {
+    static get(script_id, user_id, embed_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
+                const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+                return new server_1.MethodResult(InstanceScript.rows);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
+    static list(script_id, user_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
                 const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2', [script_id, user_id]);
-                const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
                 return new server_1.MethodResult(InstanceScript.rows);
             }
             catch (error) {
@@ -40,11 +53,16 @@ let Embed = class Embed {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.embeds("ScriptId", "UserId", "Variables") VALUES($1,$2,$3) RETURNING "ID"', [script_id, user_id, JSON.stringify(variables)]);
-                return new server_1.MethodResult(createdObject);
+                const createdObject = yield client.query('INSERT INTO public.embeds("ScriptId", "UserId", "Variables", "EmbedId") VALUES($1,$2,$3, $4) RETURNING "EmbedId"', [script_id, user_id, JSON.stringify(variables), uuidv1()]);
+                if (createdObject.rows && createdObject.rows.length > 0) {
+                    return new server_1.MethodResult(createdObject.rows[0]);
+                }
+                else {
+                    throw (new Error('failed to create the embed'));
+                }
             }
             catch (error) {
-                console.error(error);
+                throw (new server_1.MethodError(error));
             }
         });
     }
@@ -74,6 +92,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], Embed, "get", null);
 __decorate([
+    server_1.Method("GET" /* Get */, '/embed/:script_id/:user_id/'),
+    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("user_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], Embed, "list", null);
+__decorate([
     server_1.Method("POST" /* Post */, '/embed/:script_id/:user_id'),
     __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")),
     __metadata("design:type", Function),
@@ -84,7 +109,7 @@ __decorate([
     server_1.Method("PUT" /* Put */, '/embed/:script_id/:user_id/:embed_id'),
     __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")), __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String, Object]),
+    __metadata("design:paramtypes", [Object, String, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "update", null);
 Embed = __decorate([
