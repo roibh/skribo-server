@@ -22,7 +22,7 @@ export class Embed {
         }
     }
     @Method(Verbs.Post, '/embed/:script_id/:user_id')
-    public static async create(@Body() variables, @Param('script_id') script_id: string, @Param("user_id") user_id: string): Promise<MethodResult<ScriptModel>> {
+    public static async create(@Body() variables: any, @Param('script_id') script_id: string, @Param("user_id") user_id: string): Promise<MethodResult<ScriptModel>> {
         try {
 
 
@@ -40,7 +40,7 @@ export class Embed {
     }
 
     @Method(Verbs.Put, '/embed/:script_id/:user_id/:embed_id')
-    public static async update(@Body() variables, @Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id): Promise<MethodResult<ScriptModel>> {
+    public static async update(@Body() variables: any, @Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
         try {
 
 
