@@ -6,6 +6,28 @@ const uuidv1 = require('uuid/v1');
 
 @MethodConfig('Embed')
 export class Embed {
+
+    @Method(Verbs.Put, '/embed/:script_id/:user_id/:embed_id')
+    public static async update(@Body() variables: any, @Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
+        try {
+
+
+
+            const client = await DB();
+            const updateObject = await client.query(`UPDATE public.embeds SET "Variables"=$1 WHERE "ID"=$2 and "ScriptId"=$3 and "UserId"=$4  RETURNING   "Variables";`, [JSON.stringify(variables), embed_id, script_id, user_id])
+            if (updateObject.rows.length) {
+                return new MethodResult(updateObject.rows[0])
+            } else {
+                throw (new MethodError('not found', 404));
+            }
+
+
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
     @Method(Verbs.Get, '/embed/:script_id/:user_id/:embed_id')
     public static async get(@Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ScriptModel>> {
         try {
@@ -35,7 +57,6 @@ export class Embed {
         }
     }
 
-
     @Method(Verbs.Post, '/embed/:script_id/:user_id')
     public static async create(@Body() variables: any, @Param('script_id') script_id: string, @Param("user_id") user_id: string): Promise<MethodResult<ScriptModel>> {
         try {
@@ -58,27 +79,5 @@ export class Embed {
             throw (new MethodError(error))
         }
     }
-
-    @Method(Verbs.Put, '/embed/:script_id/:user_id/:embed_id')
-    public static async update(@Body() variables: any, @Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
-        try {
-
-
-
-            const client = await DB();
-            const updateObject = await client.query(`UPDATE public.embeds SET "Variables"=$1 WHERE "ID"=$2 and "ScriptId"=$3 and "UserId"=$4  RETURNING   "Variables";`, [JSON.stringify(variables), embed_id, script_id, user_id])
-            if (updateObject.rows.length) {
-                return new MethodResult(updateObject.rows[0])
-            } else {
-                throw (new MethodError('not found', 404));
-            }
-
-
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
 
 }
