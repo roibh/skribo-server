@@ -66,6 +66,18 @@ let Embed = class Embed {
             }
         });
     }
+    static delete(script_id, user_id, embed_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const InstanceScript = yield client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 amd "EmbedId"=$3', [script_id, user_id, embed_id]);
+                return new server_1.MethodResult(InstanceScript.rows);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
     static create(embed, script_id, user_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -105,6 +117,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "list", null);
+__decorate([
+    server_1.Method("DELETE" /* Delete */, '/embed/:script_id/:user_id/:/embed_id'),
+    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("user_id")), __param(2, server_1.Param("embed_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], Embed, "delete", null);
 __decorate([
     server_1.Method("POST" /* Post */, '/embed/:script_id/:user_id'),
     __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")),
