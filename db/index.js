@@ -13,7 +13,6 @@ const config_1 = require("../config");
 let activeClient = null;
 function DB() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(config_1.Config);
         if (!activeClient) {
             const connectionObj = (config_1.Config.db.url) ? config_1.Config.db.url : config_1.Config.db;
             const client = new Client(connectionObj);

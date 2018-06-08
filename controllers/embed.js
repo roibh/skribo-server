@@ -24,11 +24,11 @@ const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 const uuidv1 = require('uuid/v1');
 let Embed = class Embed {
-    static update(variables, script_id, user_id, embed_id) {
+    static update(embed, script_id, user_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const updateObject = yield client.query(`UPDATE public.embeds SET "Variables"=$1 WHERE "ID"=$2 and "ScriptId"=$3 and "UserId"=$4  RETURNING   "Variables";`, [JSON.stringify(variables), embed_id, script_id, user_id]);
+                const updateObject = yield client.query(`UPDATE public.embeds SET "Name"=$1 "Variables"=$2 WHERE "EmbedId"=$3  RETURNING "Variables,Name, EmbedId,ScriptId,ID";`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, user_id]);
                 if (updateObject.rows.length) {
                     return new server_1.MethodResult(updateObject.rows[0]);
                 }
@@ -66,11 +66,11 @@ let Embed = class Embed {
             }
         });
     }
-    static create(variables, script_id, user_id) {
+    static create(embed, script_id, user_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.embeds("ScriptId", "UserId", "Variables", "EmbedId") VALUES($1,$2,$3, $4) RETURNING "EmbedId"', [script_id, user_id, JSON.stringify(variables), uuidv1()]);
+                const createdObject = yield client.query('INSERT INTO public.embeds("Name", "ScriptId", "UserId", "Variables", "EmbedId") VALUES($1,$2,$3, $4,$5) RETURNING "EmbedId"', [embed.Name, script_id, user_id, JSON.stringify(embed.Variables), uuidv1()]);
                 if (createdObject.rows && createdObject.rows.length > 0) {
                     return new server_1.MethodResult(createdObject.rows[0]);
                 }
@@ -86,7 +86,7 @@ let Embed = class Embed {
 };
 __decorate([
     server_1.Method("PUT" /* Put */, '/embed/:script_id/:user_id/:embed_id'),
-    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")), __param(3, server_1.Param('embed_id')),
+    __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")), __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, String, String]),
     __metadata("design:returntype", Promise)
@@ -107,7 +107,7 @@ __decorate([
 ], Embed, "list", null);
 __decorate([
     server_1.Method("POST" /* Post */, '/embed/:script_id/:user_id'),
-    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")),
+    __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, String]),
     __metadata("design:returntype", Promise)

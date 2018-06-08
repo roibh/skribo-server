@@ -5,7 +5,7 @@ let activeClient = null;
 
 export async function DB() {
 
-    console.log(Config);
+    
     if (!activeClient) {
         const connectionObj = (Config.db.url) ? Config.db.url : Config.db;
         const client = new Client(connectionObj);

@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const scripts_1 = require("./controllers/scripts");
 const embed_1 = require("./controllers/embed");
 const server_1 = require("@methodus/server");
-console.log(server_1.ServerConfiguration, server_1.ClientConfiguration);
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
 };
 SetupServer = __decorate([
