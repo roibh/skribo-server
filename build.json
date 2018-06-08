@@ -17,7 +17,7 @@
                 "path": "./models/script.model.ts"
             },
             "EmbedModel": {
-                "path": "./models/eembed.model.ts"
+                "path": "./models/embed.model.ts"
             }
         },
         "dependencies": {},
