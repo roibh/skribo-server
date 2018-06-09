@@ -49,12 +49,12 @@ export class Embed {
         }
     }
 
-    @Method(Verbs.Delete, '/embed/:script_id/:user_id/:/embed_id')
+    @Method(Verbs.Delete, '/embed/:script_id/:user_id/:embed_id')
     public static async delete(@Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();
-            const InstanceScript = await client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 amd "EmbedId"=$3', [script_id, user_id, embed_id]);
-            return new MethodResult(InstanceScript.rows);
+            const InstanceScript = await client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
+            return new MethodResult(true);
         }
         catch (error) {
             console.error(error);
