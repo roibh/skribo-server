@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require('pg').defaults.ssl = true;
 const { Client } = require('pg');
 const config_1 = require("../config");
 let activeClient = null;

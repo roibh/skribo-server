@@ -47,7 +47,7 @@ let Embed = class Embed {
             try {
                 const client = yield db_1.DB();
                 const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
-                const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+                const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [script_id]);
                 return new server_1.MethodResult(InstanceScript.rows);
             }
             catch (error) {

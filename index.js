@@ -6,9 +6,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const scripts_1 = require("./controllers/scripts");
-const embed_1 = require("./controllers/embed");
 const server_1 = require("@methodus/server");
+const _1 = require("./controllers/");
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
 };
 SetupServer = __decorate([
@@ -16,8 +15,10 @@ SetupServer = __decorate([
     server_1.PluginConfiguration('@methodus/describe')
     //@ClientConfiguration(Api, MethodType.Local, ServerType.Express)
     ,
-    server_1.ClientConfiguration(scripts_1.Scripts, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(embed_1.Embed, "Local" /* Local */, "express" /* Express */)
+    server_1.ClientConfiguration(_1.Scripts, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Embed, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Serve, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Log, "Local" /* Local */, "express" /* Express */)
 ], SetupServer);
 new SetupServer();
 //# sourceMappingURL=index.js.map

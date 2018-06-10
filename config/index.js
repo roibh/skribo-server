@@ -1,4 +1,7 @@
 module.exports.Config = {
+
+
+
     db: {
         user: 'postgres',
         host: 'localhost',
@@ -7,5 +10,6 @@ module.exports.Config = {
         port: 5432,
         url: process.env.DATABASE_URL
     }
+
 
 }
