@@ -28,9 +28,10 @@ let Embed = class Embed {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const updateObject = yield client.query(`UPDATE public.embeds SET "Name"=$1 "Variables"=$2 WHERE "EmbedId"=$3  RETURNING "Variables,Name, EmbedId,ScriptId,ID";`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, user_id]);
-                if (updateObject.rows.length) {
-                    return new server_1.MethodResult(updateObject.rows[0]);
+                const updateObject = yield client.query(`UPDATE public.embeds SET "Name"=$1, "Variables"=$2 WHERE "EmbedId"=$3 and "ScriptId"=$4 and "UserId"=$5;`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, user_id]);
+                if (updateObject.rowCount > 0) {
+                    const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
+                    return new server_1.MethodResult(InstanceScript.rows[0]);
                 }
                 else {
                     throw (new server_1.MethodError('not found', 404));
@@ -71,7 +72,7 @@ let Embed = class Embed {
             try {
                 const client = yield db_1.DB();
                 const InstanceScript = yield client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
-                return new server_1.MethodResult(true);
+                return new server_1.MethodResult(InstanceScript.rowCount);
             }
             catch (error) {
                 console.error(error);

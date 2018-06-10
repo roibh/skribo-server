@@ -12,9 +12,10 @@ export class Embed {
     public static async update(@Body('embed') embed: EmbedModel, @Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
-            const updateObject = await client.query(`UPDATE public.embeds SET "Name"=$1 "Variables"=$2 WHERE "EmbedId"=$3  RETURNING "Variables,Name, EmbedId,ScriptId,ID";`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, user_id])
-            if (updateObject.rows.length) {
-                return new MethodResult(updateObject.rows[0])
+            const updateObject = await client.query(`UPDATE public.embeds SET "Name"=$1, "Variables"=$2 WHERE "EmbedId"=$3 and "ScriptId"=$4 and "UserId"=$5;`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, user_id])
+            if (updateObject.rowCount > 0) {
+                const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
+                return new MethodResult(InstanceScript.rows[0])
             } else {
                 throw (new MethodError('not found', 404));
             }
@@ -54,7 +55,7 @@ export class Embed {
         try {
             const client = await DB();
             const InstanceScript = await client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
-            return new MethodResult(true);
+            return new MethodResult(InstanceScript.rowCount);
         }
         catch (error) {
             console.error(error);
