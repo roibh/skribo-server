@@ -8,9 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require('pg').defaults.ssl = true;
-const { Client } = require('pg');
 const config_1 = require("../config");
+require('pg').defaults.ssl = config_1.Config.db.ssl;
+const { Client } = require('pg');
+console.log('configuration:', config_1.Config);
 let activeClient = null;
 function DB() {
     return __awaiter(this, void 0, void 0, function* () {

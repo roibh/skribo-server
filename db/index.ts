@@ -1,8 +1,12 @@
-require('pg').defaults.ssl = true
-
-const { Client } = require('pg')
 import { Config } from '../config';
 
+
+require('pg').defaults.ssl = Config.db.ssl;
+
+const { Client } = require('pg')
+
+
+console.log('configuration:', Config);
 let activeClient = null;
 
 export async function DB() {

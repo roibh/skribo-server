@@ -10,6 +10,12 @@
             },
             "Embed": {
                 "path": "./controllers/embed.ts"
+            },
+            "Log": {
+                "path": "./controllers/log.ts"
+            },
+            "Serve": {
+                "path": "./controllers/serve.ts"
             }
         },
         "includes": {

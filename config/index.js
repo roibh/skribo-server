@@ -1,15 +1,8 @@
-module.exports.Config = {
 
+if (process.env.DATABASE_URL) {
+    module.exports = require('./prod');
 
-
-    db: {
-        user: 'postgres',
-        host: 'localhost',
-        database: 'skribo',
-        password: '1234',
-        port: 5432,
-        url: process.env.DATABASE_URL
-    }
-
+} else {
+    module.exports = require('./local');
 
 }
