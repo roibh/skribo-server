@@ -6,7 +6,7 @@ import { ScriptModel } from '../models/script.model';
 @MethodConfig('Sync')
 export class Sync {
     @Method(Verbs.Post, '/sync/:user_id/accounts')
-    public static async accounts(@Param("user_id") user_id: string, @Body() accounts): Promise<MethodResult<ScriptModel>> {
+    public static async accounts(@Param("user_id") user_id: string, @Body() accounts: any): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
 

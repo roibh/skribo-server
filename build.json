@@ -16,6 +16,12 @@
             },
             "Serve": {
                 "path": "./controllers/serve.ts"
+            },
+            "Sync": {
+                "path": "./controllers/sync.ts"
+            },
+            "Results": {
+                "path": "./controllers/results.ts"
             }
         },
         "includes": {
