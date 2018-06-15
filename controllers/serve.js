@@ -22,6 +22,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const FS = require("fs");
 const uuidv1 = require('uuid/v1');
 let Serve = class Serve {
     static get(script_id, user_id, embed_id) {
@@ -38,7 +39,8 @@ let Serve = class Serve {
                         variables.forEach((element) => {
                             code = code.replace(`$${element.name}$`);
                         });
-                        return new server_1.MethodResult(code);
+                        const function_code = FS.readFileSync('../content/pipe_functions.js', { encoding: 'utf-8' });
+                        return new server_1.MethodResult(function_code + code);
                     }
                 }
                 throw (new server_1.MethodError('not found', 404));
@@ -50,7 +52,7 @@ let Serve = class Serve {
     }
 };
 __decorate([
-    server_1.Method("GET" /* Get */, '/embed/:script_id/:user_id/:embed_id'),
+    server_1.Method("GET" /* Get */, '/serve/:script_id/:user_id/:embed_id'),
     __param(0, server_1.Param('script_id')), __param(1, server_1.Param("user_id")), __param(2, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),

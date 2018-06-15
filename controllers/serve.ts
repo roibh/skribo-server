@@ -3,13 +3,15 @@ import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, 
 import { DB } from '../db';
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
+import * as FS from 'fs';
+
 const uuidv1 = require('uuid/v1');
 
 @MethodConfig('Serve')
 export class Serve {
 
-    @Method(Verbs.Get, '/embed/:script_id/:user_id/:embed_id')
-    public static async get(@Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Get, '/serve/:script_id/:user_id/:embed_id')
+    public static async get(@Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<string>> {
         try {
             const client = await DB();
             const codeResult = await client.query(`SELECT * FROM public.scripts SET   WHERE  "ID"=$1;`, [script_id]);
@@ -22,7 +24,9 @@ export class Serve {
                     variables.forEach((element: any) => {
                         code = code.replace(`$${element.name}$`);
                     });
-                    return new MethodResult(code)
+                    const function_code:string = FS.readFileSync('../content/pipe_functions.js', { encoding: 'utf-8' });
+
+                    return new MethodResult(function_code + code)
                 }
 
 
