@@ -37,7 +37,7 @@ let Sync = class Sync {
     }
 };
 __decorate([
-    server_1.Method("GET" /* Get */, '/sync/:user_id/accounts'),
+    server_1.Method("POST" /* Post */, '/sync/:user_id/accounts'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
