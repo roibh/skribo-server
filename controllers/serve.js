@@ -39,7 +39,7 @@ let Serve = class Serve {
                         variables.forEach((element) => {
                             code = code.replace(`$${element.name}$`);
                         });
-                        const function_code = FS.readFileSync('../content/pipe_functions.js', { encoding: 'utf-8' });
+                        const function_code = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
                         return new server_1.MethodResult(function_code + code);
                     }
                 }

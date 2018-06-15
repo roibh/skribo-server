@@ -13,6 +13,8 @@ export class Serve {
     @Method(Verbs.Get, '/serve/:script_id/:user_id/:embed_id')
     public static async get(@Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<string>> {
         try {
+
+
             const client = await DB();
             const codeResult = await client.query(`SELECT * FROM public.scripts SET   WHERE  "ID"=$1;`, [script_id]);
             if (codeResult.rowCount > 0) {
@@ -24,8 +26,8 @@ export class Serve {
                     variables.forEach((element: any) => {
                         code = code.replace(`$${element.name}$`);
                     });
-                    const function_code:string = FS.readFileSync('../content/pipe_functions.js', { encoding: 'utf-8' });
 
+                    const function_code: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
                     return new MethodResult(function_code + code)
                 }
 
