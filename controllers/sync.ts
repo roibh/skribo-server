@@ -9,7 +9,7 @@ export class Sync {
     public static async accounts(@Param("user_id") user_id: string, @Body() accounts): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
-            const createdObject = await client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, JSON.stringify(accounts)])
+            const createdObject = await client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts])
             return new MethodResult(createdObject);
 
         }

@@ -27,7 +27,7 @@ let Sync = class Sync {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, JSON.stringify(accounts)]);
+                const createdObject = yield client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
