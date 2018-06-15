@@ -8,4 +8,5 @@ __export(require("./embed"));
 __export(require("./serve"));
 __export(require("./log"));
 __export(require("./scripts"));
+__export(require("./sync"));
 //# sourceMappingURL=index.js.map
