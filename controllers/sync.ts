@@ -9,8 +9,19 @@ export class Sync {
     public static async accounts(@Param("user_id") user_id: string, @Body() accounts): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
-            const createdObject = await client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts])
-            return new MethodResult(createdObject);
+
+            const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "UserId"=$1', [user_id]);
+            if (foundAccounts.rows.length > 0) {
+                const createdObject = await client.query('UPDATE   public.user_accounts set   "Accounts"=$1', [accounts])
+                return new MethodResult(createdObject);
+            } else {
+                const createdObject = await client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts])
+                return new MethodResult(createdObject);
+            }
+
+
+
+
 
         }
         catch (error) {

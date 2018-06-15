@@ -27,8 +27,15 @@ let Sync = class Sync {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts]);
-                return new server_1.MethodResult(createdObject);
+                const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "UserId"=$1', [user_id]);
+                if (foundAccounts.rows.length > 0) {
+                    const createdObject = yield client.query('UPDATE   public.user_accounts set   "Accounts"=$1', [accounts]);
+                    return new server_1.MethodResult(createdObject);
+                }
+                else {
+                    const createdObject = yield client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts]);
+                    return new server_1.MethodResult(createdObject);
+                }
             }
             catch (error) {
                 console.error(error);
