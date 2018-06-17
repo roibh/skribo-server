@@ -23,6 +23,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 let Results = class Results {
+    static listByScript(user_id, script_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const resultObject = yield client.query('SELECT "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2  ', [user_id, script_id]);
+                if (resultObject.rows.length > 0) {
+                    return new server_1.MethodResult(resultObject.rows);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
     static list(user_id, script_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -64,6 +78,13 @@ let Results = class Results {
         });
     }
 };
+__decorate([
+    server_1.Method("GET" /* Get */, '/results/:user_id/:script_id/'),
+    __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], Results, "listByScript", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/results/:user_id/:script_id/:embed_id/'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")),
