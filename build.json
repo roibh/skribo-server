@@ -30,6 +30,9 @@
             },
             "EmbedModel": {
                 "path": "./models/embed.model.ts"
+            },
+            "ResultsModel": {
+                "path": "./models/results.model.ts"
             }
         },
         "dependencies": {},

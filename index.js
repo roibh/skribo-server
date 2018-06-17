@@ -19,7 +19,8 @@ SetupServer = __decorate([
     server_1.ClientConfiguration(_1.Embed, "Local" /* Local */, "express" /* Express */),
     server_1.ClientConfiguration(_1.Serve, "Local" /* Local */, "express" /* Express */),
     server_1.ClientConfiguration(_1.Log, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(_1.Sync, "Local" /* Local */, "express" /* Express */)
+    server_1.ClientConfiguration(_1.Sync, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Results, "Local" /* Local */, "express" /* Express */)
 ], SetupServer);
 new SetupServer();
 //# sourceMappingURL=index.js.map

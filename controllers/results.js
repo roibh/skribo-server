@@ -23,11 +23,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 let Results = class Results {
+    static get(user_id, script_id, embed_id, result_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const resultObject = yield client.query('SELECT * from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4 ', [user_id, script_id, embed_id, result_id]);
+                if (resultObject.rows.length > 0) {
+                    return new server_1.MethodResult(resultObject.rows[0]);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
     static results(user_id, script_id, embed_id, results) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.results("UserId", "ScriptId", "EmbedId", "Results") VALUES($1,$2,$3,$4) RETURNING "ID"', [user_id, script_id, embed_id, JSON.stringify(results)]);
+                const createdObject = yield client.query('INSERT INTO public.results("UserId", "ScriptId", "EmbedId", "Data", "Date") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [user_id, script_id, embed_id, JSON.stringify(results), new Date()]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
@@ -36,6 +50,13 @@ let Results = class Results {
         });
     }
 };
+__decorate([
+    server_1.Method("GET" /* Get */, '/results/:user_id/:script_id/:embed_id/:result_id'),
+    __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Param("result_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], Results, "get", null);
 __decorate([
     server_1.Method("POST" /* Post */, '/results/:user_id/:script_id/:embed_id'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Body()),

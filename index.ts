@@ -1,6 +1,6 @@
 
 import { ServerConfiguration, PluginConfiguration, ClientConfiguration, ConfiguredServer, MethodType, ServerType } from '@methodus/server';
-import { Api, Embed, Scripts, Serve, Log,Sync } from './controllers/';
+import { Api, Embed, Scripts, Serve, Log,Sync,Results } from './controllers/';
  
 
 
@@ -13,6 +13,7 @@ import { Api, Embed, Scripts, Serve, Log,Sync } from './controllers/';
 @ClientConfiguration(Serve, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Log, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Sync, MethodType.Local, ServerType.Express)
+@ClientConfiguration(Results, MethodType.Local, ServerType.Express)
 class SetupServer extends ConfiguredServer {
 
 }
