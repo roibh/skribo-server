@@ -1,3 +1,6 @@
+var embeder;
+
+
 class Skribo {
     ForAccounts(cb) {
         var accountSelector = MccApp.accounts();
@@ -11,5 +14,19 @@ class Skribo {
             MccApp.select(account);
             cb(account);
         }
+    }
+
+
+    PostResults(results) {
+        const fetchAddr = embeder.replace('/serve/', '/results/');
+        var options = {
+            "method": "post",
+            "payload": {
+                "results": results,
+                "variables": null
+
+            }
+        };
+        UrlFetchApp.fetch(fetchAddr, options);
     }
 }
