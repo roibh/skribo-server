@@ -15,7 +15,7 @@ import { ResultsModel } from '../models/';
 export class Results {
 
 
-    @Method(Verbs.Get, '/results/:user_id/:script_id/')
+    @Method(Verbs.Get, '/results/:script_id/:user_id')
     public static async listByScript(@Param("user_id") user_id: string, @Param("script_id") script_id: string): Promise<MethodResult<ResultsModel[]>> {
         try {
             const client = await DB();
@@ -30,7 +30,7 @@ export class Results {
     }
 
 
-    @Method(Verbs.Get, '/results/:user_id/:script_id/:embed_id/')
+    @Method(Verbs.Get, '/results/:script_id/:user_id/:embed_id')
     public static async list(@Param("user_id") user_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ResultsModel[]>> {
         try {
             const client = await DB();
@@ -46,7 +46,7 @@ export class Results {
 
 
 
-    @Method(Verbs.Get, '/results/:user_id/:script_id/:embed_id/:result_id')
+    @Method(Verbs.Get, '/results/:script_id/:user_id/:embed_id/:result_id')
     public static async get(@Param("user_id") user_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: any): Promise<MethodResult<ResultsModel>> {
         try {
             const client = await DB();
@@ -61,7 +61,7 @@ export class Results {
     }
 
 
-    @Method(Verbs.Post, '/results/:user_id/:script_id/:embed_id')
+    @Method(Verbs.Post, '/results/:script_id/:user_id/:embed_id')
     public static async results(@Param("user_id") user_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();

@@ -87,28 +87,28 @@ let Results = class Results {
     }
 };
 __decorate([
-    server_1.Method("GET" /* Get */, '/results/:user_id/:script_id/'),
+    server_1.Method("GET" /* Get */, '/results/:script_id/:user_id'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], Results, "listByScript", null);
 __decorate([
-    server_1.Method("GET" /* Get */, '/results/:user_id/:script_id/:embed_id/'),
+    server_1.Method("GET" /* Get */, '/results/:script_id/:user_id/:embed_id'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], Results, "list", null);
 __decorate([
-    server_1.Method("GET" /* Get */, '/results/:user_id/:script_id/:embed_id/:result_id'),
+    server_1.Method("GET" /* Get */, '/results/:script_id/:user_id/:embed_id/:result_id'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Param("result_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], Results, "get", null);
 __decorate([
-    server_1.Method("POST" /* Post */, '/results/:user_id/:script_id/:embed_id'),
+    server_1.Method("POST" /* Post */, '/results/:script_id/:user_id/:embed_id'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object]),
