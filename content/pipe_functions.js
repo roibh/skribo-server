@@ -1,7 +1,6 @@
 var SkriboResult;
 
 
-
 function SkriboForAccounts(cb) {
     var accountSelector = MccApp.accounts();
     var accountIterator = accountSelector.get();
