@@ -8,7 +8,7 @@ const uuidv1 = require('uuid/v1');
 @MethodConfig('Log')
 export class Log {
 
-    @Method(Verbs.Post, '/embed/:script_id/:user_id/:embed_id/log')
+    @Method(Verbs.Post, '/log/:script_id/:user_id/:embed_id')
     public static async log(@Body() log: any, @Param('script_id') script_id: string, @Param("user_id") user_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();
