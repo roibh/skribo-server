@@ -19,7 +19,7 @@ export class Results {
     public static async listByScript(@Param("user_id") user_id: string, @Param("script_id") script_id: string): Promise<MethodResult<ResultsModel[]>> {
         try {
             const client = await DB();
-            const resultObject = await client.query('SELECT "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2  ', [user_id, script_id])
+            const resultObject = await client.query('SELECT "ScriptId", "EmbedId", "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2  ', [user_id, script_id])
             if (resultObject.rows.length > 0) {
                 return new MethodResult(resultObject.rows);
             }

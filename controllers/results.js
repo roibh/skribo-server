@@ -35,7 +35,7 @@ let Results = class Results {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const resultObject = yield client.query('SELECT "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2  ', [user_id, script_id]);
+                const resultObject = yield client.query('SELECT "ScriptId", "EmbedId", "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2  ', [user_id, script_id]);
                 if (resultObject.rows.length > 0) {
                     return new server_1.MethodResult(resultObject.rows);
                 }
