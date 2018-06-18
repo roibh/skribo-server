@@ -1,3 +1,12 @@
+/*
+
+____ _  _ ____ _ ___  ____ 
+[__  |_/  |__/ | |__] |  | 
+___] | \_ |  \ | |__] |__| 
+                           
+
+*/
+
 import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
 import { debug } from 'util';
 const AdwordsUser = require('node-adwords').AdwordsUser;

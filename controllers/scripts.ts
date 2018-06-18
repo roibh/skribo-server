@@ -1,5 +1,13 @@
-import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
+/*
 
+____ _  _ ____ _ ___  ____ 
+[__  |_/  |__/ | |__] |  | 
+___] | \_ |  \ | |__] |__| 
+                           
+
+*/
+
+import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
 import { DB } from '../db';
 import { ScriptModel } from '../models/script.model';
 
