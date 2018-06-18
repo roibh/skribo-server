@@ -39,7 +39,7 @@ let Log = class Log {
     }
 };
 __decorate([
-    server_1.Method("POST" /* Post */, '/embed/:script_id/:user_id/:embed_id/log'),
+    server_1.Method("POST" /* Post */, '/log/:script_id/:user_id/:embed_id'),
     __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")), __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, String, String]),
