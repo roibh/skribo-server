@@ -1,5 +1,6 @@
-var SkriboResult;
 
+/*Skribo functions for adwords scripts
+setting up some functions*/
 
 function SkriboForAccounts(cb) {
     var accountSelector = MccApp.accounts();
@@ -27,4 +28,6 @@ function SkriboPostResults(results) {
     };
     UrlFetchApp.fetch(SkriboResult, options);
 }
+
+/*Skribo end pipe functions*/
 
