@@ -2,9 +2,12 @@
 /*Skribo functions for adwords scripts
 setting up some functions*/
 
-var SkriboLog = "$SERVERURL$$LOGURL$";
-var SkriboResult = "$SERVERURL$$RESULTURL$";
-var SkriboSync = "$SERVERURL$$SYNCURL$";
+var SkriboLogUrl = "$SERVERURL$$LOGURL$";
+var SkriboResultUrl = "$SERVERURL$$RESULTURL$";
+var SkriboSyncUrl = "$SERVERURL$$SYNCURL$";
+
+var SkriboData = JSON.parse($SKRIBODATA$);
+var currentDate = Utilities.formatDate(new Date(), "PST", "yyyy-MM-dd HH:mm:ss");
 
 
 function SkriboForAccounts(cb, limit) {
@@ -25,7 +28,7 @@ function SkriboForAccounts(cb, limit) {
 }
 
 
-function log(message) {
+function SkriboLog(message) {
     var options = {
         "method": "post",
         "payload": {
@@ -35,7 +38,7 @@ function log(message) {
             "accountName": AdWordsApp.currentAccount().getName()
         }
     };
-    UrlFetchApp.fetch(SkriboLog, options);
+    UrlFetchApp.fetch(SkriboLogUrl, options);
 }
 
 function SkriboPostResults(results) {

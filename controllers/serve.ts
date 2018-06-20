@@ -45,6 +45,11 @@ export class Serve {
                     function_code = function_code.replace(/\$SERVERURL\$/g, `https://skribo.herokuapp.com/`);
                     function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${user_id}/`);
 
+                    function_code = function_code.replace(/\$SKRIBODATA\$/g, `'` + JSON.stringify({
+                        'user_id': user_id,
+                        'base_url': 'https://skribo.herokuapp.com'
+                    }) + `'`);
+
                     return new MethodResult(function_code + code)
                 }
 
