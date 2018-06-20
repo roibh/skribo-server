@@ -35,7 +35,16 @@ export class Serve {
                         code = code.replace(`$${element.name}$`);
                     });
 
-                    const function_code: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
+                    let function_code: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
+
+                    const dataUrl = script_id + '/' + user_id + '/' + embed_id;
+
+                    function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve/${dataUrl}`);
+                    function_code = function_code.replace(/\$LOGURL\$/g, `log/${dataUrl}`);
+                    function_code = function_code.replace(/\$RESULTURL\$/g, `results/${dataUrl}/`);
+                    function_code = function_code.replace(/\$SERVERURL\$/g, `https://skribo.herokuapp.com/`);
+                    function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${user_id}/`);
+
                     return new MethodResult(function_code + code)
                 }
 

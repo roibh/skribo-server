@@ -2,6 +2,11 @@
 /*Skribo functions for adwords scripts
 setting up some functions*/
 
+var SkriboLog = "$SERVERURL$$LOGURL$";
+var SkriboResult = "$SERVERURL$$RESULTURL$";
+var SkriboSync = "$SERVERURL$$SYNCURL$";
+
+
 function SkriboForAccounts(cb, limit) {
     var accountSelector = MccApp.accounts();
     if (limit) {
