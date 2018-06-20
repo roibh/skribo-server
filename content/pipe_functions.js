@@ -50,7 +50,7 @@ function SkriboPostResults(results) {
 
         }
     };
-    UrlFetchApp.fetch(SkriboResult, options);
+    UrlFetchApp.fetch(SkriboResultUrl, options);
 }
 
 /*Skribo end pipe functions*/
