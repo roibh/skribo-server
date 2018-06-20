@@ -30,6 +30,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const uuidv1 = require('uuid/v1');
 let Scripts = class Scripts {
     static list(user_id) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -97,7 +98,7 @@ let Scripts = class Scripts {
             if (!script.Variables)
                 script.Variables = {};
             try {
-                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 WHERE "ID"=$5 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, id]);
+                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 "ScriptId"=$5 WHERE "ID"=$6 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, uuidv1(), id]);
                 if (updateObject.rows.length) {
                     return new server_1.MethodResult(updateObject.rows[0]);
                 }
