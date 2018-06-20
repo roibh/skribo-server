@@ -20,7 +20,7 @@ function SkriboForAccounts(cb, limit) {
     // Iterate through the list of accounts
     while (accountIterator.hasNext()) {
         var account = accountIterator.next();
-        Logger.log(account);
+        Logger.log("selecting account:" + account.getName());
         // Select the client account.
         MccApp.select(account);
         cb(account);
