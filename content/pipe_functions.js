@@ -23,6 +23,7 @@ function SkriboForAccounts(cb, limit) {
         Logger.log("selecting account:" + account.getName());
         // Select the client account.
         MccApp.select(account);
+        Logger.log("calling account callback");
         cb(account);
     }
 }
