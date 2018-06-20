@@ -25,6 +25,19 @@ function SkriboForAccounts(cb, limit) {
 }
 
 
+function log(message) {
+    var options = {
+        "method": "post",
+        "payload": {
+            "time": currentDate,
+            "message": message,
+            "accountId": AdWordsApp.currentAccount().getCustomerId(),
+            "accountName": AdWordsApp.currentAccount().getName()
+        }
+    };
+    UrlFetchApp.fetch(SkriboLog, options);
+}
+
 function SkriboPostResults(results) {
     var options = {
         "method": "post",
