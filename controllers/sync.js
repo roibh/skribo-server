@@ -31,17 +31,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 let Sync = class Sync {
-    static accounts(user_id, accounts) {
+    static accounts(group_id, accounts) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "UserId"=$1', [user_id]);
+                const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1', [group_id]);
                 if (foundAccounts.rows.length > 0) {
                     const createdObject = yield client.query('UPDATE   public.user_accounts set   "Accounts"=$1', [accounts]);
                     return new server_1.MethodResult(createdObject);
                 }
                 else {
-                    const createdObject = yield client.query('INSERT INTO public.user_accounts("UserId", "Accounts") VALUES($1,$2) RETURNING "ID"', [user_id, accounts]);
+                    const createdObject = yield client.query('INSERT INTO public.user_accounts("GroupId", "Accounts") VALUES($1,$2) RETURNING "ID"', [group_id, accounts]);
                     return new server_1.MethodResult(createdObject);
                 }
             }
@@ -52,8 +52,8 @@ let Sync = class Sync {
     }
 };
 __decorate([
-    server_1.Method("POST" /* Post */, '/sync/:user_id/accounts'),
-    __param(0, server_1.Param("user_id")), __param(1, server_1.Body()),
+    server_1.Method("POST" /* Post */, '/sync/:group_id/accounts'),
+    __param(0, server_1.Param("group_id")), __param(1, server_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)

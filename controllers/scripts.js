@@ -32,11 +32,11 @@ const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 const uuidv1 = require('uuid/v1');
 let Scripts = class Scripts {
-    static list(user_id) {
+    static list(group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const res = yield client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [user_id]);
+                const res = yield client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [group_id]);
                 return new server_1.MethodResult(res.rows);
             }
             catch (error) {
@@ -113,8 +113,8 @@ let Scripts = class Scripts {
     }
 };
 __decorate([
-    server_1.Method("GET" /* Get */, '/scripts/:user_id/list'),
-    __param(0, server_1.Param("user_id")),
+    server_1.Method("GET" /* Get */, '/scripts/:group_id/list'),
+    __param(0, server_1.Param("group_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)

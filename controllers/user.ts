@@ -40,10 +40,9 @@ export class User {
             const client = await DB();
             const groupResult = await client.query(`SELECT "Name", user_groups."GroupId", "Status"
             FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
-            if (groupResult.rowCount > 0) {
-                return new MethodResult(groupResult.rows);
-            }
-            throw (new MethodError('not found', 404));
+
+            return new MethodResult(groupResult.rows);
+
 
         }
         catch (error) {

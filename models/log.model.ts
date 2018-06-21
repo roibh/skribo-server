@@ -4,6 +4,6 @@ export interface LogModel {
     Log: any;
     ScriptId: string;
     EmbedId: string;
-    UserId: string;
+    GroupId: string;
 
 }

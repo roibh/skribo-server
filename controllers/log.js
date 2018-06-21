@@ -32,11 +32,11 @@ const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 const uuidv1 = require('uuid/v1');
 let Log = class Log {
-    static log(log, script_id, user_id, embed_id) {
+    static log(log, script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.logs("Log", "ScriptId", "EmbedId", "UserId") VALUES($1,$2,$3,$4) RETURNING "ID"', [log, script_id, embed_id, user_id]);
+                const createdObject = yield client.query('INSERT INTO public.logs("Log", "ScriptId", "EmbedId", "GroupId") VALUES($1,$2,$3,$4) RETURNING "ID"', [log, script_id, embed_id, group_id]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
@@ -47,8 +47,8 @@ let Log = class Log {
     }
 };
 __decorate([
-    server_1.Method("POST" /* Post */, '/log/:script_id/:user_id/:embed_id'),
-    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("user_id")), __param(3, server_1.Param('embed_id')),
+    server_1.Method("POST" /* Post */, '/log/:script_id/:group_id/:embed_id'),
+    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("group_id")), __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, String, String]),
     __metadata("design:returntype", Promise)

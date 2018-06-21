@@ -1,7 +1,7 @@
 
 export interface ResultsModel {
     ID?: number;
-    UserId?: any;
+    GroupId?: any;
     ScriptId?: string;
     EmbedId?: string;
     Variables?: string;

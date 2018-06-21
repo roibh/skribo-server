@@ -33,14 +33,14 @@ const db_1 = require("../db");
 const FS = require("fs");
 const uuidv1 = require('uuid/v1');
 let Serve = class Serve {
-    static get(script_id, user_id, embed_id) {
+    static get(script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
                 const codeResult = yield client.query(`SELECT * FROM public.scripts SET   WHERE  "ID"=$1;`, [script_id]);
                 if (codeResult.rowCount > 0) {
                     let code = codeResult.rows[0].Code;
-                    const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "UserId"=$2 and "EmbedId"=$3', [script_id, user_id, embed_id]);
+                    const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
                     if (InstanceScript.rowCount > 0) {
                         let variables = InstanceScript.rows[0].Variables;
                         variables = JSON.parse(variables);
@@ -48,14 +48,14 @@ let Serve = class Serve {
                             code = code.replace(`$${element.name}$`);
                         });
                         let function_code = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
-                        const dataUrl = script_id + '/' + user_id + '/' + embed_id;
+                        const dataUrl = script_id + '/' + group_id + '/' + embed_id;
                         function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve/${dataUrl}`);
                         function_code = function_code.replace(/\$LOGURL\$/g, `log/${dataUrl}`);
                         function_code = function_code.replace(/\$RESULTURL\$/g, `results/${dataUrl}/`);
                         function_code = function_code.replace(/\$SERVERURL\$/g, `https://skribo.herokuapp.com/`);
-                        function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${user_id}/`);
+                        function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${group_id}/`);
                         function_code = function_code.replace(/\$SKRIBODATA\$/g, `'` + JSON.stringify({
-                            'user_id': user_id,
+                            'group_id': group_id,
                             'base_url': 'https://skribo.herokuapp.com'
                         }) + `'`);
                         return new server_1.MethodResult(function_code + code);
@@ -70,8 +70,8 @@ let Serve = class Serve {
     }
 };
 __decorate([
-    server_1.Method("GET" /* Get */, '/serve/:script_id/:user_id/:embed_id'),
-    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("user_id")), __param(2, server_1.Param('embed_id')),
+    server_1.Method("GET" /* Get */, '/serve/:script_id/:group_id/:embed_id'),
+    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("group_id")), __param(2, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)

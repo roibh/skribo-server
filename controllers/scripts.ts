@@ -15,11 +15,11 @@ const uuidv1 = require('uuid/v1');
 
 @MethodConfig('Scripts')
 export class Scripts {
-    @Method(Verbs.Get, '/scripts/:user_id/list')
-    public static async list(@Param("user_id") user_id: string): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Get, '/scripts/:group_id/list')
+    public static async list(@Param("group_id") group_id: string): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
-            const res = await client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [user_id]);
+            const res = await client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [group_id]);
             return new MethodResult(res.rows);
         }
         catch (error) {

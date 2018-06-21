@@ -15,11 +15,11 @@ import { ResultsModel } from '../models/';
 export class Results {
 
 
-    @Method(Verbs.Get, '/results/:script_id/:user_id')
-    public static async listByScript(@Param("user_id") user_id: string, @Param("script_id") script_id: string): Promise<MethodResult<ResultsModel[]>> {
+    @Method(Verbs.Get, '/results/:script_id/:group_id')
+    public static async listByScript(@Param("group_id") group_id: string, @Param("script_id") script_id: string): Promise<MethodResult<ResultsModel[]>> {
         try {
             const client = await DB();
-            const resultObject = await client.query('SELECT "ScriptId", "EmbedId", "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2  ', [user_id, script_id])
+            const resultObject = await client.query('SELECT "ScriptId", "EmbedId", "Date", "ID" from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2  ', [group_id, script_id])
             if (resultObject.rows.length > 0) {
                 return new MethodResult(resultObject.rows);
             }
@@ -30,11 +30,11 @@ export class Results {
     }
 
 
-    @Method(Verbs.Get, '/results/:script_id/:user_id/:embed_id')
-    public static async list(@Param("user_id") user_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ResultsModel[]>> {
+    @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id')
+    public static async list(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ResultsModel[]>> {
         try {
             const client = await DB();
-            const resultObject = await client.query('SELECT "Date", "ID" from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3  ', [user_id, script_id, embed_id])
+            const resultObject = await client.query('SELECT "Date", "ID" from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3  ', [group_id, script_id, embed_id])
             if (resultObject.rows.length > 0) {
                 return new MethodResult(resultObject.rows);
             }
@@ -46,11 +46,11 @@ export class Results {
 
 
 
-    @Method(Verbs.Get, '/results/:script_id/:user_id/:embed_id/:result_id')
-    public static async get(@Param("user_id") user_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: any): Promise<MethodResult<ResultsModel>> {
+    @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id/:result_id')
+    public static async get(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: any): Promise<MethodResult<ResultsModel>> {
         try {
             const client = await DB();
-            const resultObject = await client.query('SELECT * from  public.results WHERE "UserId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4 ', [user_id, script_id, embed_id, result_id])
+            const resultObject = await client.query('SELECT * from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4 ', [group_id, script_id, embed_id, result_id])
             if (resultObject.rows.length > 0) {
                 return new MethodResult(resultObject.rows[0]);
             }
@@ -61,11 +61,11 @@ export class Results {
     }
 
 
-    @Method(Verbs.Post, '/results/:script_id/:user_id/:embed_id')
-    public static async results(@Param("user_id") user_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any): Promise<MethodResult<boolean>> {
+    @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
+    public static async results(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();
-            const createdObject = await client.query('INSERT INTO public.results("UserId", "ScriptId", "EmbedId", "Data", "Date") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [user_id, script_id, embed_id, JSON.stringify(results), new Date()])
+            const createdObject = await client.query('INSERT INTO public.results("GroupId", "ScriptId", "EmbedId", "Data", "Date") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [group_id, script_id, embed_id, JSON.stringify(results), new Date()])
             return new MethodResult(createdObject);
         }
         catch (error) {

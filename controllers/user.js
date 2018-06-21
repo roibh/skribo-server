@@ -48,6 +48,19 @@ let User = class User {
             }
         });
     }
+    static getGroups(user_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const groupResult = yield client.query(`SELECT "Name", user_groups."GroupId", "Status"
+            FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
+                return new server_1.MethodResult(groupResult.rows);
+            }
+            catch (error) {
+                throw (error);
+            }
+        });
+    }
     static attachToGroup(user_id, userData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -75,6 +88,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], User, "get", null);
+__decorate([
+    server_1.Method("GET" /* Get */, '/user/:user_id/groups'),
+    __param(0, server_1.Param('user_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], User, "getGroups", null);
 __decorate([
     server_1.Method("POST" /* Post */, '/user/:user_id/group'),
     __param(0, server_1.Param("user_id")), __param(1, server_1.Body('data', 'object')),
