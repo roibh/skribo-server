@@ -18,4 +18,5 @@ __export(require("./log"));
 __export(require("./scripts"));
 __export(require("./sync"));
 __export(require("./results"));
+__export(require("./user"));
 //# sourceMappingURL=index.js.map

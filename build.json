@@ -22,6 +22,9 @@
             },
             "Results": {
                 "path": "./controllers/results.ts"
+            },
+            "User": {
+                "path": "./controllers/user.ts"
             }
         },
         "includes": {
