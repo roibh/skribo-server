@@ -34,7 +34,22 @@ export class User {
             throw (error);
         }
     }
+    @Method(Verbs.Get, '/user/:user_id/groups')
+    public static async getGroups(@Param('user_id') user_id: string): Promise<MethodResult<any>> {
+        try {
+            const client = await DB();
+            const groupResult = await client.query(`SELECT "Name", user_groups."GroupId", "Status"
+            FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
+            if (groupResult.rowCount > 0) {
+                return new MethodResult(groupResult.rows);
+            }
+            throw (new MethodError('not found', 404));
 
+        }
+        catch (error) {
+            throw (error);
+        }
+    }
     @Method(Verbs.Post, '/user/:user_id/group')
     public static async attachToGroup(@Param("user_id") user_id: string, @Body('data', 'object') userData: any): Promise<MethodResult<string>> {
         try {
