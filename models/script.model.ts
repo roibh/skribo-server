@@ -1,6 +1,6 @@
 
 export interface ScriptModel {
-    ScriptId?: number;
+    ScriptId?: string;
     Variables?: any;
     Code?: string;
     Name?: string;

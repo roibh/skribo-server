@@ -66,11 +66,11 @@ let Scripts = class Scripts {
             }
         });
     }
-    static remove(id) {
+    static remove(script_id) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             try {
-                const script = yield client.query('DELETE FROM public.scripts WHERE "ID"=$1', [id]);
+                const script = yield client.query('DELETE FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
                 return new server_1.MethodResult(true);
             }
             catch (error) {
@@ -84,7 +84,7 @@ let Scripts = class Scripts {
             if (!script.Variables)
                 script.Variables = {};
             try {
-                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId]);
+                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId, uuidv1()]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
@@ -92,13 +92,13 @@ let Scripts = class Scripts {
             }
         });
     }
-    static update(id, script) {
+    static update(script_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             if (!script.Variables)
                 script.Variables = {};
             try {
-                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 "ScriptId"=$5 WHERE "ID"=$6 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, uuidv1(), id]);
+                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5 WHERE "ScriptId"=$6 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id]);
                 if (updateObject.rows.length) {
                     return new server_1.MethodResult(updateObject.rows[0]);
                 }
@@ -127,8 +127,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], Scripts, "get", null);
 __decorate([
-    server_1.Method("DELETE" /* Delete */, '/scripts/:id'),
-    __param(0, server_1.Param('id')),
+    server_1.Method("DELETE" /* Delete */, '/scripts/:script_id'),
+    __param(0, server_1.Param('script_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
@@ -141,8 +141,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], Scripts, "create", null);
 __decorate([
-    server_1.Method("PUT" /* Put */, '/scripts/:id'),
-    __param(0, server_1.Param('id')), __param(1, server_1.Body()),
+    server_1.Method("PUT" /* Put */, '/scripts/:script_id'),
+    __param(0, server_1.Param('script_id')), __param(1, server_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
