@@ -19,7 +19,7 @@ export class Scripts {
     public static async list(@Param("group_id") group_id: string): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
-            const res = await client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [group_id]);
+            const res = await client.query('SELECT * FROM public.scripts WHERE "GroupId"=$1 ORDER BY "ID" ASC', [group_id]);
             return new MethodResult(res.rows);
         }
         catch (error) {
@@ -67,7 +67,7 @@ export class Scripts {
             script.Variables = {};
         try {
 
-            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "Owner") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.Owner])
+            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId])
             return new MethodResult(createdObject);
         }
         catch (error) {

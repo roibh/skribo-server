@@ -36,7 +36,7 @@ let Scripts = class Scripts {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const res = yield client.query('SELECT * FROM public.scripts WHERE "Owner"=$1 ORDER BY "ID" ASC', [group_id]);
+                const res = yield client.query('SELECT * FROM public.scripts WHERE "GroupId"=$1 ORDER BY "ID" ASC', [group_id]);
                 return new server_1.MethodResult(res.rows);
             }
             catch (error) {
@@ -84,7 +84,7 @@ let Scripts = class Scripts {
             if (!script.Variables)
                 script.Variables = {};
             try {
-                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "Owner") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.Owner]);
+                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
