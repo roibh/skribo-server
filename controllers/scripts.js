@@ -44,11 +44,11 @@ let Scripts = class Scripts {
             }
         });
     }
-    static get(id) {
+    static get(script_id) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             try {
-                const script = yield client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [id]);
+                const script = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
                 if (script.rows.length) {
                     return new server_1.MethodResult(script.rows[0]);
                 }
@@ -85,7 +85,7 @@ let Scripts = class Scripts {
                 script.Variables = {};
             try {
                 const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId, uuidv1()]);
-                return new server_1.MethodResult(createdObject);
+                return new server_1.MethodResult(createdObject.rows[0]);
             }
             catch (error) {
                 console.error(error);
@@ -120,8 +120,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], Scripts, "list", null);
 __decorate([
-    server_1.Method("GET" /* Get */, '/scripts/:id'),
-    __param(0, server_1.Param('id')),
+    server_1.Method("GET" /* Get */, '/scripts/:script_id'),
+    __param(0, server_1.Param('script_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)

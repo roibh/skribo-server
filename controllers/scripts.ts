@@ -27,11 +27,11 @@ export class Scripts {
         }
     }
 
-    @Method(Verbs.Get, '/scripts/:id')
-    public static async get(@Param('id') id: number): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Get, '/scripts/:script_id')
+    public static async get(@Param('script_id') script_id: number): Promise<MethodResult<ScriptModel>> {
         const client = await DB();
         try {
-            const script: any = await client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [id]);
+            const script: any = await client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
             if (script.rows.length) {
                 return new MethodResult(script.rows[0] as ScriptModel);
             } else {
@@ -68,7 +68,7 @@ export class Scripts {
         try {
 
             const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId, uuidv1()])
-            return new MethodResult(createdObject);
+            return new MethodResult(createdObject.rows[0]);
         }
         catch (error) {
             console.error(error);
