@@ -15,8 +15,14 @@ const uuidv1 = require('uuid/v1');
 
 @MethodConfig('Scripts')
 export class Scripts {
+
+
+    /**
+     * @param  {} Verbs.Get
+     * @param  {group_id/list'} '/scripts/
+     */
     @Method(Verbs.Get, '/scripts/:group_id/list')
-    public static async list(@Param("group_id") group_id: string): Promise<MethodResult<ScriptModel>> {
+    public static async list(@Param('group_id') group_id: string): Promise<MethodResult<ScriptModel>> {
         try {
             const client = await DB();
             const res = await client.query('SELECT * FROM public.scripts WHERE "GroupId"=$1 ORDER BY "ID" ASC', [group_id]);
@@ -27,11 +33,11 @@ export class Scripts {
         }
     }
 
-    @Method(Verbs.Get, '/scripts/:script_id')
-    public static async get(@Param('script_id') script_id: number): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Get, '/scripts/:group_id/script_id/:script_id')
+    public static async get(@Param('group_id') group_id: string, @Param('script_id') script_id: number): Promise<MethodResult<ScriptModel>> {
         const client = await DB();
         try {
-            const script: any = await client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+            const script: any = await client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
             if (script.rows.length) {
                 return new MethodResult(script.rows[0] as ScriptModel);
             } else {
@@ -48,11 +54,11 @@ export class Scripts {
         }
     }
 
-    @Method(Verbs.Delete, '/scripts/:script_id')
-    public static async remove(@Param('script_id') script_id: number): Promise<MethodResult<boolean>> {
+    @Method(Verbs.Delete, '/scripts/:group_id/script_id/:script_id')
+    public static async remove(@Param('group_id') group_id: string, @Param('script_id') script_id: number): Promise<MethodResult<boolean>> {
         const client = await DB();
         try {
-            const script: ScriptModel = await client.query('DELETE FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+            const script: ScriptModel = await client.query('DELETE FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
             return new MethodResult(true);
         }
         catch (error) {
@@ -60,14 +66,14 @@ export class Scripts {
         }
     }
 
-    @Method(Verbs.Post, '/scripts/')
-    public static async create(@Body() script: ScriptModel): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Post, '/scripts/:group_id')
+    public static async create(@Param('group_id') group_id: string, @Body() script: ScriptModel): Promise<MethodResult<ScriptModel>> {
         const client = await DB();
         if (!script.Variables)
             script.Variables = {};
         try {
 
-            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId, uuidv1()])
+            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1()])
             return new MethodResult(createdObject.rows[0]);
         }
         catch (error) {
@@ -75,14 +81,14 @@ export class Scripts {
         }
     }
 
-    @Method(Verbs.Put, '/scripts/:script_id')
-    public static async update(@Param('script_id') script_id: number, @Body() script: ScriptModel): Promise<MethodResult<ScriptModel>> {
+    @Method(Verbs.Put, '/scripts/:group_id/script_id/:script_id')
+    public static async update(@Param('group_id') group_id: string, @Param('script_id') script_id: number, @Body() script: ScriptModel): Promise<MethodResult<ScriptModel>> {
         const client = await DB();
         if (!script.Variables)
             script.Variables = {};
         try {
 
-            const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5 WHERE "ScriptId"=$6 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id])
+            const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5 WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id])
             if (updateObject.rows.length) {
                 return new MethodResult(updateObject.rows[0])
             } else {

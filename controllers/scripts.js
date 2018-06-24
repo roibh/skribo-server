@@ -32,6 +32,10 @@ const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 const uuidv1 = require('uuid/v1');
 let Scripts = class Scripts {
+    /**
+     * @param  {} Verbs.Get
+     * @param  {group_id/list'} '/scripts/
+     */
     static list(group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -44,11 +48,11 @@ let Scripts = class Scripts {
             }
         });
     }
-    static get(script_id) {
+    static get(group_id, script_id) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             try {
-                const script = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+                const script = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
                 if (script.rows.length) {
                     return new server_1.MethodResult(script.rows[0]);
                 }
@@ -66,11 +70,11 @@ let Scripts = class Scripts {
             }
         });
     }
-    static remove(script_id) {
+    static remove(group_id, script_id) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             try {
-                const script = yield client.query('DELETE FROM public.scripts WHERE "ScriptId"=$1', [script_id]);
+                const script = yield client.query('DELETE FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
                 return new server_1.MethodResult(true);
             }
             catch (error) {
@@ -78,13 +82,13 @@ let Scripts = class Scripts {
             }
         });
     }
-    static create(script) {
+    static create(group_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             if (!script.Variables)
                 script.Variables = {};
             try {
-                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script.GroupId, uuidv1()]);
+                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId") VALUES($1,$2,$3,$4,$5,$6) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1()]);
                 return new server_1.MethodResult(createdObject.rows[0]);
             }
             catch (error) {
@@ -92,13 +96,13 @@ let Scripts = class Scripts {
             }
         });
     }
-    static update(script_id, script) {
+    static update(group_id, script_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             if (!script.Variables)
                 script.Variables = {};
             try {
-                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5 WHERE "ScriptId"=$6 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id]);
+                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5 WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id]);
                 if (updateObject.rows.length) {
                     return new server_1.MethodResult(updateObject.rows[0]);
                 }
@@ -114,37 +118,37 @@ let Scripts = class Scripts {
 };
 __decorate([
     server_1.Method("GET" /* Get */, '/scripts/:group_id/list'),
-    __param(0, server_1.Param("group_id")),
+    __param(0, server_1.Param('group_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], Scripts, "list", null);
 __decorate([
-    server_1.Method("GET" /* Get */, '/scripts/:script_id'),
-    __param(0, server_1.Param('script_id')),
+    server_1.Method("GET" /* Get */, '/scripts/:group_id/script_id/:script_id'),
+    __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
 ], Scripts, "get", null);
 __decorate([
-    server_1.Method("DELETE" /* Delete */, '/scripts/:script_id'),
-    __param(0, server_1.Param('script_id')),
+    server_1.Method("DELETE" /* Delete */, '/scripts/:group_id/script_id/:script_id'),
+    __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
 ], Scripts, "remove", null);
 __decorate([
-    server_1.Method("POST" /* Post */, '/scripts/'),
-    __param(0, server_1.Body()),
+    server_1.Method("POST" /* Post */, '/scripts/:group_id'),
+    __param(0, server_1.Param('group_id')), __param(1, server_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], Scripts, "create", null);
 __decorate([
-    server_1.Method("PUT" /* Put */, '/scripts/:script_id'),
-    __param(0, server_1.Param('script_id')), __param(1, server_1.Body()),
+    server_1.Method("PUT" /* Put */, '/scripts/:group_id/script_id/:script_id'),
+    __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')), __param(2, server_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", Promise)
 ], Scripts, "update", null);
 Scripts = __decorate([
