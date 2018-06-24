@@ -53,17 +53,29 @@ export class User {
     public static async attachToGroup(@Param("user_id") user_id: string, @Body('data', 'object') userData: any): Promise<MethodResult<string>> {
         try {
             const client = await DB();
+            const group_id = userData.GroupId;
+
+
+            //validate group
+            const groupValidationResult = await client.query(`SELECT "Name", "GroupId" from public.groups WHERE "GroupId"=$1`, [group_id])
+            if (groupValidationResult.rows.length === 0) {
+                throw (new MethodError('group not found'));
+            }
+
+
+
             const groupResult = await client.query(`SELECT "Name", public.user_groups."GroupId", "Status"
-            FROM public.user_groups INNER JOIN public.groups ON (public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
+            FROM public.user_groups INNER JOIN public.groups ON(public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId" = $1 AND public.user_groups."GroupId"=$2; `, [user_id, group_id]);
+
             if (groupResult.rowCount === 0) {
-                const insertResult = await client.query(`INSERT INTO public.groups ("Name", "Date", "GroupId") VALUES ($1,$2,$3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
-                if (insertResult.rowCount > 0) {
+                //const insertResult = await client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
+                // if (insertResult.rowCount > 0) {
 
-                    const attachResult = await client.query(`INSERT INTO public.user_groups ("GroupId", "UserId") VALUES ($1,$2)  RETURNING "GroupId"`, [insertResult.rows[0].GroupId, user_id]);
+                const attachResult = await client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
 
 
-                    return new MethodResult(attachResult.rows[0]);
-                }
+                return new MethodResult(attachResult.rows[0]);
+                //}
 
             }
 

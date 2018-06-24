@@ -65,14 +65,20 @@ let User = class User {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
+                const group_id = userData.GroupId;
+                //validate group
+                const groupValidationResult = yield client.query(`SELECT "Name", "GroupId" from public.groups WHERE "GroupId"=$1`, [group_id]);
+                if (groupValidationResult.rows.length === 0) {
+                    throw (new server_1.MethodError('group not found'));
+                }
                 const groupResult = yield client.query(`SELECT "Name", public.user_groups."GroupId", "Status"
-            FROM public.user_groups INNER JOIN public.groups ON (public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
+            FROM public.user_groups INNER JOIN public.groups ON(public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId" = $1 AND public.user_groups."GroupId"=$2; `, [user_id, group_id]);
                 if (groupResult.rowCount === 0) {
-                    const insertResult = yield client.query(`INSERT INTO public.groups ("Name", "Date", "GroupId") VALUES ($1,$2,$3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
-                    if (insertResult.rowCount > 0) {
-                        const attachResult = yield client.query(`INSERT INTO public.user_groups ("GroupId", "UserId") VALUES ($1,$2)  RETURNING "GroupId"`, [insertResult.rows[0].GroupId, user_id]);
-                        return new server_1.MethodResult(attachResult.rows[0]);
-                    }
+                    //const insertResult = await client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
+                    // if (insertResult.rowCount > 0) {
+                    const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
+                    return new server_1.MethodResult(attachResult.rows[0]);
+                    //}
                 }
             }
             catch (error) {
