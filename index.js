@@ -8,6 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const _1 = require("./controllers/");
+var Raven = require('raven');
+Raven.config('https://8ae906af26fd4d4380f908751eacf016@sentry.io/1231711').install();
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
 };
 SetupServer = __decorate([

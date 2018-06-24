@@ -12,7 +12,7 @@ import { DB } from '../db';
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
 import * as FS from 'fs';
-
+const Raven = require('raven');
 const uuidv1 = require('uuid/v1');
 
 @MethodConfig('User')
@@ -86,6 +86,7 @@ export class User {
 
         }
         catch (error) {
+            Raven.captureException(error);
             console.error(error);
             throw (error);
         }

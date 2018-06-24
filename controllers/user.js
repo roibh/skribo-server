@@ -30,6 +30,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const Raven = require('raven');
 const uuidv1 = require('uuid/v1');
 let User = class User {
     static get(user_id) {
@@ -91,6 +92,7 @@ let User = class User {
                 }
             }
             catch (error) {
+                Raven.captureException(error);
                 console.error(error);
                 throw (error);
             }
