@@ -55,15 +55,18 @@ export class User {
             const client = await DB();
             const group_id = userData.GroupId;
 
-
             //validate group
             const groupValidationResult = await client.query(`SELECT "Name", "GroupId" from public.groups WHERE "GroupId"=$1`, [group_id])
             if (groupValidationResult.rows.length === 0) {
                 //are there groups for this user?
-                const groupResult = await client.query(`SELECT * FROM  public.user_groups  WHERE  "UserId" = $1'; `, [user_id]);
+                const groupResult = await client.query(`SELECT * FROM  public.user_groups  WHERE  "UserId" = $1; `, [user_id]);
                 if (groupResult.rowCount === 0) {
-                    const attachResult = await client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
-                    return new MethodResult(attachResult.rows[0]);
+
+                    const insertResult = await client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
+                    if (insertResult.rowCount > 0) {
+                        const attachResult = await client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [insertResult.rows[0].GroupId, user_id]);
+                        return new MethodResult(attachResult.rows[0]);
+                    }
                 }
                 throw (new MethodError('group not found'));
             }
