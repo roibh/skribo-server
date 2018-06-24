@@ -86,6 +86,7 @@ export class User {
 
         }
         catch (error) {
+            console.error(error);
             throw (error);
         }
     }
