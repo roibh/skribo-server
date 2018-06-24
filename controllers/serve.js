@@ -37,7 +37,7 @@ let Serve = class Serve {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const codeResult = yield client.query(`SELECT * FROM public.scripts SET   WHERE  "ID"=$1;`, [script_id]);
+                const codeResult = yield client.query(`SELECT * FROM public.scripts SET   WHERE  "ScriptId"=$1;`, [script_id]);
                 if (codeResult.rowCount > 0) {
                     let code = codeResult.rows[0].Code;
                     const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
