@@ -69,6 +69,12 @@ let User = class User {
                 //validate group
                 const groupValidationResult = yield client.query(`SELECT "Name", "GroupId" from public.groups WHERE "GroupId"=$1`, [group_id]);
                 if (groupValidationResult.rows.length === 0) {
+                    //are there groups for this user?
+                    const groupResult = yield client.query(`SELECT * FROM  public.user_groups  WHERE  "UserId" = $1'; `, [user_id]);
+                    if (groupResult.rowCount === 0) {
+                        const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
+                        return new server_1.MethodResult(attachResult.rows[0]);
+                    }
                     throw (new server_1.MethodError('group not found'));
                 }
                 const groupResult = yield client.query(`SELECT "Name", public.user_groups."GroupId", "Status"
