@@ -73,11 +73,23 @@ let Results = class Results {
             }
         });
     }
-    static results(group_id, script_id, embed_id, results) {
+    static create(group_id, script_id, embed_id, results) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
                 const createdObject = yield client.query('INSERT INTO public.results("GroupId", "ScriptId", "EmbedId", "Data", "Date") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [group_id, script_id, embed_id, JSON.stringify(results), new Date()]);
+                return new server_1.MethodResult(createdObject);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
+    static delete(group_id, script_id, embed_id, result_id, results) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const createdObject = yield client.query('DELETE   public.results WHERE WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4  ', [group_id, script_id, embed_id, result_id]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
@@ -113,7 +125,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
-], Results, "results", null);
+], Results, "create", null);
+__decorate([
+    server_1.Method("DELETE" /* Delete */, '/results/:script_id/:group_id/:embed_id/:result_id'),
+    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Param("result_id")), __param(4, server_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], Results, "delete", null);
 Results = __decorate([
     server_1.MethodConfig('Results')
 ], Results);
