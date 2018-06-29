@@ -75,7 +75,7 @@ export class Results {
 
 
     @Method(Verbs.Delete, '/results/:script_id/:group_id/:embed_id/:result_id')
-    public static async delete(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: string, @Body() results: any): Promise<MethodResult<boolean>> {
+    public static async delete(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: string): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();
             const createdObject = await client.query('DELETE   public.results WHERE WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4  ', [group_id, script_id, embed_id, result_id]);
