@@ -45,7 +45,7 @@ let Serve = class Serve {
                         let variables = InstanceScript.rows[0].Variables;
                         variables = JSON.parse(variables);
                         variables.forEach((element) => {
-                            code = code.replace(`$${element.name}$`);
+                            code = code.replace(/$${element.name}$/g, element.value);
                         });
                         let function_code = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
                         const dataUrl = script_id + '/' + group_id + '/' + embed_id;
