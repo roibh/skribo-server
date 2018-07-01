@@ -35,7 +35,7 @@ export class Serve {
                     console.log(variables);
 
                     variables.forEach((element: any) => {
-                        code = code.replace(/\$\$element.name\$/g, element.value);
+                        code = code.replace(/\$\$\{element.name\}\$/g, element.value);
                     });
 
                     console.log(code);
