@@ -89,7 +89,7 @@ let Results = class Results {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const createdObject = yield client.query('DELETE FROM public.results WHERE WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4  ', [group_id, script_id, embed_id, result_id]);
+                const createdObject = yield client.query('DELETE FROM public.results WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 AND "ID"=$4  ', [group_id, script_id, embed_id, result_id]);
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
