@@ -46,7 +46,7 @@ let Serve = class Serve {
                         variables = JSON.parse(variables);
                         console.log(variables);
                         variables.forEach((element) => {
-                            code = code.replace(/\$\$\{element.name\}\$/g, element.value);
+                            code = code.replace(/Skribo\:\:Impressions/g, element.value);
                         });
                         console.log(code);
                         let function_code = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });

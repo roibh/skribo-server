@@ -31,11 +31,11 @@ export class Serve {
                 if (InstanceScript.rowCount > 0) {
                     let variables = InstanceScript.rows[0].Variables;
                     variables = JSON.parse(variables);
-                   
+
                     console.log(variables);
 
                     variables.forEach((element: any) => {
-                        code = code.replace(/\$\$\{element.name\}\$/g, element.value);
+                        code = code.replace(/Skribo\:\:Impressions/g, element.value);
                     });
 
                     console.log(code);
