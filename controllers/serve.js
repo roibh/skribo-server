@@ -52,9 +52,9 @@ let Serve = class Serve {
                         console.log(code);
                         let function_code = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
                         const dataUrl = script_id + '/' + group_id + '/' + embed_id;
-                        function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve / ${dataUrl}`);
-                        function_code = function_code.replace(/\$LOGURL\$/g, `log / ${dataUrl}`);
-                        function_code = function_code.replace(/\$RESULTURL\$/g, `results / ${dataUrl} / `);
+                        function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve/${dataUrl}`);
+                        function_code = function_code.replace(/\$LOGURL\$/g, `log/${dataUrl}`);
+                        function_code = function_code.replace(/\$RESULTURL\$/g, `results/${dataUrl}/`);
                         function_code = function_code.replace(/\$SERVERURL\$/g, `https://skribo.herokuapp.com/`);
                         function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${group_id}/`);
                         function_code = function_code.replace(/\$SKRIBODATA\$/g, `'` + JSON.stringify({
