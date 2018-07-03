@@ -44,7 +44,7 @@ function SkriboLog(message) {
 
 function SkriboPostResults(results) {
     var options = {
-        "muteHttpExceptions": true,
+        "muteHttpExceptions": false,
         "method": "post",
         "payload": {
             "results": results,
