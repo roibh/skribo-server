@@ -34,7 +34,7 @@ export class Results {
     public static async list(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ResultsModel[]>> {
         try {
             const client = await DB();
-            const resultObject = await client.query('SELECT "Date", "ID" from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3  ', [group_id, script_id, embed_id])
+            const resultObject = await client.query('SELECT "Date", "ID" from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 Order by "Date" desc  ', [group_id, script_id, embed_id])
             if (resultObject.rows.length > 0) {
                 return new MethodResult(resultObject.rows);
             }
