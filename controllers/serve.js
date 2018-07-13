@@ -44,12 +44,12 @@ let Serve = class Serve {
                     if (InstanceScript.rowCount > 0) {
                         let variables = InstanceScript.rows[0].Variables;
                         variables = JSON.parse(variables);
-                        console.log(variables);
+                        let preCode = '';
                         variables.forEach((element) => {
-                            const regex = new RegExp(`$Skribo_${element.name}`, 'g');
-                            code = code.replace(regex, element.value);
+                            preCode += `var $Skribo_${element.name}='${element.value}';`;
+                            // const regex = new RegExp(`$Skribo_${element.name}`, 'g');
+                            // code = code.replace(regex, element.value);
                         });
-                        console.log(code);
                         let function_code = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
                         const dataUrl = script_id + '/' + group_id + '/' + embed_id;
                         function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve/${dataUrl}`);
@@ -61,7 +61,7 @@ let Serve = class Serve {
                             'group_id': group_id,
                             'base_url': 'https://skribo.herokuapp.com'
                         }) + `'`);
-                        return new server_1.MethodResult(function_code + code);
+                        return new server_1.MethodResult(preCode + function_code + code);
                     }
                 }
                 throw (new server_1.MethodError('not found', 404));
