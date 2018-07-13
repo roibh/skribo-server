@@ -35,7 +35,7 @@ export class Serve {
                     console.log(variables);
 
                     variables.forEach((element: any) => {
-                        const regex = new RegExp(`Skribo::${element.name}`, 'g');
+                        const regex = new RegExp(`$Skribo_${element.name}`, 'g');
                         code = code.replace(regex, element.value);
                     });
 
