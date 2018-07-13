@@ -46,7 +46,7 @@ let Serve = class Serve {
                         variables = JSON.parse(variables);
                         let preCode = '';
                         variables.forEach((element) => {
-                            preCode += `var $Skribo_${element.name}='${element.value}';`;
+                            preCode += `var Skribo_env_${element.name}='${element.value}';`;
                             // const regex = new RegExp(`$Skribo_${element.name}`, 'g');
                             // code = code.replace(regex, element.value);
                         });
@@ -61,7 +61,7 @@ let Serve = class Serve {
                             'group_id': group_id,
                             'base_url': 'https://skribo.herokuapp.com'
                         }) + `'`);
-                        console.log('complete script', preCode + function_code + code);
+                        console.log('complete script', preCode);
                         return new server_1.MethodResult(preCode + function_code + code);
                     }
                 }

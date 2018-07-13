@@ -35,7 +35,7 @@ export class Serve {
                     let preCode = '';
 
                     variables.forEach((element: any) => {
-                        preCode += `var $Skribo_${element.name}='${element.value}';`;
+                        preCode += `var Skribo_env_${element.name}='${element.value}';`;
                         // const regex = new RegExp(`$Skribo_${element.name}`, 'g');
                         // code = code.replace(regex, element.value);
                     });
@@ -57,7 +57,7 @@ export class Serve {
                         'base_url': 'https://skribo.herokuapp.com'
                     }) + `'`);
 
-                    console.log('complete script', preCode + function_code + code)
+                    console.log('complete script', preCode )
                     return new MethodResult(preCode + function_code + code)
                 }
 
