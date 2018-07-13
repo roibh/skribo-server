@@ -33,9 +33,9 @@ export class Serve {
                     variables = JSON.parse(variables);
 
                     let preCode = [
-                        'declare class SkriboEnv {',
+                        'var SkriboEnv =  {',
                         ...variables.map((item) => {
-                            return `static ${item.name}="${item.value}";`;
+                            return  `"${item.name}":"${item.value}",`;
                         }),
                         '};'
                     ].join('\n');
