@@ -45,11 +45,11 @@ let Serve = class Serve {
                         let variables = InstanceScript.rows[0].Variables;
                         variables = JSON.parse(variables);
                         let preCode = [
-                            'class SkriboEnv {',
+                            'declare class SkriboEnv {',
                             ...variables.map((item) => {
                                 return `public static ${item.name}="${item.value}";`;
                             }),
-                            '}'
+                            '};'
                         ].join('\n');
                         // variables.forEach((element: any) => {
                         //     preCode += `class SkriboEnv {
