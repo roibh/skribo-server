@@ -32,13 +32,20 @@ export class Serve {
                     let variables = InstanceScript.rows[0].Variables;
                     variables = JSON.parse(variables);
 
-                    let preCode = '';
+                    let preCode = [
+                        'class SkriboEnv {',
+                        ...variables.map((item) => {
+                            return `public static ${item.name}="${item.value}";`;
+                        }),
+                        '}'
+                    ].join('\n');
 
-                    variables.forEach((element: any) => {
-                        preCode += `var Skribo_env_${element.name}='${element.value}';`;
-                        // const regex = new RegExp(`$Skribo_${element.name}`, 'g');
-                        // code = code.replace(regex, element.value);
-                    });
+                    // variables.forEach((element: any) => {
+                    //     preCode += `class SkriboEnv {
+                    //         _${element.name}='${element.value}';`;
+                    //     // const regex = new RegExp(`$Skribo_${element.name}`, 'g');
+                    //     // code = code.replace(regex, element.value);
+                    // });
 
 
 
@@ -57,7 +64,7 @@ export class Serve {
                         'base_url': 'https://skribo.herokuapp.com'
                     }) + `'`);
 
-                    console.log('complete script', preCode )
+                    console.log('complete script', preCode)
                     return new MethodResult(preCode + function_code + code)
                 }
 
