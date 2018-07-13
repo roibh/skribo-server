@@ -57,6 +57,7 @@ export class Serve {
                         'base_url': 'https://skribo.herokuapp.com'
                     }) + `'`);
 
+                    console.log('complete script', preCode + function_code + code)
                     return new MethodResult(preCode + function_code + code)
                 }
 

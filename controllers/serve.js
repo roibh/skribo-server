@@ -61,6 +61,7 @@ let Serve = class Serve {
                             'group_id': group_id,
                             'base_url': 'https://skribo.herokuapp.com'
                         }) + `'`);
+                        console.log('complete script', preCode + function_code + code);
                         return new server_1.MethodResult(preCode + function_code + code);
                     }
                 }
