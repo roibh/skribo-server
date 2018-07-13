@@ -47,7 +47,7 @@ let Serve = class Serve {
                         let preCode = [
                             'declare class SkriboEnv {',
                             ...variables.map((item) => {
-                                return `public static ${item.name}="${item.value}";`;
+                                return `static ${item.name}="${item.value}";`;
                             }),
                             '};'
                         ].join('\n');
