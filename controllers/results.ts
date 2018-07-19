@@ -25,7 +25,7 @@ export class Results {
             }
         }
         catch (error) {
-            console.error(error);
+            throw (new MethodError(error));
         }
     }
 
@@ -40,7 +40,7 @@ export class Results {
             }
         }
         catch (error) {
-            console.error(error);
+            throw (new MethodError(error));
         }
     }
 
@@ -56,7 +56,7 @@ export class Results {
             }
         }
         catch (error) {
-            console.error(error);
+            throw (new MethodError(error));
         }
     }
 
@@ -69,7 +69,7 @@ export class Results {
             return new MethodResult(createdObject);
         }
         catch (error) {
-            console.error(error);
+            throw (new MethodError(error));
         }
     }
 
@@ -82,7 +82,8 @@ export class Results {
             return new MethodResult(createdObject);
         }
         catch (error) {
-            console.error(error);
+            throw (new MethodError(error));
+
         }
     }
 }
