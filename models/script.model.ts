@@ -6,4 +6,5 @@ export interface ScriptModel {
     Name?: string;
     Description?: string;
     GroupId?: string;
+    ResultsDescriptor?: string;
 }

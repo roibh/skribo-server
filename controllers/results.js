@@ -41,7 +41,7 @@ let Results = class Results {
                 }
             }
             catch (error) {
-                console.error(error);
+                throw (new server_1.MethodError(error));
             }
         });
     }
@@ -55,7 +55,7 @@ let Results = class Results {
                 }
             }
             catch (error) {
-                console.error(error);
+                throw (new server_1.MethodError(error));
             }
         });
     }
@@ -69,7 +69,7 @@ let Results = class Results {
                 }
             }
             catch (error) {
-                console.error(error);
+                throw (new server_1.MethodError(error));
             }
         });
     }
@@ -81,7 +81,7 @@ let Results = class Results {
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
-                console.error(error);
+                throw (new server_1.MethodError(error));
             }
         });
     }
@@ -93,7 +93,7 @@ let Results = class Results {
                 return new server_1.MethodResult(createdObject);
             }
             catch (error) {
-                console.error(error);
+                throw (new server_1.MethodError(error));
             }
         });
     }
