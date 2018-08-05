@@ -88,7 +88,7 @@ export class Scripts {
             script.Variables = {};
         try {
 
-            const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5,"ResultsDescriptor"=$6  WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description","ResultsDescriptor";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id,  JSON.stringify(script.ResultsDescriptor)])
+            const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5,"ResultsDescriptor"=$8  WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description","ResultsDescriptor";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id,  JSON.stringify(script.ResultsDescriptor)])
             if (updateObject.rows.length) {
                 return new MethodResult(updateObject.rows[0])
             } else {
