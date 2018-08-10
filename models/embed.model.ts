@@ -6,4 +6,5 @@ export interface EmbedModel {
     EmbedId?: string;
     Variables?: string;
     Name?: string;
+    Page?: string;
 }
