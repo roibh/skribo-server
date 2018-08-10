@@ -14,19 +14,22 @@ import { ScriptModel } from '../models/script.model';
 @MethodConfig('Sync')
 export class Sync {
     @Method(Verbs.Post, '/sync/:group_id/accounts')
-    public static async accounts(@Param("group_id") group_id: string, @Body() accounts: any): Promise<MethodResult<ScriptModel>> {
+    public static async accounts(@Param("group_id") group_id: string, @Body() accounts: any): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();
 
-            const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1', [group_id]);
-            if (foundAccounts.rows.length > 0) {
-                const createdObject = await client.query('UPDATE   public.user_accounts set   "Accounts"=$1', [accounts])
-                return new MethodResult(createdObject);
-            } else {
-                const createdObject = await client.query('INSERT INTO public.user_accounts("GroupId", "Accounts") VALUES($1,$2) RETURNING "ID"', [group_id, accounts])
-                return new MethodResult(createdObject);
-            }
+            accounts.forEach(async (element) => {
+                const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.AccountKey]);
+                if (foundAccounts.rows.length > 0) {
+                    await client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.AccountKey, element.AccountName])
 
+                } else {
+                    await client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.AccountKey, element.AccountName])
+
+                }
+            });
+
+            return new MethodResult(true);
 
 
 

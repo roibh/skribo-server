@@ -35,15 +35,16 @@ let Sync = class Sync {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1', [group_id]);
-                if (foundAccounts.rows.length > 0) {
-                    const createdObject = yield client.query('UPDATE   public.user_accounts set   "Accounts"=$1', [accounts]);
-                    return new server_1.MethodResult(createdObject);
-                }
-                else {
-                    const createdObject = yield client.query('INSERT INTO public.user_accounts("GroupId", "Accounts") VALUES($1,$2) RETURNING "ID"', [group_id, accounts]);
-                    return new server_1.MethodResult(createdObject);
-                }
+                accounts.forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                    const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.AccountKey]);
+                    if (foundAccounts.rows.length > 0) {
+                        yield client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.AccountKey, element.AccountName]);
+                    }
+                    else {
+                        yield client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.AccountKey, element.AccountName]);
+                    }
+                }));
+                return new server_1.MethodResult(true);
             }
             catch (error) {
                 console.error(error);
