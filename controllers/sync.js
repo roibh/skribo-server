@@ -36,14 +36,13 @@ let Sync = class Sync {
             try {
                 const client = yield db_1.DB();
                 const accountsList = JSON.parse(accounts.accounts);
-                console.log(accountsList);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                    const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.AccountKey]);
+                    const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.id]);
                     if (foundAccounts.rows.length > 0) {
-                        yield client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.AccountKey, element.AccountName]);
+                        yield client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.id, element.name]);
                     }
                     else {
-                        yield client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.AccountKey, element.AccountName]);
+                        yield client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.id, element.name]);
                     }
                 }));
                 return new server_1.MethodResult(true);
