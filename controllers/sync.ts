@@ -17,8 +17,8 @@ export class Sync {
     public static async accounts(@Param("group_id") group_id: string, @Body() accounts: any): Promise<MethodResult<boolean>> {
         try {
             const client = await DB();
-
-            accounts.forEach(async (element) => {
+            console.log(accounts);
+            accounts.accounts.forEach(async (element) => {
                 const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.AccountKey]);
                 if (foundAccounts.rows.length > 0) {
                     await client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.AccountKey, element.AccountName])
