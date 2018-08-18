@@ -25,6 +25,37 @@
             }
         },
         {
+            "request": "launch",
+            "console": "internalConsole",
+            // Name of configuration; appears in the launch configuration drop down menu.
+            "name": "T | Run skribo tests",
+            // Type of configuration. Possible values: "node", "mono".
+            "type": "node",
+            // Workspace relative or absolute path to the program.
+            "program": "${workspaceRoot}/node_modules/alsatian/cli/alsatian-cli",
+            // Automatically stop program after launch.
+            "stopOnEntry": false,
+            // Command line arguments passed to the program.
+            "args": [
+                "tests/user.spec.js"
+            ],
+            "sourceMaps": true,
+            // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
+            "cwd": "${workspaceRoot}",
+            // Workspace relative or absolute path to the runtime executable to be used. Default is the runtime executable on the PATH.
+            "runtimeExecutable": null,
+            // Environment variables passed to the program.
+            "env": {
+                "PORT": "2092",
+                "DEBUG": "tmla",
+                "NODE_ENV": "debug",
+                "NODE_CONFIG_ENV": "local",
+                "NODE_LOG_LEVEL": "trace",
+                "NODE_LOG_SILENT": "true",
+                "NODE_CONFIG_DIR": "${workspaceRoot}/config/"
+            }
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "U | build contracts",

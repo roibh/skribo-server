@@ -30,14 +30,64 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const uuidv1 = require('uuid/v1');
 let Results = class Results {
+    static create(group_id, script_id, embed_id, results) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
+                const tableQuery = yield client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)', ['public', tableName], 0 /* Single */);
+                const fields = Object.keys(results[0]).map((item) => {
+                    let strType = typeof results[0][item];
+                    if (strType === 'object' && Array.isArray(results[0][item])) {
+                        strType = 'array';
+                    }
+                    if (strType === 'number' && results[0][item].toString().indexOf('.') > -1) {
+                        strType = 'double precision';
+                    }
+                    return {
+                        type: strType,
+                        name: item
+                    };
+                });
+                fields.push({ type: 'string', name: 'ResultId' });
+                if (!tableQuery.exists) {
+                    yield client.createTable('public', tableName, fields);
+                }
+                const result_id = uuidv1();
+                const insertResultStr = `INSERT INTO public."results"("GroupId", "ScriptId", "EmbedId", "ResultId") 
+                VALUES ($1,$2,$3,$4)`;
+                yield client.query(insertResultStr, [group_id, script_id, embed_id, result_id]);
+                if (Array.isArray(results)) {
+                    for (let i = 0; i < results.length; i++) {
+                        const rowObject = results[i];
+                        const insertStr = `INSERT INTO public."${tableName}"( ${fields.map(item => `"${item.name}"`).join(',')}) 
+                    VALUES(${fields.map((item, index) => `$${index + 1}`).join(',')})
+                    RETURNING "ID"`;
+                        try {
+                            rowObject.ResultId = result_id;
+                            const insertResult = yield client.query(insertStr, Object.values(rowObject));
+                        }
+                        catch (error) {
+                            console.error(error);
+                        }
+                    }
+                }
+                return new server_1.MethodResult(true);
+            }
+            catch (error) {
+                throw (new server_1.MethodError(error));
+            }
+        });
+    }
     static listByScript(group_id, script_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
                 const resultObject = yield client.query('SELECT "ScriptId", "EmbedId", "Date", "ID" from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2  ', [group_id, script_id]);
-                if (resultObject.rows.length > 0) {
-                    return new server_1.MethodResult(resultObject.rows);
+                if (resultObject.length > 0) {
+                    return new server_1.MethodResult(resultObject);
                 }
             }
             catch (error) {
@@ -50,8 +100,8 @@ let Results = class Results {
             try {
                 const client = yield db_1.DB();
                 const resultObject = yield client.query('SELECT "Date", "ID" from  public.results WHERE "GroupId"=$1 AND "ScriptId"=$2 and "EmbedId"=$3 Order by "Date" desc  ', [group_id, script_id, embed_id]);
-                if (resultObject.rows.length > 0) {
-                    return new server_1.MethodResult(resultObject.rows);
+                if (resultObject.length > 0) {
+                    return new server_1.MethodResult(resultObject);
                 }
             }
             catch (error) {
@@ -73,18 +123,6 @@ let Results = class Results {
             }
         });
     }
-    static create(group_id, script_id, embed_id, results) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.results("GroupId", "ScriptId", "EmbedId", "Data", "Date") VALUES($1,$2,$3,$4,$5) RETURNING "ID"', [group_id, script_id, embed_id, JSON.stringify(results), new Date()]);
-                return new server_1.MethodResult(createdObject);
-            }
-            catch (error) {
-                throw (new server_1.MethodError(error));
-            }
-        });
-    }
     static delete(group_id, script_id, embed_id, result_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -98,6 +136,13 @@ let Results = class Results {
         });
     }
 };
+__decorate([
+    server_1.Method("POST" /* Post */, '/results/:script_id/:group_id/:embed_id'),
+    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, Array]),
+    __metadata("design:returntype", Promise)
+], Results, "create", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/results/:script_id/:group_id'),
     __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")),
@@ -119,13 +164,6 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], Results, "get", null);
-__decorate([
-    server_1.Method("POST" /* Post */, '/results/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Body()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, Object]),
-    __metadata("design:returntype", Promise)
-], Results, "create", null);
 __decorate([
     server_1.Method("DELETE" /* Delete */, '/results/:script_id/:group_id/:embed_id/:result_id'),
     __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Param("result_id")),

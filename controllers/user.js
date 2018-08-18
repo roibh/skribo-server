@@ -38,9 +38,9 @@ let User = class User {
             try {
                 const client = yield db_1.DB();
                 const groupResult = yield client.query(`SELECT "Name", user_groups."GroupId", "Status"
-            FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
-                if (groupResult.rowCount > 0) {
-                    return new server_1.MethodResult(groupResult.rows);
+            FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id], 0 /* Single */);
+                if (groupResult) {
+                    return new server_1.MethodResult(groupResult);
                 }
                 throw (new server_1.MethodError('not found', 404));
             }
@@ -55,7 +55,7 @@ let User = class User {
                 const client = yield db_1.DB();
                 const groupResult = yield client.query(`SELECT "Name", user_groups."GroupId", "Status"
             FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
-                return new server_1.MethodResult(groupResult.rows);
+                return new server_1.MethodResult(groupResult);
             }
             catch (error) {
                 throw (error);
@@ -69,31 +69,55 @@ let User = class User {
                 const group_id = userData.GroupId;
                 //validate group
                 const groupValidationResult = yield client.query(`SELECT "Name", "GroupId" from public.groups WHERE "GroupId"=$1`, [group_id]);
-                if (groupValidationResult.rows.length === 0) {
+                if (groupValidationResult.length === 0) {
                     //are there groups for this user?
                     const groupResult = yield client.query(`SELECT * FROM  public.user_groups  WHERE  "UserId" = $1; `, [user_id]);
-                    if (groupResult.rowCount === 0) {
+                    if (groupResult.length === 0) {
                         const insertResult = yield client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
-                        if (insertResult.rowCount > 0) {
-                            const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [insertResult.rows[0].GroupId, user_id]);
-                            return new server_1.MethodResult(attachResult.rows[0]);
+                        if (insertResult.length > 0) {
+                            const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [insertResult[0].GroupId, user_id]);
+                            return new server_1.MethodResult(attachResult[0]);
                         }
                     }
-                    throw (new server_1.MethodError('group not found'));
+                    else {
+                        return new server_1.MethodResult(groupResult[0]);
+                    }
                 }
                 const groupResult = yield client.query(`SELECT "Name", public.user_groups."GroupId", "Status"
             FROM public.user_groups INNER JOIN public.groups ON(public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId" = $1 AND public.user_groups."GroupId"=$2; `, [user_id, group_id]);
-                if (groupResult.rowCount === 0) {
+                if (groupResult.length === 0) {
                     //const insertResult = await client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
                     // if (insertResult.rowCount > 0) {
                     const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
-                    return new server_1.MethodResult(attachResult.rows[0]);
+                    return new server_1.MethodResult(attachResult[0]);
                     //}
                 }
             }
             catch (error) {
-                Raven.captureException(error);
-                console.error(error);
+                throw (error);
+            }
+        });
+    }
+    static delete(user_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const deleteResult = yield client.query(`DELETE from user_groups WHERE "UserId"=$1`, [user_id]);
+                return new server_1.MethodResult(deleteResult);
+            }
+            catch (error) {
+                throw (error);
+            }
+        });
+    }
+    static deleteGroup(group_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const deleteResult = yield client.query(`DELETE from groups WHERE "GroupId"=$1`, [group_id]);
+                return new server_1.MethodResult(deleteResult);
+            }
+            catch (error) {
                 throw (error);
             }
         });
@@ -120,6 +144,20 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], User, "attachToGroup", null);
+__decorate([
+    server_1.Method("DELETE" /* Delete */, '/user/:user_id/'),
+    __param(0, server_1.Param("user_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], User, "delete", null);
+__decorate([
+    server_1.Method("DELETE" /* Delete */, '/group/:group_id/'),
+    __param(0, server_1.Param("group_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], User, "deleteGroup", null);
 User = __decorate([
     server_1.MethodConfig('User')
 ], User);

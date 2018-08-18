@@ -25,11 +25,11 @@ export class Serve {
 
             const client = await DB();
             const codeResult = await client.query(`SELECT * FROM public.scripts SET   WHERE  "ScriptId"=$1;`, [script_id]);
-            if (codeResult.rowCount > 0) {
-                let code = codeResult.rows[0].Code;
+            if (codeResult.length > 0) {
+                let code = codeResult[0].Code;
                 const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-                if (InstanceScript.rowCount > 0) {
-                    let variables = InstanceScript.rows[0].Variables;
+                if (InstanceScript.length > 0) {
+                    let variables = InstanceScript[0].Variables;
                     variables = JSON.parse(variables);
 
                     let preCode = [

@@ -38,7 +38,7 @@ let Sync = class Sync {
                 const accountsList = JSON.parse(accounts.accounts);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
                     const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.id]);
-                    if (foundAccounts.rows.length > 0) {
+                    if (foundAccounts.length > 0) {
                         yield client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.id, element.name]);
                     }
                     else {

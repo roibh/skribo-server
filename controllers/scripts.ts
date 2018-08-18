@@ -26,7 +26,7 @@ export class Scripts {
         try {
             const client = await DB();
             const res = await client.query('SELECT * FROM public.scripts WHERE "GroupId"=$1 ORDER BY "ID" ASC', [group_id]);
-            return new MethodResult(res.rows);
+            return new MethodResult(res);
         }
         catch (error) {
             console.error(error);
@@ -38,8 +38,8 @@ export class Scripts {
         const client = await DB();
         try {
             const script: any = await client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
-            if (script.rows.length) {
-                return new MethodResult(script.rows[0] as ScriptModel);
+            if (script.length) {
+                return new MethodResult(script[0] as ScriptModel);
             } else {
                 throw (new MethodError('not found', 404));
             }
@@ -74,7 +74,7 @@ export class Scripts {
         try {
 
             const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor])
-            return new MethodResult(createdObject.rows[0]);
+            return new MethodResult(createdObject[0]);
         }
         catch (error) {
             console.error(error);
@@ -89,8 +89,8 @@ export class Scripts {
         try {
 
             const updateObject = await client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5,"ResultsDescriptor"=$8  WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description","ResultsDescriptor";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id,  JSON.stringify(script.ResultsDescriptor)])
-            if (updateObject.rows.length) {
-                return new MethodResult(updateObject.rows[0])
+            if (updateObject.length) {
+                return new MethodResult(updateObject[0])
             } else {
                 throw (new MethodError('not found', 404));
             }

@@ -23,7 +23,7 @@ export class Sync {
 
             accountsList.forEach(async (element) => {
                 const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.id]);
-                if (foundAccounts.rows.length > 0) {
+                if (foundAccounts.length > 0) {
                     await client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.id, element.name])
 
                 } else {

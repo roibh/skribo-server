@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "exit 0",
+    "build": "tsc",
+    "test": "nyc --reporter=lcov --reporter=html npm run xtest && nyc report",
+    "xtest": "npm run build && alsatian tests/*.spec.js",
     "contracts": "npm version patch && npm run contract-publish && npm run client-publish",
     "postpublish": "npm run tag && npm run contract-publish && npm run client-publish",
     "contract": "node ./node_modules/@methodus/contracts/build.js ./build.json",
@@ -21,9 +23,11 @@
     "@methodus/server": "latest",
     "@types/node": "^10.0.4",
     "adwords-auth": "^0.0.10",
+    "alsatian": "^2.3.0",
     "chrome-bridge": "^0.1.2",
     "logelas": "^1.0.24",
     "node-adwords": "^201802.2.0",
+    "nyc": "^12.0.2",
     "pg": "^7.4.3",
     "raven": "^2.6.3",
     "uuid": "^3.2.1"

@@ -41,7 +41,7 @@ let Scripts = class Scripts {
             try {
                 const client = yield db_1.DB();
                 const res = yield client.query('SELECT * FROM public.scripts WHERE "GroupId"=$1 ORDER BY "ID" ASC', [group_id]);
-                return new server_1.MethodResult(res.rows);
+                return new server_1.MethodResult(res);
             }
             catch (error) {
                 console.error(error);
@@ -53,8 +53,8 @@ let Scripts = class Scripts {
             const client = yield db_1.DB();
             try {
                 const script = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
-                if (script.rows.length) {
-                    return new server_1.MethodResult(script.rows[0]);
+                if (script.length) {
+                    return new server_1.MethodResult(script[0]);
                 }
                 else {
                     throw (new server_1.MethodError('not found', 404));
@@ -89,7 +89,7 @@ let Scripts = class Scripts {
                 script.Variables = {};
             try {
                 const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor]);
-                return new server_1.MethodResult(createdObject.rows[0]);
+                return new server_1.MethodResult(createdObject[0]);
             }
             catch (error) {
                 console.error(error);
@@ -103,8 +103,8 @@ let Scripts = class Scripts {
                 script.Variables = {};
             try {
                 const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5,"ResultsDescriptor"=$8  WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description","ResultsDescriptor";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id, JSON.stringify(script.ResultsDescriptor)]);
-                if (updateObject.rows.length) {
-                    return new server_1.MethodResult(updateObject.rows[0]);
+                if (updateObject.length) {
+                    return new server_1.MethodResult(updateObject[0]);
                 }
                 else {
                     throw (new server_1.MethodError('not found', 404));

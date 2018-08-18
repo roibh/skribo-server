@@ -37,9 +37,9 @@ let Embed = class Embed {
             try {
                 const client = yield db_1.DB();
                 const updateObject = yield client.query(`UPDATE public.embeds SET "Name"=$1, "Variables"=$2 , "Page"=$6 WHERE "EmbedId"=$3 and "ScriptId"=$4 and "GroupId"=$5;`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, group_id, embed.Page]);
-                if (updateObject.rowCount > 0) {
+                if (updateObject.length > 0) {
                     const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-                    return new server_1.MethodResult(InstanceScript.rows[0]);
+                    return new server_1.MethodResult(InstanceScript[0]);
                 }
                 else {
                     throw (new server_1.MethodError('not found', 404));
@@ -56,7 +56,7 @@ let Embed = class Embed {
                 const client = yield db_1.DB();
                 const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
                 const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [script_id]);
-                return new server_1.MethodResult(InstanceScript.rows);
+                return new server_1.MethodResult(InstanceScript);
             }
             catch (error) {
                 console.error(error);
@@ -68,7 +68,7 @@ let Embed = class Embed {
             try {
                 const client = yield db_1.DB();
                 const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2', [script_id, group_id]);
-                return new server_1.MethodResult(InstanceScript.rows);
+                return new server_1.MethodResult(InstanceScript);
             }
             catch (error) {
                 console.error(error);
@@ -80,7 +80,7 @@ let Embed = class Embed {
             try {
                 const client = yield db_1.DB();
                 const InstanceScript = yield client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-                return new server_1.MethodResult(InstanceScript.rowCount);
+                return new server_1.MethodResult(InstanceScript.length);
             }
             catch (error) {
                 console.error(error);
@@ -92,8 +92,8 @@ let Embed = class Embed {
             try {
                 const client = yield db_1.DB();
                 const createdObject = yield client.query('INSERT INTO public.embeds("Name", "ScriptId", "GroupId", "Variables", "EmbedId", "Page") VALUES($1,$2,$3, $4,$5,$6) RETURNING "EmbedId"', [embed.Name, script_id, group_id, JSON.stringify(embed.Variables), uuidv1(), embed.Page]);
-                if (createdObject.rows && createdObject.rows.length > 0) {
-                    return new server_1.MethodResult(createdObject.rows[0]);
+                if (createdObject.length > 0) {
+                    return new server_1.MethodResult(createdObject[0]);
                 }
                 else {
                     throw (new Error('failed to create the embed'));
