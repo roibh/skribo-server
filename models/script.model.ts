@@ -1,10 +1,10 @@
 
 export interface ScriptModel {
     ScriptId?: string;
-    Variables?: any;
+    Variables?: string[];
     Code?: string;
     Name?: string;
     Description?: string;
     GroupId?: string;
-    ResultsDescriptor?: string;
+    ResultsDescriptor?: object;
 }

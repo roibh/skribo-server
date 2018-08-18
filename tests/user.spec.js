@@ -23,6 +23,7 @@ const database_1 = require("./database");
 const results_1 = require("../controllers/results");
 const user_1 = require("../controllers/user");
 const db_1 = require("../db");
+const controllers_1 = require("../controllers");
 function mutate(source, mutation) {
     const obj = JSON.parse(JSON.stringify(source));
     switch (mutation) {
@@ -58,12 +59,12 @@ let TestsOfResults = class TestsOfResults {
             const client = yield db_1.DB();
             for (let i = 0; i < database_1.DataScripts.length; i++) {
                 try {
-                    console.log('>>>>>', database_1.DataScripts[i]);
+                    //console.log('>>>>>', DataScripts[i]);
                     let result = yield client.query(database_1.DataScripts[i], []);
-                    console.log('<<<<<', result);
+                    //c//onsole.log('<<<<<', result);
                 }
                 catch (error) {
-                    console.log(error);
+                    //console.log(error);
                 }
             }
             const userResult = (yield user_1.User.attachToGroup(user_id, Data.User)).result;
@@ -72,62 +73,67 @@ let TestsOfResults = class TestsOfResults {
     }
     user_get() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const user = yield user_1.User.get(Data.User.UserId);
-                alsatian_1.Expect(user).toBeDefined();
-            }
-            catch (error) {
-                debugger;
-                console.log(error);
-            }
+            const user = yield user_1.User.get(Data.User.UserId);
+            alsatian_1.Expect(user).toBeDefined();
         });
     }
     user_getGroups() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const groups = yield user_1.User.getGroups(user_id);
-                alsatian_1.Expect(groups).toBeDefined();
-            }
-            catch (error) {
-                debugger;
-                console.error(error);
-            }
+            const groups = yield user_1.User.getGroups(user_id);
+            alsatian_1.Expect(groups).toBeDefined();
+        });
+    }
+    scripts_create() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const script = { Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [] };
+            const result = (yield controllers_1.Scripts.create(Data.User.GroupId, script)).result;
+            Data.User.ScriptId = result.ScriptId;
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    embed_create() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const embed = { GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] };
+            const result = (yield controllers_1.Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
+            Data.User.EmbedId = result.EmbedId;
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    embed_update() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const embed = { Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] };
+            const result = yield controllers_1.Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    embed_list() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.Embed.list(Data.User.ScriptId, Data.User.GroupId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    serve_get() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.Serve.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
     create(resultMutation) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield results_1.Results.create(Data.User.GroupId, script_id, embed_id, resultMutation);
-                alsatian_1.Expect(result).toBeDefined();
-            }
-            catch (error) {
-                debugger;
-                console.error(error);
-            }
+            const result = yield results_1.Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
     list() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield results_1.Results.list(Data.User.GroupId, script_id, embed_id);
-                alsatian_1.Expect(result).toBeDefined();
-            }
-            catch (error) {
-                debugger;
-                console.error(error);
-            }
+            const result = yield results_1.Results.list(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
     listByScript() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield results_1.Results.listByScript(Data.User.GroupId, script_id);
-                alsatian_1.Expect(result).toBeDefined();
-            }
-            catch (error) {
-                debugger;
-                console.error(error);
-            }
+            const result = yield results_1.Results.listByScript(Data.User.GroupId, Data.User.ScriptId);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
     CleanUp() {
@@ -141,7 +147,6 @@ let TestsOfResults = class TestsOfResults {
                 //await User.delete(user_id);
             }
             catch (error) {
-                debugger;
                 console.error(error);
             }
             // var query = "DELETE * FROM Users WHERE Email=@Email";
@@ -163,7 +168,6 @@ __decorate([
 ], TestsOfResults.prototype, "setup", null);
 __decorate([
     alsatian_1.AsyncTest('user_get'),
-    alsatian_1.TestCase(),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -171,12 +175,46 @@ __decorate([
 ], TestsOfResults.prototype, "user_get", null);
 __decorate([
     alsatian_1.AsyncTest('user_getGroups'),
-    alsatian_1.TestCase(),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOfResults.prototype, "user_getGroups", null);
+__decorate([
+    alsatian_1.AsyncTest('scripts_create'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "scripts_create", null);
+__decorate([
+    alsatian_1.AsyncTest('embed_create'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "embed_create", null);
+__decorate([
+    alsatian_1.AsyncTest('embed_update'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "embed_update", null);
+__decorate([
+    alsatian_1.AsyncTest('embed_list'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "embed_list", null);
+__decorate([
+    alsatian_1.AsyncTest('serve_get'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "serve_get", null);
 __decorate([
     alsatian_1.AsyncTest('create'),
     alsatian_1.TestCase(Data.ReportResult),
@@ -187,7 +225,6 @@ __decorate([
 ], TestsOfResults.prototype, "create", null);
 __decorate([
     alsatian_1.AsyncTest('list'),
-    alsatian_1.TestCase(),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -195,7 +232,6 @@ __decorate([
 ], TestsOfResults.prototype, "list", null);
 __decorate([
     alsatian_1.AsyncTest('listByScript'),
-    alsatian_1.TestCase(),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

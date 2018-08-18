@@ -6,7 +6,8 @@ import { Results } from '../controllers/results';
 import { User } from '../controllers/user';
 import { DB } from '../db';
 import { Script } from 'vm';
-import { Scripts } from '../controllers';
+import { Scripts, Embed, Serve } from '../controllers';
+import { EmbedModel, ScriptModel } from '../models';
 
 
 
@@ -58,11 +59,11 @@ export class TestsOfResults {
         const client = await DB();
         for (let i = 0; i < DataScripts.length; i++) {
             try {
-                console.log('>>>>>',DataScripts[i]);
+                //console.log('>>>>>', DataScripts[i]);
                 let result = await client.query(DataScripts[i], []);
-                console.log('<<<<<',result);
+                //c//onsole.log('<<<<<', result);
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
 
         }
@@ -77,74 +78,95 @@ export class TestsOfResults {
 
 
     @AsyncTest('user_get')
-    @TestCase()
     @Timeout(10000)
     public async user_get() {
-        try {
-            const user = await User.get(Data.User.UserId);
-            Expect(user).toBeDefined();
-        } catch (error) {
-            debugger
-            console.log(error);
-        }
+
+        const user = await User.get(Data.User.UserId);
+        Expect(user).toBeDefined();
+
     }
 
     @AsyncTest('user_getGroups')
-    @TestCase()
     @Timeout(10000)
     public async user_getGroups() {
-        try {
-            const groups = await User.getGroups(user_id);
-            Expect(groups).toBeDefined();
-        } catch (error) {
-            debugger
-            console.error(error);
-        }
+
+        const groups = await User.getGroups(user_id);
+        Expect(groups).toBeDefined();
+
     }
 
+
+
+
+
+    @AsyncTest('scripts_create')
+    @Timeout(10000)
+    public async scripts_create() {
+        const script: ScriptModel = { Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [] }
+        const result = (await Scripts.create(Data.User.GroupId, script)).result;
+        Data.User.ScriptId = result.ScriptId;
+        Expect(result).toBeDefined();
+    }
+    @AsyncTest('embed_create')
+    @Timeout(10000)
+    public async embed_create() {
+        const embed: EmbedModel = { GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] }
+        const result: any = (await Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
+        Data.User.EmbedId = result.EmbedId;
+        Expect(result).toBeDefined();
+
+
+    }
+
+    @AsyncTest('embed_update')
+    @Timeout(10000)
+    public async embed_update() {
+
+        const embed: EmbedModel = { Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] }
+        const result = await Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+        Expect(result).toBeDefined();
+
+
+    }
+
+    @AsyncTest('embed_list')
+    @Timeout(10000)
+    public async embed_list() {
+        const result = await Embed.list(Data.User.ScriptId, Data.User.GroupId);
+        Expect(result).toBeDefined();
+    }
+
+
+
+
+
+    @AsyncTest('serve_get')
+    @Timeout(10000)
+    public async serve_get() {
+        const result = await Serve.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+        Expect(result).toBeDefined();
+    }
 
     @AsyncTest('create')
     @TestCase(Data.ReportResult)
     @Timeout(10000)
     public async create(resultMutation) {
-        try {
-            const result = await Results.create(Data.User.GroupId, script_id, embed_id, resultMutation);
-            Expect(result).toBeDefined();
-        } catch (error) {
-            debugger
-            console.error(error);
-        }
-
+        const result = await Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation);
+        Expect(result).toBeDefined();
     }
-
     @AsyncTest('list')
-    @TestCase()
     @Timeout(10000)
     public async list() {
-        try {
-            const result = await Results.list(Data.User.GroupId, script_id, embed_id);
-            Expect(result).toBeDefined();
-        } catch (error) {
-            debugger
-            console.error(error);
-        }
-
+        const result = await Results.list(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId);
+        Expect(result).toBeDefined();
     }
 
     @AsyncTest('listByScript')
-    @TestCase()
     @Timeout(10000)
     public async listByScript() {
-        try {
-            const result = await Results.listByScript(Data.User.GroupId, script_id);
-            Expect(result).toBeDefined();
-        } catch (error) {
-            debugger
-            console.error(error);
-        }
-
+        const result = await Results.listByScript(Data.User.GroupId, Data.User.ScriptId);
+        Expect(result).toBeDefined();
     }
-
     @AsyncTeardownFixture
     public async CleanUp() {
 
@@ -158,7 +180,7 @@ export class TestsOfResults {
             //await User.deleteGroup(Data.User.GroupId);
             //await User.delete(user_id);
         } catch (error) {
-            debugger
+
             console.error(error);
         }
 

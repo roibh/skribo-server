@@ -85,10 +85,8 @@ let Scripts = class Scripts {
     static create(group_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
-            if (!script.Variables)
-                script.Variables = {};
             try {
-                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor]);
+                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, script.Variables, script.Description, group_id, uuidv1(), script.ResultsDescriptor]);
                 return new server_1.MethodResult(createdObject[0]);
             }
             catch (error) {
@@ -99,8 +97,6 @@ let Scripts = class Scripts {
     static update(group_id, script_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
-            if (!script.Variables)
-                script.Variables = {};
             try {
                 const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5,"ResultsDescriptor"=$8  WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description","ResultsDescriptor";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id, JSON.stringify(script.ResultsDescriptor)]);
                 if (updateObject.length) {

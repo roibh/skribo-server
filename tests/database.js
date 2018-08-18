@@ -1,6 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataScripts = [
+    `
+CREATE SEQUENCE public."scripts_ID_seq";
+ALTER SEQUENCE public."scripts_ID_seq"
+OWNER TO postgres;`,
+    `
+CREATE TABLE public.scripts
+(
+    "Name" character varying
+    (1024) COLLATE pg_catalog."default",
+    "ID" integer NOT NULL DEFAULT nextval('"scripts_ID_seq"'::regclass),
+    "Description" character varying COLLATE pg_catalog."default",
+    "Code" text COLLATE pg_catalog."default",
+    "GroupId" character varying COLLATE pg_catalog."default",
+    "ScriptId" character varying COLLATE pg_catalog."default",
+    "ResultsDescriptor" json,
+    "Variables" character varying[] COLLATE pg_catalog."default"
+)
+WITH (
+OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.scripts
+OWNER to postgres;`,
     `CREATE SEQUENCE public."groups_ID_seq";
 ALTER SEQUENCE public."groups_ID_seq"
 OWNER TO postgres;`,
@@ -36,8 +60,9 @@ OWNER TO postgres;`,
 "ID" integer NOT NULL DEFAULT nextval('"embeds_ID_seq"'::regclass),
 "GroupId" character varying COLLATE pg_catalog."default",
 "ScriptId" character varying COLLATE pg_catalog."default",
-"Variables" character varying COLLATE pg_catalog."default",
+"Variables" character varying[] COLLATE pg_catalog."default",
 "EmbedId" character varying COLLATE pg_catalog."default",
+"Page" character varying COLLATE pg_catalog."default",
 "Name" character varying COLLATE pg_catalog."default",
 CONSTRAINT embeds_pkey PRIMARY KEY ("ID"))
 WITH (OIDS = FALSE)
@@ -68,7 +93,7 @@ OWNER TO postgres;`,
 "GroupId" character varying COLLATE pg_catalog."default",
 "EmbedId" character varying COLLATE pg_catalog."default",
 "Date" date,
-"Variables" text COLLATE pg_catalog."default",
+"Variables" character varying[] COLLATE pg_catalog."default",
 "Data" text COLLATE pg_catalog."default",
 "ID" bigint NOT NULL DEFAULT nextval('"results_ID_seq"'::regclass),
 "ResultId" character varying COLLATE pg_catalog."default",

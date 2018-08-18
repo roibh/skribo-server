@@ -4,7 +4,7 @@ export interface EmbedModel {
     GroupId?: any;
     ScriptId?: string;
     EmbedId?: string;
-    Variables?: string;
+    Variables?: string[];
     Name?: string;
     Page?: string;
 }

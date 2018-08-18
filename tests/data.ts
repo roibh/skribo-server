@@ -28,6 +28,8 @@ export const User =
 {
     Name: 'test user',
     GroupId: '000000000000000000',
-    UserId: '000000000000000000'
+    UserId: '000000000000000000',
+    EmbedId: '000000000000000000',
+    ScriptId: '000000000000000000'
 
 }

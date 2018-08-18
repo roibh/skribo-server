@@ -4,7 +4,7 @@ export interface ResultsModel {
     GroupId?: any;
     ScriptId?: string;
     EmbedId?: string;
-    Variables?: string;
+    Variables?: string[];
     Date?: Date;
     Data?: any;
     
