@@ -1,9 +1,12 @@
 import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Timeout, TeardownFixture, Teardown, AsyncTeardown, AsyncTeardownFixture, FocusTest, SetupFixture } from 'alsatian';
 
 import * as Data from './data';
+import { DataScripts } from './database';
 import { Results } from '../controllers/results';
 import { User } from '../controllers/user';
 import { DB } from '../db';
+import { Script } from 'vm';
+import { Scripts } from '../controllers';
 
 
 
@@ -52,6 +55,21 @@ export class TestsOfResults {
 
     @AsyncSetupFixture
     async setup() {
+        const client = await DB();
+        for (let i = 0; i < DataScripts.length; i++) {
+            try {
+                console.log('>>>>>',DataScripts[i]);
+                let result = await client.query(DataScripts[i], []);
+                console.log('<<<<<',result);
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+
+
+
+
         const userResult: any = (await User.attachToGroup(user_id, Data.User)).result;
         Data.User.GroupId = userResult.GroupId;
 
@@ -137,8 +155,8 @@ export class TestsOfResults {
             // await client.query(`DROP TABLE public."${tableName}"`, []);
             // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
 
-            await User.deleteGroup(Data.User.GroupId);
-            await User.delete(user_id);
+            //await User.deleteGroup(Data.User.GroupId);
+            //await User.delete(user_id);
         } catch (error) {
             debugger
             console.error(error);

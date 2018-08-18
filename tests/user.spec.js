@@ -19,6 +19,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
+const database_1 = require("./database");
 const results_1 = require("../controllers/results");
 const user_1 = require("../controllers/user");
 const db_1 = require("../db");
@@ -54,6 +55,17 @@ const embed_id = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
+            const client = yield db_1.DB();
+            for (let i = 0; i < database_1.DataScripts.length; i++) {
+                try {
+                    console.log('>>>>>', database_1.DataScripts[i]);
+                    let result = yield client.query(database_1.DataScripts[i], []);
+                    console.log('<<<<<', result);
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
             const userResult = (yield user_1.User.attachToGroup(user_id, Data.User)).result;
             Data.User.GroupId = userResult.GroupId;
         });
@@ -125,8 +137,8 @@ let TestsOfResults = class TestsOfResults {
                 // const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
                 // await client.query(`DROP TABLE public."${tableName}"`, []);
                 // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
-                yield user_1.User.deleteGroup(Data.User.GroupId);
-                yield user_1.User.delete(user_id);
+                //await User.deleteGroup(Data.User.GroupId);
+                //await User.delete(user_id);
             }
             catch (error) {
                 debugger;
