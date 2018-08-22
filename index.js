@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const controllers_1 = require("./controllers/");
+const _1 = require("./controllers/");
 var Raven = require('raven');
 Raven.config('https://8ae906af26fd4d4380f908751eacf016@sentry.io/1231711').install();
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
@@ -17,13 +17,13 @@ SetupServer = __decorate([
     server_1.PluginConfiguration('@methodus/describe')
     //@ClientConfiguration(Api, MethodType.Local, ServerType.Express)
     ,
-    server_1.ClientConfiguration(controllers_1.Scripts, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(controllers_1.Embed, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(controllers_1.Serve, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(controllers_1.Log, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(controllers_1.Sync, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(controllers_1.Results, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(controllers_1.User, "Local" /* Local */, "express" /* Express */)
+    server_1.ClientConfiguration(_1.Scripts, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Embed, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Serve, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Log, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Sync, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.Results, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(_1.User, "Local" /* Local */, "express" /* Express */)
 ], SetupServer);
 new SetupServer();
 //# sourceMappingURL=index.js.map
