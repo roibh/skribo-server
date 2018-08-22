@@ -1,6 +1,6 @@
 
 import { ServerConfiguration, PluginConfiguration, ClientConfiguration, ConfiguredServer, MethodType, ServerType } from '@methodus/server';
-import { Api, Embed, Scripts, Serve, Log,Sync,Results, User } from './controllers/';
+import {  Embed, Scripts, Serve, Log,Sync,Results, User } from './controllers/';
  
 var Raven = require('raven');
 Raven.config('https://8ae906af26fd4d4380f908751eacf016@sentry.io/1231711').install();

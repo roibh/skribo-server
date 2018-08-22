@@ -173,12 +173,12 @@ export class TestsOfResults {
         try {
             const client = await DB();
 
-            // const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
-            // await client.query(`DROP TABLE public."${tableName}"`, []);
-            // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
+            const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
+            await client.query(`DROP TABLE public."${tableName}"`, []);
+            await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
 
-            //await User.deleteGroup(Data.User.GroupId);
-            //await User.delete(user_id);
+            await User.deleteGroup(Data.User.GroupId);
+            await User.delete(user_id);
         } catch (error) {
 
             console.error(error);

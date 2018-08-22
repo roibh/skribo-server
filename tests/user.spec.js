@@ -140,11 +140,11 @@ let TestsOfResults = class TestsOfResults {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                // const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
-                // await client.query(`DROP TABLE public."${tableName}"`, []);
-                // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
-                //await User.deleteGroup(Data.User.GroupId);
-                //await User.delete(user_id);
+                const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
+                yield client.query(`DROP TABLE public."${tableName}"`, []);
+                yield client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
+                yield user_1.User.deleteGroup(Data.User.GroupId);
+                yield user_1.User.delete(user_id);
             }
             catch (error) {
                 console.error(error);
