@@ -86,7 +86,7 @@ let Scripts = class Scripts {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield db_1.DB();
             try {
-                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, script.Variables, script.Description, group_id, uuidv1(), script.ResultsDescriptor]);
+                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor]);
                 return new server_1.MethodResult(createdObject[0]);
             }
             catch (error) {

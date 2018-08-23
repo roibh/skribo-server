@@ -85,7 +85,13 @@ let TestsOfResults = class TestsOfResults {
     }
     scripts_create() {
         return __awaiter(this, void 0, void 0, function* () {
-            const script = { Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [] };
+            const script = {
+                Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
+                        "type": "number",
+                        "name": "namedd",
+                        "value": 1
+                    }]
+            };
             const result = (yield controllers_1.Scripts.create(Data.User.GroupId, script)).result;
             Data.User.ScriptId = result.ScriptId;
             alsatian_1.Expect(result).toBeDefined();

@@ -102,7 +102,13 @@ export class TestsOfResults {
     @AsyncTest('scripts_create')
     @Timeout(10000)
     public async scripts_create() {
-        const script: ScriptModel = { Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [] }
+        const script: ScriptModel = {
+            Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
+                "type": "number",
+                "name": "namedd",
+                "value": 1
+            }]
+        }
         const result = (await Scripts.create(Data.User.GroupId, script)).result;
         Data.User.ScriptId = result.ScriptId;
         Expect(result).toBeDefined();

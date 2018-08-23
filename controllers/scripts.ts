@@ -71,7 +71,7 @@ export class Scripts {
         const client = await DB();
         try {
 
-            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, script.Variables, script.Description, group_id, uuidv1(), script.ResultsDescriptor])
+            const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor])
             return new MethodResult(createdObject[0]);
         }
         catch (error) {
