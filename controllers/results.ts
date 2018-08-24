@@ -27,9 +27,10 @@ export class Results {
                     ['public', tableName], ResultType.Single);
 
 
-                console.log(results);
-                const fields = Object.keys(results[0]).map((item) => {
 
+                const fields = Object.keys(results[0]).map((item) => {
+                    if (!results[0][item])
+                        return null;
                     let strType: string = typeof results[0][item];
                     if (strType === 'object' && Array.isArray(results[0][item])) {
                         strType = 'array';

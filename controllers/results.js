@@ -39,8 +39,9 @@ let Results = class Results {
                 const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
                 try {
                     const tableQuery = yield client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)', ['public', tableName], 0 /* Single */);
-                    console.log(results);
                     const fields = Object.keys(results[0]).map((item) => {
+                        if (!results[0][item])
+                            return null;
                         let strType = typeof results[0][item];
                         if (strType === 'object' && Array.isArray(results[0][item])) {
                             strType = 'array';
