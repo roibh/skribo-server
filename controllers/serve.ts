@@ -30,12 +30,14 @@ export class Serve {
                 const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
                 if (InstanceScript.length > 0) {
                     let variables = InstanceScript[0].Variables || [];
-                  
+                    if (typeof variables === 'string') {
+                        variables = JSON.parse(variables);
+                    }
 
                     let preCode = [
                         'var SkriboEnv =  {',
                         ...variables.map((item) => {
-                            return  `"${item.name}":"${item.value}",`;
+                            return `"${item.name}":"${item.value}",`;
                         }),
                         '};'
                     ].join('\n');
