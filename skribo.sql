@@ -9,9 +9,7 @@ CREATE SEQUENCE public."embeds_ID_seq";
 ALTER SEQUENCE public."embeds_ID_seq"
     OWNER TO postgres;
     
-    
-    
-    -- Table: public.embeds
+     -- Table: public.embeds
 
 -- DROP TABLE public.embeds;
 
@@ -23,12 +21,16 @@ CREATE TABLE public.embeds
     "Variables" character varying COLLATE pg_catalog."default",
     "EmbedId" character varying COLLATE pg_catalog."default",
     "Name" character varying COLLATE pg_catalog."default",
+    "Page" character varying COLLATE pg_catalog."default",
     CONSTRAINT embeds_pkey PRIMARY KEY ("ID")
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
+
+ALTER TABLE public.embeds
+    OWNER to postgres;
 
 ALTER TABLE public.embeds
     OWNER to postgres;
