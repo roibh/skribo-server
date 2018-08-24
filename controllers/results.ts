@@ -25,6 +25,8 @@ export class Results {
             const tableQuery = await client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)',
                 ['public', tableName], ResultType.Single);
 
+
+            console.log(results);
             const fields = Object.keys(results[0]).map((item) => {
 
                 let strType: string = typeof results[0][item];
