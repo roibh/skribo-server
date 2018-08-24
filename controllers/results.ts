@@ -18,6 +18,10 @@ export class Results {
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
     public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any[]): Promise<MethodResult<boolean>> {
         try {
+            if (!results[0]) {
+                return new MethodResult(true);
+            }
+
             const client = await DB();
 
             const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);

@@ -35,6 +35,9 @@ let Results = class Results {
     static create(group_id, script_id, embed_id, results) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                if (!results[0]) {
+                    return new server_1.MethodResult(true);
+                }
                 const client = yield db_1.DB();
                 const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
                 try {
