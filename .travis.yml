@@ -4,6 +4,7 @@ node_js:
   - "10"
 before_script:
   - psql -c 'create database skribo;' -U postgres
+  - psql -U postgres -d skribo -a -f ./skribo.sql
 before_deploy: "mv .gitignore ..gitignore" 
 deploy:
   provider: heroku
