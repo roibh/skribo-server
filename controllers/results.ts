@@ -22,56 +22,62 @@ export class Results {
 
             const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
 
-            const tableQuery = await client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)',
-                ['public', tableName], ResultType.Single);
+            try {
+                const tableQuery = await client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)',
+                    ['public', tableName], ResultType.Single);
 
 
-            console.log(results);
-            const fields = Object.keys(results[0]).map((item) => {
+                console.log(results);
+                const fields = Object.keys(results[0]).map((item) => {
 
-                let strType: string = typeof results[0][item];
-                if (strType === 'object' && Array.isArray(results[0][item])) {
-                    strType = 'array';
+                    let strType: string = typeof results[0][item];
+                    if (strType === 'object' && Array.isArray(results[0][item])) {
+                        strType = 'array';
+                    }
+                    if (strType === 'number' && results[0][item].toString().indexOf('.') > -1) {
+                        strType = 'double precision';
+                    }
+                    return {
+                        type: strType,
+                        name: item
+                    }
+                });
+                fields.push({ type: 'string', name: 'ResultId' });
+
+                if (!tableQuery.exists) {
+                    await client.createTable('public', tableName, fields);
                 }
-                if (strType === 'number' && results[0][item].toString().indexOf('.') > -1) {
-                    strType = 'double precision';
-                }
-                return {
-                    type: strType,
-                    name: item
-                }
-            });
-            fields.push({ type: 'string', name: 'ResultId' });
 
-            if (!tableQuery.exists) {
-                await client.createTable('public', tableName, fields);
-            }
-
-            const result_id = uuidv1();
-            const insertResultStr = `INSERT INTO public."results"("GroupId", "ScriptId", "EmbedId", "ResultId") 
+                const result_id = uuidv1();
+                const insertResultStr = `INSERT INTO public."results"("GroupId", "ScriptId", "EmbedId", "ResultId") 
                 VALUES ($1,$2,$3,$4)`;
 
-            await client.query(insertResultStr, [group_id, script_id, embed_id, result_id]);
+                await client.query(insertResultStr, [group_id, script_id, embed_id, result_id]);
 
-            if (Array.isArray(results)) {
-                for (let i = 0; i < results.length; i++) {
-                    const rowObject = results[i];
-                    const insertStr = `INSERT INTO public."${tableName}"( ${fields.map(item => `"${item.name}"`).join(',')}) 
+                if (Array.isArray(results)) {
+                    for (let i = 0; i < results.length; i++) {
+                        const rowObject = results[i];
+                        const insertStr = `INSERT INTO public."${tableName}"( ${fields.map(item => `"${item.name}"`).join(',')}) 
                     VALUES(${fields.map((item, index) => `$${index + 1}`).join(',')})
                     RETURNING "ID"`;
 
-                    try {
-                        rowObject.ResultId = result_id
-                        const insertResult = await client.query(insertStr, Object.values(rowObject));
+                        try {
+                            rowObject.ResultId = result_id
+                            const insertResult = await client.query(insertStr, Object.values(rowObject));
 
-                    } catch (error) {
-                        console.error(error);
+                        } catch (error) {
+                            console.error(error);
+                        }
+
+
                     }
-
-
                 }
+                return new MethodResult(true);
+            } catch (error) {
+                console.error(error);
+                throw (new MethodError(error));
             }
-            return new MethodResult(true);
+
         }
         catch (error) {
             throw (new MethodError(error));
