@@ -42,7 +42,7 @@ let Serve = class Serve {
                     let code = codeResult[0].Code;
                     const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
                     if (InstanceScript.length > 0) {
-                        let variables = InstanceScript[0].Variables;
+                        let variables = InstanceScript[0].Variables || [];
                         let preCode = [
                             'var SkriboEnv =  {',
                             ...variables.map((item) => {
