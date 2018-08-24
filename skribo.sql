@@ -1,3 +1,37 @@
+-- SEQUENCE: public."scripts_ID_seq"
+
+-- DROP SEQUENCE public."scripts_ID_seq";
+
+CREATE SEQUENCE public."scripts_ID_seq";
+
+ALTER SEQUENCE public."scripts_ID_seq"
+    OWNER TO postgres;
+
+
+
+-- Table: public.scripts
+
+-- DROP TABLE public.scripts;
+
+CREATE TABLE public.scripts
+(
+    "Name" character varying(1024) COLLATE pg_catalog."default",
+    "ID" integer NOT NULL DEFAULT nextval('"scripts_ID_seq"'::regclass),
+    "Description" character varying COLLATE pg_catalog."default",
+    "Code" text COLLATE pg_catalog."default",
+    "GroupId" character varying COLLATE pg_catalog."default",
+    "ScriptId" character varying COLLATE pg_catalog."default",
+    "ResultsDescriptor" json,
+    "Variables" json,
+    arr character varying[] COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.scripts
+    OWNER to postgres;
 
 
 -- SEQUENCE: public."embeds_ID_seq"
