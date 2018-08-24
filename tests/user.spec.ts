@@ -111,12 +111,26 @@ export class TestsOfResults {
         }
         const result = (await Scripts.create(Data.User.GroupId, script)).result;
         Data.User.ScriptId = result.ScriptId;
-        Expect(result).toBeDefined();
+        Expect(result.ScriptId).toBeDefined();
     }
     @AsyncTest('embed_create')
     @Timeout(10000)
     public async embed_create() {
-        const embed: EmbedModel = { GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] }
+        const embed: EmbedModel = {
+            GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [
+                {
+                    type: 'number',
+                    name: 'limit',
+                    value: '5'
+                },
+                {
+                    type: 'string',
+                    name: 'keyValue',
+                    value: 'a fancy key'
+                }
+            ]
+        }
+        
         const result: any = (await Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
         Data.User.EmbedId = result.EmbedId;
         Expect(result).toBeDefined();
@@ -179,7 +193,7 @@ export class TestsOfResults {
         try {
             const client = await DB();
 
-            const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
+            const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
             await client.query(`DROP TABLE public."${tableName}"`, []);
             await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
 

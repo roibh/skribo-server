@@ -94,12 +94,25 @@ let TestsOfResults = class TestsOfResults {
             };
             const result = (yield controllers_1.Scripts.create(Data.User.GroupId, script)).result;
             Data.User.ScriptId = result.ScriptId;
-            alsatian_1.Expect(result).toBeDefined();
+            alsatian_1.Expect(result.ScriptId).toBeDefined();
         });
     }
     embed_create() {
         return __awaiter(this, void 0, void 0, function* () {
-            const embed = { GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] };
+            const embed = {
+                GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [
+                    {
+                        type: 'number',
+                        name: 'limit',
+                        value: '5'
+                    },
+                    {
+                        type: 'string',
+                        name: 'keyValue',
+                        value: 'a fancy key'
+                    }
+                ]
+            };
             const result = (yield controllers_1.Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
             Data.User.EmbedId = result.EmbedId;
             alsatian_1.Expect(result).toBeDefined();
@@ -146,7 +159,7 @@ let TestsOfResults = class TestsOfResults {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const client = yield db_1.DB();
-                const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + script_id);
+                const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
                 yield client.query(`DROP TABLE public."${tableName}"`, []);
                 yield client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
                 yield user_1.User.deleteGroup(Data.User.GroupId);
