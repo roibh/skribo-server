@@ -89,7 +89,7 @@ let TestsOfResults = class TestsOfResults {
                 Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
                         "type": "number",
                         "name": "namedd",
-                        "value": 1
+                        "value": "1"
                     }]
             };
             const result = (yield controllers_1.Scripts.create(Data.User.GroupId, script)).result;
@@ -120,7 +120,18 @@ let TestsOfResults = class TestsOfResults {
     }
     embed_update() {
         return __awaiter(this, void 0, void 0, function* () {
-            const embed = { Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] };
+            const embed = {
+                Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+                        type: 'number',
+                        name: 'limit',
+                        value: '5'
+                    },
+                    {
+                        type: 'string',
+                        name: 'keyValue',
+                        value: 'a fancy key'
+                    }]
+            };
             const result = yield controllers_1.Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });

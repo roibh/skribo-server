@@ -106,7 +106,7 @@ export class TestsOfResults {
             Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
                 "type": "number",
                 "name": "namedd",
-                "value": 1
+                "value": "1"
             }]
         }
         const result = (await Scripts.create(Data.User.GroupId, script)).result;
@@ -130,7 +130,7 @@ export class TestsOfResults {
                 }
             ]
         }
-        
+
         const result: any = (await Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
         Data.User.EmbedId = result.EmbedId;
         Expect(result).toBeDefined();
@@ -142,7 +142,18 @@ export class TestsOfResults {
     @Timeout(10000)
     public async embed_update() {
 
-        const embed: EmbedModel = { Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [] }
+        const embed: EmbedModel = {
+            Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+                type: 'number',
+                name: 'limit',
+                value: '5'
+            },
+            {
+                type: 'string',
+                name: 'keyValue',
+                value: 'a fancy key'
+            }]
+        }
         const result = await Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
         Expect(result).toBeDefined();
 
