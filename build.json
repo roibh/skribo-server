@@ -36,6 +36,9 @@
             },
             "ResultsModel": {
                 "path": "./models/results.model.ts"
+            },
+            "VariableModel": {
+                "path": "./models/variable.model.ts"
             }
         },
         "dependencies": {},

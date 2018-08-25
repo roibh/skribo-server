@@ -1,7 +1,8 @@
+import { VariableModel } from "../";
 
 export interface ScriptModel {
     ScriptId?: string;
-    Variables?: Variable[];
+    Variables?: VariableModel[];
     Code?: string;
     Name?: string;
     Description?: string;
@@ -9,10 +10,3 @@ export interface ScriptModel {
     ResultsDescriptor?: object;
 }
 
-export interface Variable {
-    type: string;
-    name: string;
-    value: any;
-
-
-}

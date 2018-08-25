@@ -1,11 +1,12 @@
-import { Variable } from "./script.model";
+import { VariableModel } from "../";
 
+ 
 export interface EmbedModel {
     ID?: number;
     GroupId?: any;
     ScriptId?: string;
     EmbedId?: string;
-    Variables?: Variable[];
+    Variables?: VariableModel[];
     Name?: string;
     Page?: string;
 }
