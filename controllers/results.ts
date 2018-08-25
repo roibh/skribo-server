@@ -30,7 +30,7 @@ export class Results {
                 const tableQuery = await client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)',
                     ['public', tableName], ResultType.Single);
 
-
+                console.log(tableQuery);
 
                 const fields = Object.keys(results[0]).map((item) => {
                     if (!results[0][item])
@@ -48,11 +48,12 @@ export class Results {
                     }
                 });
                 fields.push({ type: 'string', name: 'ResultId' });
-
+                console.log(fields);
                 if (!tableQuery.exists) {
                     await client.createTable('public', tableName, fields);
                 }
 
+                console.log('table created');
                 const result_id = uuidv1();
                 const insertResultStr = `INSERT INTO public."results"("GroupId", "ScriptId", "EmbedId", "ResultId") 
                 VALUES ($1,$2,$3,$4)`;
