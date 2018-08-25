@@ -23,6 +23,7 @@ export class Results {
 
             }
 
+            console.log(results);
             const client = await DB();
 
             const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
@@ -51,6 +52,7 @@ export class Results {
                 fields.push({ type: 'string', name: 'ResultId' });
                 console.log(fields);
                 if (!tableQuery.exists) {
+                    console.log('creating table');
                     await client.createTable('public', tableName, fields);
                 }
 
