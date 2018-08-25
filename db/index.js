@@ -45,7 +45,7 @@ class SkriboDB {
     createTable(schema, name, fields) {
         return __awaiter(this, void 0, void 0, function* () {
             let seqQuery = `CREATE SEQUENCE public."${name}_ID_seq";
-        ALTER SEQUENCE public."results_ID_seq"
+        ALTER SEQUENCE public."${name}_ID_seq"
             OWNER TO postgres;`;
             let query = 'CREATE TABLE ' + schema + '."' + name + '" ( \n' +
                 fields.map(element => {

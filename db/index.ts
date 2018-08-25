@@ -45,7 +45,7 @@ export class SkriboDB {
 
 
         let seqQuery = `CREATE SEQUENCE public."${name}_ID_seq";
-        ALTER SEQUENCE public."results_ID_seq"
+        ALTER SEQUENCE public."${name}_ID_seq"
             OWNER TO postgres;`
 
 
