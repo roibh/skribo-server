@@ -18,9 +18,9 @@ export class Results {
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
     public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any[]): Promise<MethodResult<boolean>> {
         try {
-            if (!results[0]) {
-                console.log(results);
-                return new MethodResult(true);
+            if (!results[0] && typeof results === 'string') {
+                results = JSON.parse(results);
+
             }
 
             const client = await DB();
