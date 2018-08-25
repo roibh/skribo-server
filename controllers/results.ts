@@ -19,6 +19,7 @@ export class Results {
     public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any[]): Promise<MethodResult<boolean>> {
         try {
             if (!results[0]) {
+                console.log(results);
                 return new MethodResult(true);
             }
 
