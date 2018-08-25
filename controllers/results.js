@@ -32,13 +32,14 @@ const server_1 = require("@methodus/server");
 const db_1 = require("../db");
 const uuidv1 = require('uuid/v1');
 let Results = class Results {
-    static create(group_id, script_id, embed_id, results) {
+    static create(group_id, script_id, embed_id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('typeof', typeof results === 'string');
-                if (typeof results === 'string') {
-                    results = JSON.parse(results);
+                console.log('typeof', typeof body === 'string');
+                if (typeof body === 'string') {
+                    body = JSON.parse(body);
                 }
+                const results = body.results;
                 console.log('results', results);
                 console.log('results', results[0]);
                 const client = yield db_1.DB();
@@ -158,7 +159,7 @@ __decorate([
     server_1.Method("POST" /* Post */, '/results/:script_id/:group_id/:embed_id'),
     __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, Array]),
+    __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], Results, "create", null);
 __decorate([

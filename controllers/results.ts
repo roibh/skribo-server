@@ -16,12 +16,13 @@ const uuidv1 = require('uuid/v1');
 export class Results {
 
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
-    public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any[]): Promise<MethodResult<boolean>> {
+    public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() body: any): Promise<MethodResult<boolean>> {
         try {
-            console.log('typeof', typeof results === 'string');
-            if (typeof results === 'string') {
-                results = JSON.parse(results);
+            console.log('typeof', typeof body === 'string');
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
             }
+            const results = body.results;
             console.log('results', results);
             console.log('results', results[0]);
             const client = await DB();
