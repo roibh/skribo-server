@@ -35,10 +35,12 @@ let Results = class Results {
     static create(group_id, script_id, embed_id, results) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log('typeof', typeof results === 'string');
                 if (typeof results === 'string') {
                     results = JSON.parse(results);
                 }
-                console.log(results[0]);
+                console.log('results', results);
+                console.log('results', results[0]);
                 const client = yield db_1.DB();
                 const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
                 try {
