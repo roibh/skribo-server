@@ -15,7 +15,7 @@
     "contract-publish": "node ./node_modules/@methodus/contracts/build.js ./build.json -p",
     "client-publish": "node ./node_modules/@methodus/contracts/client.js ./build.json -p"
   },
-  "author": "",
+  "author": "DO",
   "license": "ISC",
   "dependencies": {
     "@methodus/contracts": "latest",
