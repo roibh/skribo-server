@@ -22,7 +22,7 @@ export class Results {
                 results = JSON.parse(results);
             }
 
-            console.log(results);
+            console.log(results[0]);
             const client = await DB();
 
             const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);

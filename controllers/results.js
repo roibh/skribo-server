@@ -38,7 +38,7 @@ let Results = class Results {
                 if (typeof results === 'string') {
                     results = JSON.parse(results);
                 }
-                console.log(results);
+                console.log(results[0]);
                 const client = yield db_1.DB();
                 const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
                 try {
