@@ -35,7 +35,7 @@ let Results = class Results {
     static create(group_id, script_id, embed_id, results) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!results[0] && typeof results === 'string') {
+                if (typeof results === 'string') {
                     results = JSON.parse(results);
                 }
                 console.log(results);
@@ -43,7 +43,6 @@ let Results = class Results {
                 const tableName = 'RESULTS_' + client.hashCode(group_id + script_id);
                 try {
                     const tableQuery = yield client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)', ['public', tableName], 0 /* Single */);
-                    console.log(tableQuery);
                     const fields = Object.keys(results[0]).map((item) => {
                         if (!results[0][item])
                             return null;
@@ -61,6 +60,7 @@ let Results = class Results {
                     });
                     fields.push({ type: 'string', name: 'ResultId' });
                     console.log(fields);
+                    console.log(tableQuery);
                     if (!tableQuery.exists) {
                         console.log('creating table');
                         yield client.createTable('public', tableName, fields);

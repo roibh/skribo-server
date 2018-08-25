@@ -18,9 +18,8 @@ export class Results {
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
     public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() results: any[]): Promise<MethodResult<boolean>> {
         try {
-            if (!results[0] && typeof results === 'string') {
+            if (typeof results === 'string') {
                 results = JSON.parse(results);
-
             }
 
             console.log(results);
@@ -32,7 +31,7 @@ export class Results {
                 const tableQuery = await client.query('SELECT EXISTS (SELECT 1 FROM   pg_tables WHERE  "schemaname"=$1 AND "tablename"=$2)',
                     ['public', tableName], ResultType.Single);
 
-                console.log(tableQuery);
+
 
                 const fields = Object.keys(results[0]).map((item) => {
                     if (!results[0][item])
@@ -51,6 +50,7 @@ export class Results {
                 });
                 fields.push({ type: 'string', name: 'ResultId' });
                 console.log(fields);
+                console.log(tableQuery);
                 if (!tableQuery.exists) {
                     console.log('creating table');
                     await client.createTable('public', tableName, fields);
