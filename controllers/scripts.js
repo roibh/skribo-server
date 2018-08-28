@@ -29,7 +29,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const db_1 = require("../db");
+const script_model_1 = require("../models/script.model");
+const data_1 = require("@methodus/data");
 const uuidv1 = require('uuid/v1');
 let Scripts = class Scripts {
     /**
@@ -39,9 +40,8 @@ let Scripts = class Scripts {
     static list(group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const res = yield client.query('SELECT * FROM public.scripts WHERE "GroupId"=$1 ORDER BY "ID" ASC', [group_id]);
-                return new server_1.MethodResult(res);
+                const scripts = (yield new data_1.Query(script_model_1.ScriptModel).filter({ GroupId: group_id }).run());
+                return new server_1.MethodResult(scripts);
             }
             catch (error) {
                 console.error(error);
@@ -50,15 +50,15 @@ let Scripts = class Scripts {
     }
     static get(group_id, script_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const client = yield db_1.DB();
             try {
-                const script = yield client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
-                if (script.length) {
-                    return new server_1.MethodResult(script[0]);
-                }
-                else {
-                    throw (new server_1.MethodError('not found', 404));
-                }
+                const script = (yield new data_1.Query(script_model_1.ScriptModel).filter({ ScriptId: script_id, GroupId: group_id }).run(data_1.ReturnType.Single));
+                return new server_1.MethodResult(script);
+                // const script: any = await client.query('SELECT * FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
+                // if (script.length) {
+                //     return new MethodResult(script[0] as ScriptModel);
+                // } else {
+                //     throw (new MethodError('not found', 404));
+                // }
             }
             catch (error) {
                 if (error.statusCode) {
@@ -72,22 +72,18 @@ let Scripts = class Scripts {
     }
     static remove(group_id, script_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const client = yield db_1.DB();
-            try {
-                const script = yield client.query('DELETE FROM public.scripts WHERE "ScriptId"=$1 AND "GroupId"=$2', [script_id, group_id]);
-                return new server_1.MethodResult(true);
-            }
-            catch (error) {
-                console.error(error);
-            }
+            const script = (yield script_model_1.ScriptModel.delete({ ScriptId: script_id, GroupId: group_id }));
+            return new server_1.MethodResult(script);
         });
     }
     static create(group_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
-            const client = yield db_1.DB();
             try {
-                const createdObject = yield client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor]);
-                return new server_1.MethodResult(createdObject[0]);
+                script.ScriptId = uuidv1();
+                const createdObject = yield script_model_1.ScriptModel.save(script);
+                //script.Name, script.Code, JSON.stringify(script.Variables), script.Description, group_id, uuidv1(), script.ResultsDescriptor
+                //const createdObject = await client.query('INSERT INTO public.scripts("Name", "Code", "Variables", "Description", "GroupId", "ScriptId","ResultsDescriptor") VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING "ScriptId"', [])
+                return new server_1.MethodResult(createdObject);
             }
             catch (error) {
                 console.error(error);
@@ -96,14 +92,10 @@ let Scripts = class Scripts {
     }
     static update(group_id, script_id, script) {
         return __awaiter(this, void 0, void 0, function* () {
-            const client = yield db_1.DB();
             try {
-                // let convertedVariables = script.Variables.map((item) => {
-                //     return JSON.stringify(item)
-                // })
-                const updateObject = yield client.query(`UPDATE public.scripts SET "Name"=$1, "Code"=$2, "Variables"=$3, "Description"=$4 ,"ScriptId"=$5,"ResultsDescriptor"=$8  WHERE "ScriptId"=$6 AND "GroupId"=$7 RETURNING "Name", "Code", "Variables", "Description","ResultsDescriptor";`, [script.Name, script.Code, JSON.stringify(script.Variables), script.Description, script_id, script_id, group_id, JSON.stringify(script.ResultsDescriptor)]);
-                if (updateObject.length) {
-                    return new server_1.MethodResult(updateObject[0]);
+                const updateResult = yield script_model_1.ScriptModel.update({ ScriptId: script_id, GroupId: group_id }, script);
+                if (updateResult) {
+                    return new server_1.MethodResult(updateResult);
                 }
                 else {
                     throw (new server_1.MethodError('not found', 404));
@@ -140,14 +132,14 @@ __decorate([
     server_1.Method("POST" /* Post */, '/scripts/:group_id'),
     __param(0, server_1.Param('group_id')), __param(1, server_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, script_model_1.ScriptModel]),
     __metadata("design:returntype", Promise)
 ], Scripts, "create", null);
 __decorate([
     server_1.Method("PUT" /* Put */, '/scripts/:group_id/script_id/:script_id'),
     __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')), __param(2, server_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:paramtypes", [String, Number, script_model_1.ScriptModel]),
     __metadata("design:returntype", Promise)
 ], Scripts, "update", null);
 Scripts = __decorate([

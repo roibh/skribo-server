@@ -9,36 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var LogModel_1;
+var UserModel_1;
 const data_1 = require("@methodus/data");
-let LogModel = LogModel_1 = class LogModel extends data_1.Repo {
+let UserModel = UserModel_1 = class UserModel extends data_1.Repo {
     constructor(copyData) {
-        super(copyData, LogModel_1);
+        super(copyData, UserModel_1);
     }
 };
 __decorate([
     data_1.Field(),
     __metadata("design:type", Number)
-], LogModel.prototype, "ID", void 0);
+], UserModel.prototype, "ID", void 0);
 __decorate([
     data_1.Field(),
     __metadata("design:type", Object)
-], LogModel.prototype, "Log", void 0);
+], UserModel.prototype, "GroupId", void 0);
 __decorate([
     data_1.Field(),
     __metadata("design:type", String)
-], LogModel.prototype, "ScriptId", void 0);
+], UserModel.prototype, "FirstName", void 0);
 __decorate([
     data_1.Field(),
     __metadata("design:type", String)
-], LogModel.prototype, "EmbedId", void 0);
-__decorate([
-    data_1.Field(),
-    __metadata("design:type", String)
-], LogModel.prototype, "GroupId", void 0);
-LogModel = LogModel_1 = __decorate([
-    data_1.Model('Log'),
+], UserModel.prototype, "LastName", void 0);
+UserModel = UserModel_1 = __decorate([
+    data_1.Model('User'),
     __metadata("design:paramtypes", [Object])
-], LogModel);
-exports.LogModel = LogModel;
-//# sourceMappingURL=log.model.js.map
+], UserModel);
+exports.UserModel = UserModel;
+//# sourceMappingURL=user.model.js.map

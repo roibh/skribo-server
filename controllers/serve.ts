@@ -12,7 +12,7 @@ import { DB } from '../db';
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
 import * as FS from 'fs';
-
+import { Repo, Query as DataQuery } from '@methodus/data';
 const uuidv1 = require('uuid/v1');
 
 @MethodConfig('Serve')
@@ -22,12 +22,10 @@ export class Serve {
     public static async get(@Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<string>> {
         try {
 
-
-            const client = await DB();
-            const codeResult = await client.query(`SELECT * FROM public.scripts SET   WHERE  "ScriptId"=$1;`, [script_id]);
+            const codeResult = await ScriptModel.query(new DataQuery(ScriptModel).filter({ 'ScriptId': script_id }));
             if (codeResult.length > 0) {
                 let code = codeResult[0].Code;
-                const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
+                const InstanceScript = (await new DataQuery(EmbedModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id }).run());
                 if (InstanceScript.length > 0) {
                     let variables = InstanceScript[0].Variables || [];
                     if (typeof variables === 'string') {

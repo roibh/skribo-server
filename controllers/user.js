@@ -30,15 +30,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const data_1 = require("@methodus/data");
+const models_1 = require("../models");
 const Raven = require('raven');
 const uuidv1 = require('uuid/v1');
 let User = class User {
     static get(user_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const groupResult = yield client.query(`SELECT "Name", user_groups."GroupId", "Status"
-            FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id], 0 /* Single */);
+                const userquery = (yield new data_1.Query(models_1.UserModel).filter({ UserId: user_id }).run());
+                const groupResult = (yield new data_1.Query(models_1.UserModel).filter({ GroupId: { $in: userquery.map(item => item.GroupId) } }).run());
                 if (groupResult) {
                     return new server_1.MethodResult(groupResult);
                 }
@@ -52,10 +53,15 @@ let User = class User {
     static getGroups(user_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const groupResult = yield client.query(`SELECT "Name", user_groups."GroupId", "Status"
-            FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
-                return new server_1.MethodResult(groupResult);
+                const userquery = (yield new data_1.Query(models_1.UserGroupModel).filter({ UserId: user_id }).run());
+                const groupResult = (yield new data_1.Query(models_1.GroupModel).filter({ GroupId: { $in: userquery.map(item => item.GroupId) } }).run());
+                if (groupResult) {
+                    return new server_1.MethodResult(groupResult);
+                }
+                // const client = await DB();
+                // const groupResult = await client.query(`SELECT "Name", user_groups."GroupId", "Status"
+                // FROM user_groups INNER JOIN groups ON (user_groups."GroupId" = groups."GroupId") WHERE  "UserId"=$1;`, [user_id]);
+                // return new MethodResult(groupResult);
             }
             catch (error) {
                 throw (error);
@@ -65,33 +71,33 @@ let User = class User {
     static attachToGroup(user_id, userData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
                 const group_id = userData.GroupId;
-                //validate group
-                const groupValidationResult = yield client.query(`SELECT "Name", "GroupId" from public.groups WHERE "GroupId"=$1`, [group_id]);
-                if (groupValidationResult.length === 0) {
-                    //are there groups for this user?
-                    const groupResult = yield client.query(`SELECT * FROM  public.user_groups  WHERE  "UserId" = $1; `, [user_id]);
-                    if (groupResult.length === 0) {
-                        const insertResult = yield client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
-                        if (insertResult.length > 0) {
-                            const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [insertResult[0].GroupId, user_id]);
-                            return new server_1.MethodResult(attachResult[0]);
-                        }
-                    }
-                    else {
-                        return new server_1.MethodResult(groupResult[0]);
-                    }
-                }
-                const groupResult = yield client.query(`SELECT "Name", public.user_groups."GroupId", "Status"
-            FROM public.user_groups INNER JOIN public.groups ON(public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId" = $1 AND public.user_groups."GroupId"=$2; `, [user_id, group_id]);
+                //const groupValidationResult = await GroupModel.query(new DataQuery(GroupModel).filter({ GroupId: group_id }));
+                //if (groupValidationResult.length === 0 ) {
+                const groupResult = yield models_1.UserGroupModel.query(new data_1.Query(models_1.UserGroupModel).filter({ UserId: user_id }));
+                //are there groups for this user?
                 if (groupResult.length === 0) {
-                    //const insertResult = await client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
-                    // if (insertResult.rowCount > 0) {
-                    const attachResult = yield client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
-                    return new server_1.MethodResult(attachResult[0]);
-                    //}
+                    const groupModel = new models_1.GroupModel({ Name: userData.Name, Date: new Date(), GroupId: uuidv1() });
+                    const insertResult = yield groupModel.save();
+                    if (insertResult) {
+                        const userGroupModel = new models_1.UserGroupModel({ GroupId: insertResult.GroupId, UserId: user_id });
+                        const attachResult = yield userGroupModel.save();
+                        return new server_1.MethodResult(attachResult);
+                    }
                 }
+                else {
+                    return new server_1.MethodResult(groupResult[0]);
+                }
+                //}
+                // const groupResult = await client.query(`SELECT "Name", public.user_groups."GroupId", "Status"
+                // FROM public.user_groups INNER JOIN public.groups ON(public.user_groups."GroupId" = public.groups."GroupId") WHERE  "UserId" = $1 AND public.user_groups."GroupId"=$2; `, [user_id, group_id]);
+                // if (groupResult.length === 0) {
+                //     //const insertResult = await client.query(`INSERT INTO public.groups("Name", "Date", "GroupId") VALUES($1, $2, $3)  RETURNING "GroupId"`, [userData.Name, new Date(), uuidv1()]);
+                //     // if (insertResult.rowCount > 0) {
+                //     const attachResult = await client.query(`INSERT INTO public.user_groups("GroupId", "UserId") VALUES($1, $2)  RETURNING "GroupId"`, [group_id, user_id]);
+                //     return new MethodResult(attachResult[0]);
+                //     //}
+                // }
             }
             catch (error) {
                 throw (error);

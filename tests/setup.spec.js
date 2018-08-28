@@ -20,6 +20,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
 const user_1 = require("../controllers/user");
+const db_1 = require("../db");
 const data_1 = require("@methodus/data");
 data_1.DBHandler.config = {
     connections: {
@@ -63,6 +64,12 @@ const group_id = '000000000000000000';
 const script_id = '000000000000000000';
 const embed_id = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
+    setup() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userResult = (yield user_1.User.attachToGroup(user_id, Data.User)).result;
+            Data.User.GroupId = userResult.GroupId;
+        });
+    }
     user_get() {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield user_1.User.get(Data.User.UserId);
@@ -75,7 +82,36 @@ let TestsOfResults = class TestsOfResults {
             alsatian_1.Expect(groups).toBeDefined();
         });
     }
+    CleanUp() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const client = yield db_1.DB();
+                const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
+                yield client.query(`DROP TABLE public."${tableName}"`, []);
+                yield client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
+                yield user_1.User.deleteGroup(Data.User.GroupId);
+                yield user_1.User.delete(user_id);
+            }
+            catch (error) {
+                console.error(error);
+            }
+            // var query = "DELETE * FROM Users WHERE Email=@Email";
+            // const deleteResult = await dal.query(query, {
+            //     "Email": Data.newUserNew.Email
+            // });
+            // Expect(deleteResult.result.ok).toBe(1);
+            // const db = await DBHandler.getConnection('default');
+            // const result = await db.collection('Message').remove({ 'TEST': true });
+            // Expect(result).toBeDefined();
+        });
+    }
 };
+__decorate([
+    alsatian_1.AsyncSetupFixture,
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "setup", null);
 __decorate([
     alsatian_1.AsyncTest('user_get'),
     alsatian_1.Timeout(10000),
@@ -90,8 +126,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOfResults.prototype, "user_getGroups", null);
+__decorate([
+    alsatian_1.AsyncTeardownFixture,
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "CleanUp", null);
 TestsOfResults = __decorate([
-    alsatian_1.TestFixture('Test Results')
+    alsatian_1.TestFixture('Test Setup')
 ], TestsOfResults);
 exports.TestsOfResults = TestsOfResults;
-//# sourceMappingURL=user.spec.js.map
+//# sourceMappingURL=setup.spec.js.map

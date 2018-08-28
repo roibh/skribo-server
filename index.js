@@ -5,11 +5,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const controllers_1 = require("./controllers/");
-var Raven = require('raven');
-Raven.config('https://8ae906af26fd4d4380f908751eacf016@sentry.io/1231711').install();
+__export(require("./models/"));
+const data_1 = require("@methodus/data");
+data_1.DBHandler.config = {
+    connections: {
+        'default': {
+            server: 'mongodb://localhost:27017',
+            db: 'test',
+            poolSize: 10,
+            ssl: false,
+            exchanges: ['event-bus', 'cache-bus'],
+            readPreference: 'primaryPreferred'
+        }
+    }
+};
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
 };
 SetupServer = __decorate([

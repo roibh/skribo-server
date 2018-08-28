@@ -29,18 +29,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const db_1 = require("../db");
+const script_model_1 = require("../models/script.model");
+const embed_model_1 = require("../models/embed.model");
 const FS = require("fs");
+const data_1 = require("@methodus/data");
 const uuidv1 = require('uuid/v1');
 let Serve = class Serve {
     static get(script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const codeResult = yield client.query(`SELECT * FROM public.scripts SET   WHERE  "ScriptId"=$1;`, [script_id]);
+                const codeResult = yield script_model_1.ScriptModel.query(new data_1.Query(script_model_1.ScriptModel).filter({ 'ScriptId': script_id }));
                 if (codeResult.length > 0) {
                     let code = codeResult[0].Code;
-                    const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
+                    const InstanceScript = (yield new data_1.Query(embed_model_1.EmbedModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id }).run());
                     if (InstanceScript.length > 0) {
                         let variables = InstanceScript[0].Variables || [];
                         if (typeof variables === 'string') {

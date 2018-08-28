@@ -30,6 +30,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const db_1 = require("../db");
+const embed_model_1 = require("../models/embed.model");
 const uuidv1 = require('uuid/v1');
 let Embed = class Embed {
     static update(embed, script_id, group_id, embed_id) {
@@ -85,10 +86,10 @@ let Embed = class Embed {
     static create(embed, script_id, group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const createdObject = yield client.query('INSERT INTO public.embeds("Name", "ScriptId", "GroupId", "Variables", "EmbedId", "Page") VALUES($1,$2,$3, $4,$5,$6) RETURNING "EmbedId"', [embed.Name, script_id, group_id, JSON.stringify(embed.Variables), uuidv1(), embed.Page]);
-                if (createdObject.length > 0) {
-                    return new server_1.MethodResult(createdObject[0]);
+                embed.EmbedId = uuidv1();
+                const createdObject = yield embed_model_1.EmbedModel.insert(embed);
+                if (createdObject) {
+                    return new server_1.MethodResult(createdObject);
                 }
                 else {
                     throw (new Error('failed to create the embed'));
@@ -104,7 +105,7 @@ __decorate([
     server_1.Method("PUT" /* Put */, '/embed/:script_id/:group_id/:embed_id'),
     __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("group_id")), __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String, String]),
+    __metadata("design:paramtypes", [embed_model_1.EmbedModel, String, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "update", null);
 __decorate([
@@ -132,7 +133,7 @@ __decorate([
     server_1.Method("POST" /* Post */, '/embed/:script_id/:group_id'),
     __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("group_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String]),
+    __metadata("design:paramtypes", [embed_model_1.EmbedModel, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "create", null);
 Embed = __decorate([

@@ -19,79 +19,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
-const user_1 = require("../controllers/user");
-const data_1 = require("@methodus/data");
-data_1.DBHandler.config = {
-    connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
-            db: 'test',
-            poolSize: 10,
-            ssl: false,
-            exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
-};
-function mutate(source, mutation) {
-    const obj = JSON.parse(JSON.stringify(source));
-    switch (mutation) {
-        case 0 /* UID */:
-            delete obj.uid;
-            break;
-        case 1 /* COMPANY */:
-            delete obj._company_id;
-            delete obj.company_id;
-            break;
-        case 2 /* ID */:
-            obj.id = guid();
-            break;
-        case 3 /* FILE_ID */:
-            obj.file_id = guid();
-            break;
-        case 4 /* CASE_ID */:
-            obj.case_id = guid();
-            break;
-    }
-    return obj;
-}
-function guid() {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-const user_id = '000000000000000000';
-const group_id = '000000000000000000';
-const script_id = '000000000000000000';
-const embed_id = '000000000000000000';
+const results_1 = require("../controllers/results");
 let TestsOfResults = class TestsOfResults {
-    user_get() {
+    create(resultMutation) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_1.User.get(Data.User.UserId);
-            alsatian_1.Expect(user).toBeDefined();
+            const result = yield results_1.Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
-    user_getGroups() {
+    list() {
         return __awaiter(this, void 0, void 0, function* () {
-            const groups = yield user_1.User.getGroups(user_id);
-            alsatian_1.Expect(groups).toBeDefined();
+            const result = yield results_1.Results.list(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    listByScript() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield results_1.Results.listByScript(Data.User.GroupId, Data.User.ScriptId);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
 };
 __decorate([
-    alsatian_1.AsyncTest('user_get'),
+    alsatian_1.AsyncTest('create'),
+    alsatian_1.TestCase(Data.ReportResult),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "user_get", null);
+], TestsOfResults.prototype, "create", null);
 __decorate([
-    alsatian_1.AsyncTest('user_getGroups'),
+    alsatian_1.AsyncTest('list'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "user_getGroups", null);
+], TestsOfResults.prototype, "list", null);
+__decorate([
+    alsatian_1.AsyncTest('listByScript'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "listByScript", null);
 TestsOfResults = __decorate([
     alsatian_1.TestFixture('Test Results')
 ], TestsOfResults);
 exports.TestsOfResults = TestsOfResults;
-//# sourceMappingURL=user.spec.js.map
+//# sourceMappingURL=results.spec.js.map

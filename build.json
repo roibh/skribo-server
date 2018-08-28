@@ -27,7 +27,7 @@
                 "path": "./controllers/user.ts"
             }
         },
-        "includes": {
+        "models": {
             "ScriptModel": {
                 "path": "./models/script.model.ts"
             },
@@ -36,7 +36,9 @@
             },
             "ResultsModel": {
                 "path": "./models/results.model.ts"
-            },
+            }
+        },
+        "includes": {
             "VariableModel": {
                 "path": "./models/variable.model.ts"
             }

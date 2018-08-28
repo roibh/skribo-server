@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("../config");
-require('pg').defaults.ssl = config_1.Config.db.ssl;
-const pg_1 = require("pg");
+const mongoose = require("mongoose");
+//require('pg').defaults.ssl = Config.db.ssl;
+//import { Client } from 'pg';
 let activeClient = null;
 class SkriboDB {
     constructor(client) {
@@ -18,17 +19,16 @@ class SkriboDB {
     }
     query(query, args, resultType) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resultObject = yield this._client.query(query, args);
-            //console.log('>>>>>>>>', JSON.stringify(resultObject));
-            if (!resultObject.rows) {
-                return resultObject;
-            }
-            if (resultType === 0 /* Single */) {
-                return resultObject.rows[0];
-            }
-            else {
-                return resultObject.rows;
-            }
+            // const resultObject = await DB.query.query(query, args);
+            // //console.log('>>>>>>>>', JSON.stringify(resultObject));
+            // if (!resultObject.rows) {
+            //     return resultObject;
+            // }
+            // if (resultType === ResultType.Single) {
+            //     return resultObject.rows[0];
+            // } else {
+            //     return resultObject.rows;
+            // }
         });
     }
     hashCode(str) {
@@ -88,9 +88,8 @@ exports.SkriboDB = SkriboDB;
 function DB() {
     return __awaiter(this, void 0, void 0, function* () {
         if (!activeClient) {
-            const connectionObj = (config_1.Config.db.url) ? config_1.Config.db.url : config_1.Config.db;
-            const client = new pg_1.Client(connectionObj);
-            yield client.connect();
+            const connectionObj = (config_1.Config.db.host) ? config_1.Config.db.host : config_1.Config.db;
+            const client = yield mongoose.connect(connectionObj);
             activeClient = new SkriboDB(client);
         }
         return activeClient;

@@ -19,7 +19,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
-const user_1 = require("../controllers/user");
+const controllers_1 = require("../controllers");
+const models_1 = require("../models");
 const data_1 = require("@methodus/data");
 data_1.DBHandler.config = {
     connections: {
@@ -62,36 +63,76 @@ const user_id = '000000000000000000';
 const group_id = '000000000000000000';
 const script_id = '000000000000000000';
 const embed_id = '000000000000000000';
-let TestsOfResults = class TestsOfResults {
-    user_get() {
+let TestsOEmbeds = class TestsOEmbeds {
+    embed_create() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_1.User.get(Data.User.UserId);
-            alsatian_1.Expect(user).toBeDefined();
+            const embed = new models_1.EmbedModel({
+                GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [
+                    {
+                        type: 'number',
+                        name: 'limit',
+                        value: '5'
+                    },
+                    {
+                        type: 'string',
+                        name: 'keyValue',
+                        value: 'a fancy key'
+                    }
+                ]
+            });
+            const result = (yield controllers_1.Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
+            Data.User.EmbedId = result.EmbedId;
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
-    user_getGroups() {
+    embed_update() {
         return __awaiter(this, void 0, void 0, function* () {
-            const groups = yield user_1.User.getGroups(user_id);
-            alsatian_1.Expect(groups).toBeDefined();
+            const embed = new models_1.EmbedModel({
+                Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+                        type: 'number',
+                        name: 'limit',
+                        value: '5'
+                    },
+                    {
+                        type: 'string',
+                        name: 'keyValue',
+                        value: 'a fancy key'
+                    }]
+            });
+            const result = yield controllers_1.Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    embed_list() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.Embed.list(Data.User.ScriptId, Data.User.GroupId);
+            alsatian_1.Expect(result).toBeDefined();
         });
     }
 };
 __decorate([
-    alsatian_1.AsyncTest('user_get'),
+    alsatian_1.AsyncTest('embed_create'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "user_get", null);
+], TestsOEmbeds.prototype, "embed_create", null);
 __decorate([
-    alsatian_1.AsyncTest('user_getGroups'),
+    alsatian_1.AsyncTest('embed_update'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "user_getGroups", null);
-TestsOfResults = __decorate([
-    alsatian_1.TestFixture('Test Results')
-], TestsOfResults);
-exports.TestsOfResults = TestsOfResults;
-//# sourceMappingURL=user.spec.js.map
+], TestsOEmbeds.prototype, "embed_update", null);
+__decorate([
+    alsatian_1.AsyncTest('embed_list'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOEmbeds.prototype, "embed_list", null);
+TestsOEmbeds = __decorate([
+    alsatian_1.TestFixture('Test Embeds')
+], TestsOEmbeds);
+exports.TestsOEmbeds = TestsOEmbeds;
+//# sourceMappingURL=embed.spec.js.map

@@ -1,6 +1,14 @@
 import { Config } from '../config';
-require('pg').defaults.ssl = Config.db.ssl;
-import { Client } from 'pg';
+
+
+
+import { prop, Typegoose, ModelType, InstanceType } from 'typegoose';
+import * as mongoose from 'mongoose';
+
+
+
+//require('pg').defaults.ssl = Config.db.ssl;
+//import { Client } from 'pg';
 let activeClient: SkriboDB = null;
 
 
@@ -10,23 +18,23 @@ export const enum ResultType {
 }
 
 export class SkriboDB {
-    _client: Client;
-    constructor(client: Client) {
+    _client: any;
+    constructor(client: any) {
         this._client = client;
     }
 
-    public async query(query, args, resultType?: ResultType) {
+    public async query(query, args, resultType?: ResultType): Promise<any> {
 
-        const resultObject = await this._client.query(query, args);
-        //console.log('>>>>>>>>', JSON.stringify(resultObject));
-        if (!resultObject.rows) {
-            return resultObject;
-        }
-        if (resultType === ResultType.Single) {
-            return resultObject.rows[0];
-        } else {
-            return resultObject.rows;
-        }
+        // const resultObject = await DB.query.query(query, args);
+        // //console.log('>>>>>>>>', JSON.stringify(resultObject));
+        // if (!resultObject.rows) {
+        //     return resultObject;
+        // }
+        // if (resultType === ResultType.Single) {
+        //     return resultObject.rows[0];
+        // } else {
+        //     return resultObject.rows;
+        // }
     }
     public hashCode(str) {
         var hash = 0;
@@ -93,10 +101,8 @@ export class SkriboDB {
 
 export async function DB() {
     if (!activeClient) {
-        const connectionObj = (Config.db.url) ? Config.db.url : Config.db;
-        const client = new Client(connectionObj);
-
-        await client.connect()
+        const connectionObj = (Config.db.host) ? Config.db.host : Config.db;
+        const client = await mongoose.connect(connectionObj);
         activeClient = new SkriboDB(client);
 
     }

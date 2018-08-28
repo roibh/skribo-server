@@ -70,10 +70,11 @@ export class Embed {
     @Method(Verbs.Post, '/embed/:script_id/:group_id')
     public static async create(@Body('embed') embed: EmbedModel, @Param('script_id') script_id: string, @Param("group_id") group_id: string): Promise<MethodResult<ScriptModel>> {
         try {
-            const client = await DB();
-            const createdObject = await client.query('INSERT INTO public.embeds("Name", "ScriptId", "GroupId", "Variables", "EmbedId", "Page") VALUES($1,$2,$3, $4,$5,$6) RETURNING "EmbedId"', [embed.Name, script_id, group_id, JSON.stringify(embed.Variables), uuidv1(), embed.Page])
-            if (createdObject.length > 0) {
-                return new MethodResult(createdObject[0]);
+
+            embed.EmbedId = uuidv1();
+            const createdObject = await EmbedModel.insert(embed);
+            if (createdObject) {
+                return new MethodResult(createdObject);
 
             } else {
                 throw (new Error('failed to create the embed'))

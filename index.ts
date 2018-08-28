@@ -2,10 +2,22 @@
 import { ServerConfiguration, PluginConfiguration, ClientConfiguration, ConfiguredServer, MethodType, ServerType } from '@methodus/server';
 import { Embed, Scripts, Serve, Log, Sync, Results, User } from './controllers/';
 export * from './models/';
-var Raven = require('raven');
-Raven.config('https://8ae906af26fd4d4380f908751eacf016@sentry.io/1231711').install();
+import { DBHandler } from '@methodus/data';
 
 
+DBHandler.config = {
+    connections: {
+        'default': {
+            server: 'mongodb://localhost:27017',
+            db: 'test',
+            poolSize: 10,
+            ssl: false,
+            exchanges: ['event-bus', 'cache-bus'],
+            readPreference: 'primaryPreferred'
+        }
+    }
+
+}
 @ServerConfiguration(ServerType.Express, { port: process.env.PORT || 6200 })
 @PluginConfiguration('@methodus/describe')
 //@ClientConfiguration(Api, MethodType.Local, ServerType.Express)
