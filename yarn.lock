@@ -2498,7 +2498,7 @@ log@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/log/-/log-1.4.0.tgz#4ba1d890fde249b031dca03bc37eaaf325656f1c"
 
-logelas@^1.0.20, logelas@^1.0.24:
+logelas@^1.0.20:
   version "1.0.24"
   resolved "https://registry.npmjs.org/logelas/-/logelas-1.0.24.tgz#c2c1b2665c2680868f91809a3839c295c427fc1c"
   dependencies:
@@ -2507,6 +2507,17 @@ logelas@^1.0.20, logelas@^1.0.24:
     log-symbols "^2.0.0"
     logrotator "^1.1.0"
     mkdirp "^0.5.1"
+
+logelas@^2.0.0:
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/logelas/-/logelas-2.0.5.tgz#985d7af903e8ee7e8eab41acdfaf759683507d8f"
+  dependencies:
+    debug "^3.0.1"
+    log "^1.4.0"
+    log-symbols "^2.0.0"
+    logrotator "^1.1.0"
+    mkdirp "^0.5.1"
+    stack-trace "^0.0.10"
 
 logrotator@^1.1.0:
   version "1.1.0"
@@ -4001,7 +4012,7 @@ stack-chain@^1.3.7:
   version "1.3.7"
   resolved "https://registry.npmjs.org/stack-chain/-/stack-chain-1.3.7.tgz#d192c9ff4ea6a22c94c4dd459171e3f00cea1285"
 
-stack-trace@0.0.10, stack-trace@0.0.x, stack-trace@~0.0.7:
+stack-trace@0.0.10, stack-trace@0.0.x, stack-trace@^0.0.10, stack-trace@~0.0.7:
   version "0.0.10"
   resolved "https://registry.npmjs.org/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
 

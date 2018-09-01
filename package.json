@@ -28,7 +28,7 @@
     "adwords-auth": "^0.0.10",
     "alsatian": "^2.3.0",
     "chrome-bridge": "^0.1.2",
-    "logelas": "^1.0.24",
+    "logelas": "^2.0.0",
     "mongoose": "^5.2.10",
     "node-adwords": "^201802.2.0",
     "nyc": "^12.0.2",

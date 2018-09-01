@@ -8,8 +8,9 @@ ___] | \_ |  \ | |__] |__|
 */
 
 import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
-
+import { Query as DataQuery, ReturnType } from '@methodus/data';
 import { DB, ResultType } from '../db';
+import { AutoLogger } from 'logelas';
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
 const uuidv1 = require('uuid/v1');
@@ -20,50 +21,47 @@ export class Embed {
     @Method(Verbs.Put, '/embed/:script_id/:group_id/:embed_id')
     public static async update(@Body('embed') embed: EmbedModel, @Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
         try {
-            const client = await DB();
-            const updateObject = await client.query(`UPDATE public.embeds SET "Name"=$1, "Variables"=$2 , "Page"=$6 WHERE "EmbedId"=$3 and "ScriptId"=$4 and "GroupId"=$5;`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, group_id, embed.Page])
-            const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id], ResultType.Single);
-            return new MethodResult(InstanceScript)
+            const updateResults = await EmbedModel.update({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }, embed);
+            return new MethodResult(updateResults)
         }
         catch (error) {
-            console.error(error);
+            AutoLogger.error(error);
         }
     }
 
     @Method(Verbs.Get, '/embed/:script_id/:group_id/:embed_id')
     public static async get(@Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ScriptModel>> {
         try {
-            const client = await DB();
-            const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-            const RawScript = await client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [script_id]);
-            return new MethodResult(InstanceScript);
+            const listResults = await EmbedModel.query(new DataQuery(EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }));
+            return new MethodResult(listResults);
         }
         catch (error) {
-            console.error(error);
+            AutoLogger.error(error);
         }
     }
 
     @Method(Verbs.Get, '/embed/:script_id/:group_id/')
     public static async list(@Param('script_id') script_id: string, @Param("group_id") group_id: string): Promise<MethodResult<EmbedModel[]>> {
         try {
-            const client = await DB();
-            const InstanceScript = await client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2', [script_id, group_id]);
+            const pred = new DataQuery(EmbedModel).filter({ ScriptId: script_id, GroupId: group_id });
+            const InstanceScript = await pred.run();
             return new MethodResult(InstanceScript);
         }
         catch (error) {
-            console.error(error);
+            AutoLogger.error(error);
         }
     }
 
     @Method(Verbs.Delete, '/embed/:script_id/:group_id/:embed_id')
     public static async delete(@Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<boolean>> {
         try {
-            const client = await DB();
-            const InstanceScript = await client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-            return new MethodResult(InstanceScript.length);
+
+            const pred = new DataQuery(EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
+            const InstanceScript = await pred.run()
+            return new MethodResult(InstanceScript);
         }
         catch (error) {
-            console.error(error);
+            AutoLogger.error(error);
         }
     }
 

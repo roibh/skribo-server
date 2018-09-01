@@ -29,57 +29,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const db_1 = require("../db");
+const data_1 = require("@methodus/data");
+const logelas_1 = require("logelas");
 const embed_model_1 = require("../models/embed.model");
 const uuidv1 = require('uuid/v1');
 let Embed = class Embed {
     static update(embed, script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const updateObject = yield client.query(`UPDATE public.embeds SET "Name"=$1, "Variables"=$2 , "Page"=$6 WHERE "EmbedId"=$3 and "ScriptId"=$4 and "GroupId"=$5;`, [embed.Name, JSON.stringify(embed.Variables), embed_id, script_id, group_id, embed.Page]);
-                const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id], 0 /* Single */);
-                return new server_1.MethodResult(InstanceScript);
+                const updateResults = yield embed_model_1.EmbedModel.update({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }, embed);
+                return new server_1.MethodResult(updateResults);
             }
             catch (error) {
-                console.error(error);
+                logelas_1.AutoLogger.error(error);
             }
         });
     }
     static get(script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-                const RawScript = yield client.query('SELECT * FROM public.scripts WHERE "ID"=$1', [script_id]);
-                return new server_1.MethodResult(InstanceScript);
+                const listResults = yield embed_model_1.EmbedModel.query(new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }));
+                return new server_1.MethodResult(listResults);
             }
             catch (error) {
-                console.error(error);
+                logelas_1.AutoLogger.error(error);
             }
         });
     }
     static list(script_id, group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const InstanceScript = yield client.query('SELECT * FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2', [script_id, group_id]);
+                const pred = new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: script_id, GroupId: group_id });
+                const InstanceScript = yield pred.run();
                 return new server_1.MethodResult(InstanceScript);
             }
             catch (error) {
-                console.error(error);
+                logelas_1.AutoLogger.error(error);
             }
         });
     }
     static delete(script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const InstanceScript = yield client.query('DELETE FROM public.embeds WHERE "ScriptId"=$1 and "GroupId"=$2 and "EmbedId"=$3', [script_id, group_id, embed_id]);
-                return new server_1.MethodResult(InstanceScript.length);
+                const pred = new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
+                const InstanceScript = yield pred.run();
+                return new server_1.MethodResult(InstanceScript);
             }
             catch (error) {
-                console.error(error);
+                logelas_1.AutoLogger.error(error);
             }
         });
     }

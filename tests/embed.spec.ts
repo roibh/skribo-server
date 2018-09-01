@@ -24,50 +24,11 @@ DBHandler.config = {
 
 }
 
-const enum Mutations {
-    UID,
-    COMPANY,
-    ID,
-    FILE_ID,
-    CASE_ID
-}
-
-function mutate(source, mutation?: Mutations) {
-    const obj = JSON.parse(JSON.stringify(source));
-    switch (mutation) {
-        case Mutations.UID:
-            delete obj.uid;
-            break;
-        case Mutations.COMPANY:
-            delete obj._company_id;
-            delete obj.company_id;
-            break;
-        case Mutations.ID:
-            obj.id = guid();
-            break;
-        case Mutations.FILE_ID:
-            obj.file_id = guid();
-            break;
-        case Mutations.CASE_ID:
-            obj.case_id = guid();
-            break;
-    }
-    return obj;
-}
-
-function guid() {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-
-const user_id = '000000000000000000';
-const group_id = '000000000000000000';
-const script_id = '000000000000000000';
-const embed_id = '000000000000000000';
 
 @TestFixture('Test Embeds')
 export class TestsOEmbeds {
 
- 
+
 
     @AsyncTest('embed_create')
     @Timeout(10000)
@@ -123,10 +84,20 @@ export class TestsOEmbeds {
         Expect(result).toBeDefined();
     }
 
+    @AsyncTest('embed_get')
+    @Timeout(10000)
+    public async embed_get() {
+        const result = await Embed.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+        Expect(result).toBeDefined();
+    }
 
 
-
-
+    @AsyncTest('embed_delete')
+    @Timeout(10000)
+    public async embed_delete() {
+        const result = await Embed.delete(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+        Expect(result).toBeDefined();
+    }
 
 }
 

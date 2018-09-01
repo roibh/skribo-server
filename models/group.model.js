@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var GroupModel_1;
 const data_1 = require("@methodus/data");
 let GroupModel = GroupModel_1 = class GroupModel extends data_1.Repo {
     constructor(copyData) {
@@ -38,4 +37,5 @@ GroupModel = GroupModel_1 = __decorate([
     __metadata("design:paramtypes", [Object])
 ], GroupModel);
 exports.GroupModel = GroupModel;
+var GroupModel_1;
 //# sourceMappingURL=group.model.js.map

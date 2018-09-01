@@ -34,35 +34,6 @@ data_1.DBHandler.config = {
         }
     }
 };
-function mutate(source, mutation) {
-    const obj = JSON.parse(JSON.stringify(source));
-    switch (mutation) {
-        case 0 /* UID */:
-            delete obj.uid;
-            break;
-        case 1 /* COMPANY */:
-            delete obj._company_id;
-            delete obj.company_id;
-            break;
-        case 2 /* ID */:
-            obj.id = guid();
-            break;
-        case 3 /* FILE_ID */:
-            obj.file_id = guid();
-            break;
-        case 4 /* CASE_ID */:
-            obj.case_id = guid();
-            break;
-    }
-    return obj;
-}
-function guid() {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-const user_id = '000000000000000000';
-const group_id = '000000000000000000';
-const script_id = '000000000000000000';
-const embed_id = '000000000000000000';
 let TestsOEmbeds = class TestsOEmbeds {
     embed_create() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -109,6 +80,18 @@ let TestsOEmbeds = class TestsOEmbeds {
             alsatian_1.Expect(result).toBeDefined();
         });
     }
+    embed_get() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.Embed.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    embed_delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.Embed.delete(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
 };
 __decorate([
     alsatian_1.AsyncTest('embed_create'),
@@ -131,6 +114,20 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOEmbeds.prototype, "embed_list", null);
+__decorate([
+    alsatian_1.AsyncTest('embed_get'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOEmbeds.prototype, "embed_get", null);
+__decorate([
+    alsatian_1.AsyncTest('embed_delete'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOEmbeds.prototype, "embed_delete", null);
 TestsOEmbeds = __decorate([
     alsatian_1.TestFixture('Test Embeds')
 ], TestsOEmbeds);

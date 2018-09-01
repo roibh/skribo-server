@@ -33,35 +33,7 @@ data_1.DBHandler.config = {
         }
     }
 };
-function mutate(source, mutation) {
-    const obj = JSON.parse(JSON.stringify(source));
-    switch (mutation) {
-        case 0 /* UID */:
-            delete obj.uid;
-            break;
-        case 1 /* COMPANY */:
-            delete obj._company_id;
-            delete obj.company_id;
-            break;
-        case 2 /* ID */:
-            obj.id = guid();
-            break;
-        case 3 /* FILE_ID */:
-            obj.file_id = guid();
-            break;
-        case 4 /* CASE_ID */:
-            obj.case_id = guid();
-            break;
-    }
-    return obj;
-}
-function guid() {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
 const user_id = '000000000000000000';
-const group_id = '000000000000000000';
-const script_id = '000000000000000000';
-const embed_id = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
     user_get() {
         return __awaiter(this, void 0, void 0, function* () {
