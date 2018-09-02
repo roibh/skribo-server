@@ -1,11 +1,6 @@
 import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Timeout, TeardownFixture, Teardown, AsyncTeardown, AsyncTeardownFixture, FocusTest, SetupFixture } from 'alsatian';
 
 import * as Data from './data';
-import { DataScripts } from './database';
-import { Results } from '../controllers/results';
-import { User } from '../controllers/user';
-import { DB } from '../db';
-import { Script } from 'vm';
 import { Scripts, Embed, Serve } from '../controllers';
 import { EmbedModel, ScriptModel } from '../models';
 import { DBHandler } from '@methodus/data';
@@ -92,12 +87,6 @@ export class TestsOEmbeds {
     }
 
 
-    @AsyncTest('embed_delete')
-    @Timeout(10000)
-    public async embed_delete() {
-        const result = await Embed.delete(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
-        Expect(result).toBeDefined();
-    }
 
 }
 

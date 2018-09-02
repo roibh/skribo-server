@@ -7,10 +7,6 @@ ___] | \_ |  \ | |__] |__|
 
 */
 
-import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
-
-import { DB, ResultType } from '../db';
-import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/';
 const uuidv1 = require('uuid/v1');
 

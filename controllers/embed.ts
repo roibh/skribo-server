@@ -9,7 +9,7 @@ ___] | \_ |  \ | |__] |__|
 
 import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
 import { Query as DataQuery, ReturnType } from '@methodus/data';
-import { DB, ResultType } from '../db';
+ 
 import { AutoLogger } from 'logelas';
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
@@ -55,9 +55,7 @@ export class Embed {
     @Method(Verbs.Delete, '/embed/:script_id/:group_id/:embed_id')
     public static async delete(@Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<boolean>> {
         try {
-
-            const pred = new DataQuery(EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
-            const InstanceScript = await pred.run()
+            const InstanceScript = await EmbedModel.delete({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
             return new MethodResult(InstanceScript);
         }
         catch (error) {
@@ -68,7 +66,8 @@ export class Embed {
     @Method(Verbs.Post, '/embed/:script_id/:group_id')
     public static async create(@Body('embed') embed: EmbedModel, @Param('script_id') script_id: string, @Param("group_id") group_id: string): Promise<MethodResult<ScriptModel>> {
         try {
-
+            embed.ScriptId = script_id;
+            embed.GroupId = group_id;
             embed.EmbedId = uuidv1();
             const createdObject = await EmbedModel.insert(embed);
             if (createdObject) {

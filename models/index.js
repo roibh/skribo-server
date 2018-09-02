@@ -10,4 +10,5 @@ __export(require("./log.model"));
 __export(require("./user.model"));
 __export(require("./group.model"));
 __export(require("./usergroup.model"));
+__export(require("./user-account.model"));
 //# sourceMappingURL=index.js.map

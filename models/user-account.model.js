@@ -10,43 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_1 = require("@methodus/data");
-let ResultsModel = ResultsModel_1 = class ResultsModel extends data_1.Repo {
+let UserAccountModel = UserAccountModel_1 = class UserAccountModel extends data_1.Repo {
     constructor(copyData) {
-        super(copyData, ResultsModel_1);
+        super(copyData, UserAccountModel_1);
     }
 };
 __decorate([
     data_1.Field(),
     __metadata("design:type", String)
-], ResultsModel.prototype, "ResultId", void 0);
+], UserAccountModel.prototype, "AccountKey", void 0);
 __decorate([
     data_1.Field(),
     __metadata("design:type", String)
-], ResultsModel.prototype, "GroupId", void 0);
+], UserAccountModel.prototype, "GroupId", void 0);
 __decorate([
     data_1.Field(),
     __metadata("design:type", String)
-], ResultsModel.prototype, "ScriptId", void 0);
-__decorate([
-    data_1.Field(),
-    __metadata("design:type", String)
-], ResultsModel.prototype, "EmbedId", void 0);
-__decorate([
-    data_1.Field(),
-    __metadata("design:type", Array)
-], ResultsModel.prototype, "Variables", void 0);
-__decorate([
-    data_1.Field(),
-    __metadata("design:type", Date)
-], ResultsModel.prototype, "Date", void 0);
-__decorate([
-    data_1.Field(),
-    __metadata("design:type", Object)
-], ResultsModel.prototype, "Data", void 0);
-ResultsModel = ResultsModel_1 = __decorate([
-    data_1.Model('Results'),
+], UserAccountModel.prototype, "AccountName", void 0);
+UserAccountModel = UserAccountModel_1 = __decorate([
+    data_1.Model('UserAccount'),
     __metadata("design:paramtypes", [Object])
-], ResultsModel);
-exports.ResultsModel = ResultsModel;
-var ResultsModel_1;
-//# sourceMappingURL=results.model.js.map
+], UserAccountModel);
+exports.UserAccountModel = UserAccountModel;
+var UserAccountModel_1;
+//# sourceMappingURL=user-account.model.js.map

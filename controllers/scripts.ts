@@ -11,7 +11,7 @@ import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, 
 
 import { ScriptModel } from '../models/script.model';
 import { Query as DataQuery, ReturnType } from '@methodus/data';
-import { ResultType } from '../db';
+ 
 const uuidv1 = require('uuid/v1');
 
 
@@ -35,7 +35,7 @@ export class Scripts {
     }
 
     @Method(Verbs.Get, '/scripts/:group_id/script_id/:script_id')
-    public static async get(@Param('group_id') group_id: string, @Param('script_id') script_id: number): Promise<MethodResult<ScriptModel>> {
+    public static async get(@Param('group_id') group_id: string, @Param('script_id') script_id: string): Promise<MethodResult<ScriptModel>> {
 
         try {
             const script = (await new DataQuery(ScriptModel).filter({ ScriptId: script_id, GroupId: group_id }).run(ReturnType.Single))
@@ -59,7 +59,7 @@ export class Scripts {
     }
 
     @Method(Verbs.Delete, '/scripts/:group_id/script_id/:script_id')
-    public static async remove(@Param('group_id') group_id: string, @Param('script_id') script_id: number): Promise<MethodResult<boolean>> {
+    public static async remove(@Param('group_id') group_id: string, @Param('script_id') script_id: string): Promise<MethodResult<boolean>> {
         const script = (await ScriptModel.delete({ ScriptId: script_id, GroupId: group_id }))
         return new MethodResult(script);
     }
@@ -79,7 +79,7 @@ export class Scripts {
     }
 
     @Method(Verbs.Put, '/scripts/:group_id/script_id/:script_id')
-    public static async update(@Param('group_id') group_id: string, @Param('script_id') script_id: number, @Body() script: ScriptModel): Promise<MethodResult<ScriptModel>> {
+    public static async update(@Param('group_id') group_id: string, @Param('script_id') script_id: string, @Body() script: ScriptModel): Promise<MethodResult<ScriptModel>> {
 
         try {
 

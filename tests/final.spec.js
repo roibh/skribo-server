@@ -20,79 +20,75 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
 const controllers_1 = require("../controllers");
-const models_1 = require("../models");
-let TestsOfScripts = class TestsOfScripts {
-    scripts_create() {
+let TestsOfServe = class TestsOfServe {
+    embed_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const script = new models_1.ScriptModel({
-                Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
-                        "type": "number",
-                        "name": "namedd",
-                        "value": "1"
-                    }]
-            });
-            const result = (yield controllers_1.Scripts.create(Data.User.GroupId, script)).result;
-            Data.User.ScriptId = result.ScriptId;
-            alsatian_1.Expect(result.ScriptId).toBeDefined();
-        });
-    }
-    scripts_update() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const script = new models_1.ScriptModel({
-                Name: 'Test script', Description: 'Test description updated', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
-                        "type": "number",
-                        "name": "namedd",
-                        "value": "1"
-                    }]
-            });
-            const result = (yield controllers_1.Scripts.update(Data.User.GroupId, Data.User.ScriptId, script)).result;
-            Data.User.ScriptId = result.ScriptId;
-            alsatian_1.Expect(result.ScriptId).toBeDefined();
-        });
-    }
-    scripts_list() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = (yield controllers_1.Scripts.list(Data.User.GroupId)).result;
+            const result = yield controllers_1.Embed.delete(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
-    scripts_get() {
+    script_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = (yield controllers_1.Scripts.get(Data.User.GroupId, Data.User.ScriptId)).result;
+            const result = yield controllers_1.Scripts.remove(Data.User.GroupId, Data.User.ScriptId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    result_delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.Results.delete(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    user_delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.User.delete(Data.User.UserId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    group_delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield controllers_1.User.deleteGroup(Data.User.GroupId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
 };
 __decorate([
-    alsatian_1.AsyncTest('scripts_create'),
+    alsatian_1.AsyncTest('embed_delete'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfScripts.prototype, "scripts_create", null);
+], TestsOfServe.prototype, "embed_delete", null);
 __decorate([
-    alsatian_1.AsyncTest('scripts_update'),
+    alsatian_1.AsyncTest('script_delete'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfScripts.prototype, "scripts_update", null);
+], TestsOfServe.prototype, "script_delete", null);
 __decorate([
-    alsatian_1.AsyncTest('scripts_list'),
+    alsatian_1.AsyncTest('result_delete'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfScripts.prototype, "scripts_list", null);
+], TestsOfServe.prototype, "result_delete", null);
 __decorate([
-    alsatian_1.AsyncTest('scripts_get'),
+    alsatian_1.AsyncTest('user_delete'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], TestsOfScripts.prototype, "scripts_get", null);
-TestsOfScripts = __decorate([
-    alsatian_1.TestFixture('Test Scripts')
-], TestsOfScripts);
-exports.TestsOfScripts = TestsOfScripts;
-//# sourceMappingURL=scripts.spec.js.map
+], TestsOfServe.prototype, "user_delete", null);
+__decorate([
+    alsatian_1.AsyncTest('group_delete'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfServe.prototype, "group_delete", null);
+TestsOfServe = __decorate([
+    alsatian_1.TestFixture('Test finals')
+], TestsOfServe);
+exports.TestsOfServe = TestsOfServe;
+//# sourceMappingURL=final.spec.js.map

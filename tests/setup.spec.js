@@ -20,7 +20,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
 const user_1 = require("../controllers/user");
-const db_1 = require("../db");
 const data_1 = require("@methodus/data");
 data_1.DBHandler.config = {
     connections: {
@@ -60,12 +59,12 @@ let TestsOfResults = class TestsOfResults {
     CleanUp() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
-                yield client.query(`DROP TABLE public."${tableName}"`, []);
-                yield client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
-                yield user_1.User.deleteGroup(Data.User.GroupId);
-                yield user_1.User.delete(user_id);
+                // const client = await DB();
+                // const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
+                // await client.query(`DROP TABLE public."${tableName}"`, []);
+                // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
+                // await User.deleteGroup(Data.User.GroupId);
+                // await User.delete(user_id);
             }
             catch (error) {
                 console.error(error);

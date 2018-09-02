@@ -29,21 +29,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const db_1 = require("../db");
+const models_1 = require("../models");
 let Sync = class Sync {
     static accounts(group_id, accounts) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
                 const accountsList = JSON.parse(accounts.accounts);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                    const foundAccounts = yield client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.id]);
-                    if (foundAccounts.length > 0) {
-                        yield client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.id, element.name]);
-                    }
-                    else {
-                        yield client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.id, element.name]);
-                    }
+                    const account = new models_1.UserAccountModel({ GroupId: group_id, AccountKey: element.id, AccountName: element.name });
+                    yield account.save();
+                    // const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.id]);
+                    // if (foundAccounts.length > 0) {
+                    //     await client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.id, element.name])
+                    // } else {
+                    //     await client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.id, element.name])
+                    // }
                 }));
                 return new server_1.MethodResult(true);
             }

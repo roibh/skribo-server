@@ -29,7 +29,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const db_1 = require("../db");
 const data_1 = require("@methodus/data");
 const models_1 = require("../models");
 const Raven = require('raven');
@@ -107,8 +106,7 @@ let User = class User {
     static delete(user_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const deleteResult = yield client.query(`DELETE from user_groups WHERE "UserId"=$1`, [user_id]);
+                const deleteResult = yield models_1.UserGroupModel.delete({ 'USerId': user_id });
                 return new server_1.MethodResult(deleteResult);
             }
             catch (error) {
@@ -119,8 +117,7 @@ let User = class User {
     static deleteGroup(group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield db_1.DB();
-                const deleteResult = yield client.query(`DELETE from groups WHERE "GroupId"=$1`, [group_id]);
+                const deleteResult = yield models_1.GroupModel.delete({ 'GroupId': group_id });
                 return new server_1.MethodResult(deleteResult);
             }
             catch (error) {

@@ -6,3 +6,4 @@ export * from './log.model';
 export * from './user.model';
 export * from './group.model';
 export * from './usergroup.model';
+export * from './user-account.model';

@@ -18,7 +18,7 @@ const uuidv1 = require('uuid/v1');
 export class Results {
 
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
-    public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() body: any): Promise<MethodResult<boolean>> {
+    public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() body: any): Promise<MethodResult<ResultsModel>> {
         try {
             console.log('typeof', typeof body === 'string');
             if (typeof body === 'string') {
@@ -29,22 +29,6 @@ export class Results {
             console.log('results', results[0]);
             const db = await DBHandler.getConnection();
             const tableName = 'RESULTS_' + hashCode(group_id + script_id);
-
-            // const fields = Object.keys(results[0]).map((item) => {
-            //     if (!results[0][item])
-            //         return null;
-            //     let strType: string = typeof results[0][item];
-            //     if (strType === 'object' && Array.isArray(results[0][item])) {
-            //         strType = 'array';
-            //     }
-            //     if (strType === 'number' && results[0][item].toString().indexOf('.') > -1) {
-            //         strType = 'double precision';
-            //     }
-            //     return {
-            //         type: strType,
-            //         name: item
-            //     }
-            // });
 
             const result_id = uuidv1();
             const resultObject = new ResultsModel({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
@@ -68,7 +52,7 @@ export class Results {
 
                 }
             }
-            return new MethodResult(true);
+            return new MethodResult(resultObject);
         } catch (error) {
             console.error(error);
             throw (new MethodError(error));

@@ -9,9 +9,9 @@ export class ResultsModel extends Repo<ResultsModel>{
     }
 
     @Field()
-    ID?: number;
+    ResultId?: string;
     @Field()
-    GroupId?: any;
+    GroupId?: string;
     @Field()
     ScriptId?: string;
     @Field()

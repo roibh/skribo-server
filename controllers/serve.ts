@@ -7,8 +7,8 @@ ___] | \_ |  \ | |__] |__|
 
 */
 
-import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
-import { DB } from '../db';
+import { Method, MethodConfig, Param, Verbs, MethodError, MethodResult } from '@methodus/server';
+
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
 import * as FS from 'fs';

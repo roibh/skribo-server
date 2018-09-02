@@ -1,12 +1,17 @@
 module.exports.Config = {
+ 
 
-    "database": {
-        "mongodb": {
-            "useObjectId": true,
-            "host": "mongodb://skribo:Kardigan24$@ds249079.mlab.com:49079/skribo"
-
+        connections: {
+        'default': {
+            server: 'mongodb://localhost:27017',
+            db: 'skribo',
+            poolSize: 10,
+            ssl: false,
+            exchanges: ['event-bus', 'cache-bus'],
+            readPreference: 'primaryPreferred'
         }
-    },
+    }
+
 
     db: {
         ssl: false,

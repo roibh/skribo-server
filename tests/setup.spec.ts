@@ -4,7 +4,7 @@ import * as Data from './data';
 import { DataScripts } from './database';
 import { Results } from '../controllers/results';
 import { User } from '../controllers/user';
-import { DB } from '../db';
+ 
 import { Script } from 'vm';
 import { Scripts, Embed, Serve } from '../controllers';
 import { EmbedModel, ScriptModel } from '../models';
@@ -64,14 +64,14 @@ export class TestsOfResults {
     public async CleanUp() {
 
         try {
-            const client = await DB();
+            // const client = await DB();
 
-            const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
-            await client.query(`DROP TABLE public."${tableName}"`, []);
-            await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
+            // const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
+            // await client.query(`DROP TABLE public."${tableName}"`, []);
+            // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
 
-            await User.deleteGroup(Data.User.GroupId);
-            await User.delete(user_id);
+            // await User.deleteGroup(Data.User.GroupId);
+            // await User.delete(user_id);
         } catch (error) {
 
             console.error(error);

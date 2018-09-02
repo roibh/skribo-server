@@ -13,18 +13,20 @@ const server_1 = require("@methodus/server");
 const _1 = require("./controllers/");
 __export(require("./models/"));
 const data_1 = require("@methodus/data");
-data_1.DBHandler.config = {
-    connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
-            db: 'skribo',
-            poolSize: 10,
-            ssl: false,
-            exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
-};
+const config_1 = require("./db/config");
+data_1.DBHandler.config = config_1.configuration;
+//  {
+//     connections: {
+//         'default': {
+//             server: 'mongodb://localhost:27017',
+//             db: 'skribo',
+//             poolSize: 10,
+//             ssl: false,
+//             exchanges: ['event-bus', 'cache-bus'],
+//             readPreference: 'primaryPreferred'
+//         }
+//     }
+// }
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
 };
 SetupServer = __decorate([

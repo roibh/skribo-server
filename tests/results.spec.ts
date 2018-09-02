@@ -12,7 +12,8 @@ export class TestsOfResults {
     @TestCase(Data.ReportResult)
     @Timeout(10000)
     public async create(resultMutation) {
-        const result = await Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation);
+        const result = (await Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation)).result;
+        Data.User.ResultId = result.ResultId;
         Expect(result).toBeDefined();
     }
     @AsyncTest('list')
@@ -29,7 +30,12 @@ export class TestsOfResults {
         Expect(result).toBeDefined();
     }
 
-
+    @AsyncTest('get')
+    @Timeout(10000)
+    public async get() {
+        const result = await Results.get(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
+        Expect(result).toBeDefined();
+    }
 }
 
 

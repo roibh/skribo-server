@@ -8,10 +8,7 @@ ___] | \_ |  \ | |__] |__|
 */
 
 import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
-import { DB, ResultType } from '../db';
-import { ScriptModel } from '../models/script.model';
-import { EmbedModel } from '../models/embed.model';
-import { Repo, Query as DataQuery } from '@methodus/data';
+import { Query as DataQuery } from '@methodus/data';
 import * as FS from 'fs';
 import { GroupModel, UserGroupModel, UserModel } from '../models';
 const Raven = require('raven');
@@ -107,8 +104,7 @@ export class User {
     @Method(Verbs.Delete, '/user/:user_id/')
     public static async delete(@Param("user_id") user_id: string): Promise<MethodResult<string>> {
         try {
-            const client = await DB();
-            const deleteResult = await client.query(`DELETE from user_groups WHERE "UserId"=$1`, [user_id]);
+            const deleteResult = await UserGroupModel.delete({ 'USerId': user_id });
             return new MethodResult(deleteResult);
         }
         catch (error) {
@@ -119,8 +115,7 @@ export class User {
     @Method(Verbs.Delete, '/group/:group_id/')
     public static async deleteGroup(@Param("group_id") group_id: string): Promise<MethodResult<string>> {
         try {
-            const client = await DB();
-            const deleteResult = await client.query(`DELETE from groups WHERE "GroupId"=$1`, [group_id]);
+            const deleteResult = await GroupModel.delete({ 'GroupId': group_id });
             return new MethodResult(deleteResult);
         }
         catch (error) {

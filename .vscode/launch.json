@@ -17,13 +17,38 @@
                 "DEBUG": "none",
                 "NODE_ENV": "debug",
                 "NODE_LOG_LEVEL": "trace",
-                "NODE_CONFIG_ENV": "local",
+                "NODE_CONFIG_ENV": "prod",
                 "NODE_CONFIG_DIR": "${workspaceRoot}/config/",
                 "NODE_LOG_DIR": "./logs",
                 "NODE_CONFIG_VAR": "vars.json",
+                "MONGO_NAME": "skribo",
+                "MONGO_PASSWORD": "Kardigan24%24",
                 "PORT": "6200"
             }
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "R | prod skribo server",
+            "program": "${workspaceRoot}\\index.js",
+            "cwd": "${workspaceRoot}\\",
+            "console": "internalConsole",
+            "outFiles": [],
+            "sourceMaps": true,
+            "env": {
+                "DEBUG": "none",
+                "NODE_ENV": "debug",
+                "NODE_LOG_LEVEL": "trace",
+                "NODE_CONFIG_ENV": "prod",
+                "NODE_CONFIG_DIR": "${workspaceRoot}/config/",
+                "NODE_LOG_DIR": "./logs",
+                "NODE_CONFIG_VAR": "vars.json",
+                "MONGO_NAME": "skribo",
+                "MONGO_PASSWORD": "Kardigan24%24",
+                "PORT": "6200"
+            }
+        },
+
         {
             "request": "launch",
             "console": "internalConsole",
@@ -37,7 +62,14 @@
             "stopOnEntry": false,
             // Command line arguments passed to the program.
             "args": [
-                "tests/user.spec.js"
+                "tests/setup.spec.js",
+                "tests/user.spec.js",
+                "tests/scripts.spec.js",
+                "tests/embed.spec.js",
+                "tests/serve.spec.js",
+                "tests/sync.spec.js",
+                "tests/results.spec.js",
+                "tests/final.spec.js"
             ],
             "sourceMaps": true,
             // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
@@ -62,7 +94,6 @@
             "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\build.js",
             "args": [
                 "./build.json"
-                 
             ],
             "cwd": "${workspaceRoot}\\",
             "console": "internalConsole",
@@ -83,7 +114,6 @@
             "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\client.js",
             "args": [
                 "./build.json"
-                
             ],
             "cwd": "${workspaceRoot}\\",
             "console": "internalConsole",
@@ -91,7 +121,6 @@
             "env": {
                 "DEBUG": "none",
                 "NODE_ENV": "debug"
-                
             }
         },
     ]

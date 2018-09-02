@@ -118,14 +118,14 @@ __decorate([
     server_1.Method("GET" /* Get */, '/scripts/:group_id/script_id/:script_id'),
     __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], Scripts, "get", null);
 __decorate([
     server_1.Method("DELETE" /* Delete */, '/scripts/:group_id/script_id/:script_id'),
     __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], Scripts, "remove", null);
 __decorate([
@@ -139,7 +139,7 @@ __decorate([
     server_1.Method("PUT" /* Put */, '/scripts/:group_id/script_id/:script_id'),
     __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')), __param(2, server_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, script_model_1.ScriptModel]),
+    __metadata("design:paramtypes", [String, String, script_model_1.ScriptModel]),
     __metadata("design:returntype", Promise)
 ], Scripts, "update", null);
 Scripts = __decorate([

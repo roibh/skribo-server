@@ -3,21 +3,22 @@ import { ServerConfiguration, PluginConfiguration, ClientConfiguration, Configur
 import { Embed, Scripts, Serve, Log, Sync, Results, User } from './controllers/';
 export * from './models/';
 import { DBHandler } from '@methodus/data';
+import { configuration } from './db/config';
 
+DBHandler.config = configuration;
+//  {
+//     connections: {
+//         'default': {
+//             server: 'mongodb://localhost:27017',
+//             db: 'skribo',
+//             poolSize: 10,
+//             ssl: false,
+//             exchanges: ['event-bus', 'cache-bus'],
+//             readPreference: 'primaryPreferred'
+//         }
+//     }
 
-DBHandler.config = {
-    connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
-            db: 'skribo',
-            poolSize: 10,
-            ssl: false,
-            exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
-
-}
+// }
 @ServerConfiguration(ServerType.Express, { port: process.env.PORT || 6200 })
 @PluginConfiguration('@methodus/describe')
 //@ClientConfiguration(Api, MethodType.Local, ServerType.Express)

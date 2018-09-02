@@ -71,8 +71,7 @@ let Embed = class Embed {
     static delete(script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pred = new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
-                const InstanceScript = yield pred.run();
+                const InstanceScript = yield embed_model_1.EmbedModel.delete({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
                 return new server_1.MethodResult(InstanceScript);
             }
             catch (error) {
@@ -83,6 +82,8 @@ let Embed = class Embed {
     static create(embed, script_id, group_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                embed.ScriptId = script_id;
+                embed.GroupId = group_id;
                 embed.EmbedId = uuidv1();
                 const createdObject = yield embed_model_1.EmbedModel.insert(embed);
                 if (createdObject) {

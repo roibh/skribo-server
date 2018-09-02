@@ -23,7 +23,8 @@ const results_1 = require("../controllers/results");
 let TestsOfResults = class TestsOfResults {
     create(resultMutation) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield results_1.Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation);
+            const result = (yield results_1.Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation)).result;
+            Data.User.ResultId = result.ResultId;
             alsatian_1.Expect(result).toBeDefined();
         });
     }
@@ -36,6 +37,12 @@ let TestsOfResults = class TestsOfResults {
     listByScript() {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield results_1.Results.listByScript(Data.User.GroupId, Data.User.ScriptId);
+            alsatian_1.Expect(result).toBeDefined();
+        });
+    }
+    get() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield results_1.Results.get(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
@@ -62,6 +69,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOfResults.prototype, "listByScript", null);
+__decorate([
+    alsatian_1.AsyncTest('get'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "get", null);
 TestsOfResults = __decorate([
     alsatian_1.TestFixture('Test Results')
 ], TestsOfResults);

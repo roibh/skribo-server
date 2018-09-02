@@ -86,12 +86,6 @@ let TestsOEmbeds = class TestsOEmbeds {
             alsatian_1.Expect(result).toBeDefined();
         });
     }
-    embed_delete() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Embed.delete(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
-            alsatian_1.Expect(result).toBeDefined();
-        });
-    }
 };
 __decorate([
     alsatian_1.AsyncTest('embed_create'),
@@ -121,13 +115,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOEmbeds.prototype, "embed_get", null);
-__decorate([
-    alsatian_1.AsyncTest('embed_delete'),
-    alsatian_1.Timeout(10000),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TestsOEmbeds.prototype, "embed_delete", null);
 TestsOEmbeds = __decorate([
     alsatian_1.TestFixture('Test Embeds')
 ], TestsOEmbeds);

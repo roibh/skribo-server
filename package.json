@@ -7,7 +7,7 @@
     "start": "node index.js",
     "build": "tsc",
     "test": "nyc --reporter=lcov --reporter=html npm run xtest && nyc report",
-    "xtest": "npm run build && alsatian tests/setup.spec.js tests/user.spec.js tests/scripts.spec.js tests/embed.spec.js tests/serve.spec.js tests/results.spec.js",
+    "xtest": "npm run build && alsatian tests/setup.spec.js tests/user.spec.js tests/scripts.spec.js tests/embed.spec.js tests/serve.spec.js tests/sync.spec.js tests/results.spec.js  tests/log.spec.js tests/final.spec.js",
     "contracts": "npm version patch && npm run contract-publish && npm run client-publish",
     "postpublish": "npm run tag && npm run contract-publish && npm run client-publish",
     "contract": "node ./node_modules/@methodus/contracts/build.js ./build.json",

@@ -46,21 +46,6 @@ let Results = class Results {
                 console.log('results', results[0]);
                 const db = yield data_1.DBHandler.getConnection();
                 const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
-                // const fields = Object.keys(results[0]).map((item) => {
-                //     if (!results[0][item])
-                //         return null;
-                //     let strType: string = typeof results[0][item];
-                //     if (strType === 'object' && Array.isArray(results[0][item])) {
-                //         strType = 'array';
-                //     }
-                //     if (strType === 'number' && results[0][item].toString().indexOf('.') > -1) {
-                //         strType = 'double precision';
-                //     }
-                //     return {
-                //         type: strType,
-                //         name: item
-                //     }
-                // });
                 const result_id = uuidv1();
                 const resultObject = new _1.ResultsModel({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
                 yield resultObject.save();
@@ -79,7 +64,7 @@ let Results = class Results {
                         }
                     }
                 }
-                return new server_1.MethodResult(true);
+                return new server_1.MethodResult(resultObject);
             }
             catch (error) {
                 console.error(error);
