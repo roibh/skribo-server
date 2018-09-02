@@ -19,11 +19,9 @@
   "license": "ISC",
   "dependencies": {
     "@methodus/contracts": "latest",
+    "@methodus/data": "^1.0.1",
     "@methodus/describe": "latest",
     "@methodus/server": "latest",
-    "@nodulus/config": "^1.0.70",
-    "@nodulus/data": "^2.0.0",
-    "@nodulus/data-mongodb": "^2.0.0",
     "@types/node": "^10.0.4",
     "adwords-auth": "^0.0.10",
     "alsatian": "^2.3.0",
