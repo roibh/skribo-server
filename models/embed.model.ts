@@ -1,4 +1,4 @@
-import { Repo, Field, Model } from '@methodus/data'
+import { Repo, Field, Model, ObjectId } from '@methodus/data'
 import { VariableModel } from './variable.model';
 
 
@@ -7,6 +7,9 @@ export class EmbedModel extends Repo<EmbedModel>{
     constructor(copyData?: any) {
         super(copyData, EmbedModel);
     }
+    @ObjectId()
+    @Field()
+    _id: string;
     @Field()
     ID?: number;
     @Field()

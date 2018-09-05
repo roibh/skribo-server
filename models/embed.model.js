@@ -16,6 +16,11 @@ let EmbedModel = EmbedModel_1 = class EmbedModel extends data_1.Repo {
     }
 };
 __decorate([
+    data_1.ObjectId(),
+    data_1.Field(),
+    __metadata("design:type", String)
+], EmbedModel.prototype, "_id", void 0);
+__decorate([
     data_1.Field(),
     __metadata("design:type", Number)
 ], EmbedModel.prototype, "ID", void 0);

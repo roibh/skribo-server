@@ -37,6 +37,7 @@ let Embed = class Embed {
     static update(embed, script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                delete embed._id;
                 const updateResults = yield embed_model_1.EmbedModel.update({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }, embed);
                 return new server_1.MethodResult(updateResults);
             }

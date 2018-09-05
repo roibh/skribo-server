@@ -50,7 +50,12 @@ let Serve = class Serve {
                         let preCode = [
                             'var SkriboEnv =  {',
                             ...variables.map((item) => {
-                                return `"${item.name}":"${item.value}",`;
+                                switch (item.type) {
+                                    case 'number':
+                                        return `"${item.name}":${item.value},`;
+                                    case 'string':
+                                        return `"${item.name}":"${item.value}",`;
+                                }
                             }),
                             '};'
                         ].join('\n');

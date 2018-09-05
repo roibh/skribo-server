@@ -9,7 +9,7 @@ ___] | \_ |  \ | |__] |__|
 
 import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
 import { Query as DataQuery, ReturnType } from '@methodus/data';
- 
+
 import { AutoLogger } from 'logelas';
 import { ScriptModel } from '../models/script.model';
 import { EmbedModel } from '../models/embed.model';
@@ -21,6 +21,7 @@ export class Embed {
     @Method(Verbs.Put, '/embed/:script_id/:group_id/:embed_id')
     public static async update(@Body('embed') embed: EmbedModel, @Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<ScriptModel>> {
         try {
+            delete embed._id;
             const updateResults = await EmbedModel.update({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }, embed);
             return new MethodResult(updateResults)
         }
