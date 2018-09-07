@@ -45,7 +45,7 @@ let Results = class Results {
                 const db = yield data_1.DBHandler.getConnection();
                 const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
                 const result_id = uuidv1();
-                const resultObject = new _1.ResultsModel({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
+                const resultObject = new _1.ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
                 yield resultObject.save();
                 if (Array.isArray(results)) {
                     for (let i = 0; i < results.length; i++) {
