@@ -25,8 +25,7 @@ export class Results {
                 body = JSON.parse(body);
             }
             const results = body.results;
-            console.log('results', results);
-            console.log('results', results[0]);
+
             const db = await DBHandler.getConnection();
             const tableName = 'RESULTS_' + hashCode(group_id + script_id);
 
@@ -36,21 +35,26 @@ export class Results {
             if (Array.isArray(results)) {
                 for (let i = 0; i < results.length; i++) {
                     const rowObject = results[i];
-                    // const insertStr = `INSERT INTO public."${tableName}"( ${fields.map(item => `"${item.name}"`).join(',')}) 
-                    // VALUES(${fields.map((item, index) => `$${index + 1}`).join(',')})
-                    // RETURNING "ID"`;
-
                     try {
                         rowObject.ResultId = result_id
                         const insertResult = await db.collection(tableName).insertOne(rowObject);
-
-
                     } catch (error) {
                         console.error(error);
                     }
-
-
                 }
+            } else {
+                Object.keys(results).forEach(async (item) => {
+                    for (let i = 0; i < results[item].length; i++) {
+                        const rowObject = results[item][i];
+                        try {
+                            rowObject.ResultId = result_id
+                            const insertResult = await db.collection(tableName).insertOne(rowObject);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                })
+
             }
             return new MethodResult(resultObject);
         } catch (error) {

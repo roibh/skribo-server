@@ -1,29 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportResult = {
-    results: [{
-            "accountName": "Leibish", "accountId": "342-756-1180", "alerts": ["    Impressions are too low: 82447 impressions by 6:00, expecting at least 6841225",
-                "    Clicks are too low: 1066 clicks by 6:00, expecting at least 124900.0",
-                "    Conversions are too low: 2 conversions by 6:00, expecting at least 250.0"],
-            "impressions": 82447, "base_impressions": "68412", "clicks": 1066,
-            "base_clicks": "1249.0", "conversions": 2, "base_conversions": "2.5", "cost": 412.42,
-            "base_cost": "319.33"
-        }, {
-            "accountName": "פספורטכארד מכר", "accountId": "129-880-1639", "alerts": [
-                "    Impressions are too low: 176 impressions by 6:00, expecting at least 223425",
-                "    Clicks are too low: 74 clicks by 6:00, expecting at least 8250.0",
-                "    Conversions are too low: 9 conversions by 6:00, expecting at least 7050.0"
-            ],
-            "impressions": 176,
-            "base_impressions": "2234", "clicks": 74, "base_clicks": "82.5", "conversions": 9,
-            "base_conversions": "70.5", "cost": 15.430000000000001, "base_cost": "17.72"
-        },
-        {
-            "accountName": "Powerlink", "accountId": "318-321-6758", "alerts": ["    Impressions are too low: 30 impressions by 6:00, expecting at least 4825",
-                "    Clicks are too low: 1 clicks by 6:00, expecting at least 150.0"], "impressions": 30,
-            "base_impressions": "48", "clicks": 1, "base_clicks": "1.5", "conversions": 0, "base_conversions": "0.0",
-            "cost": 1.08, "base_cost": "12.12"
-        }]
+    "results": {
+        "Leibish": [{ "label": "+yellow +diamonds", "value": 61052 },
+            { "label": "+yellow +diamond +earrings", "value": 36713 },
+            { "label": "+pink +diamonds", "value": 30628 },
+            { "label": "+yellow +engagement +rings", "value": 24264 }, { "label": "+loose +blue +diamonds", "value": 21588 },
+            { "label": "+pink +diamond +rings", "value": 17669 },
+            { "label": "+loose +yellow +diamonds", "value": 13871 },
+            { "label": "+yellow +diamond +jewelry", "value": 13554 }, { "label": "+yellow +diamond +rings", "value": 12879 }, { "label": "+yellow +diamonds", "value": 12524 }], "פספורטכארד מכר": [{ "label": "[פספורט קארד]", "value": 58124 }, { "label": "+passportcard", "value": 23938 }, { "label": "+פספורט +קארד", "value": 12960 }, { "label": "[passport card]", "value": 11722 }, { "label": "[passportcard]", "value": 7292 }, { "label": "[פספורטכארד]", "value": 7131 }, { "label": "+ביטוח +פספורט +קארד", "value": 4609 }, { "label": "+ביטוח +פספורט", "value": 4263 }, { "label": "+פספורט +ביטוח", "value": 3283 }, { "label": "+פספורט +כארד", "value": 3138 }], "AllJobs": [{ "label": "[alljobs]", "value": 47259 }, { "label": "[דרושים]", "value": 33975 }, { "label": "[דרושים]", "value": 33703 }, { "label": "[alljobs]", "value": 21289 }, { "label": "[אולגובס]", "value": 15058 }, { "label": "+עבודה +לנוער", "value": 11026 }, { "label": "[גוב מאסטר]", "value": 10012 }, { "label": "[אולגובס]", "value": 9672 }, { "label": "+דרושים +עובדים", "value": 9462 }, { "label": "[jobmaster]", "value": 8886 }], "Walla!Shops": [{ "label": "[וואלה שופס]", "value": 53629 }, { "label": "[wallashops]", "value": 8484 }, { "label": "\"וואלה שופס\"", "value": 7534 }, { "label": "[walla shops]", "value": 2991 }, { "label": "שרשרת שם", "value": 2973 }, { "label": "שרשרת שם מזהב", "value": 1908 }, { "label": "שרשרת ילדים", "value": 1204 }, { "label": "[wallashop]", "value": 1120 }, { "label": "[walla shop]", "value": 1069 }, { "label": "[וואלה שופ]", "value": 848 }]
+    }
 };
 exports.User = {
     Name: 'test user',
