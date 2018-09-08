@@ -118,7 +118,11 @@ let Results = class Results {
             try {
                 const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
                 if (results.length > 0) {
-                    return new server_1.MethodResult(results);
+                    const db = yield data_1.DBHandler.getConnection();
+                    const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
+                    const reportResults = yield db.collection(tableName).find({ ResultId: result_id }).toArray();
+                    const returnObject = Object.assign({}, results[0], { Data: reportResults });
+                    return new server_1.MethodResult(returnObject);
                 }
             }
             catch (error) {

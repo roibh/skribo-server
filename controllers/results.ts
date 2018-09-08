@@ -110,7 +110,11 @@ export class Results {
         try {
             const results = (await new DataQuery(ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
             if (results.length > 0) {
-                return new MethodResult(results);
+                const db = await DBHandler.getConnection();
+                const tableName = 'RESULTS_' + hashCode(group_id + script_id);
+                const reportResults = await db.collection(tableName).find({ ResultId: result_id }).toArray();
+                const returnObject = Object.assign({}, results[0], { Data: reportResults });
+                return new MethodResult(returnObject);
             }
 
 
