@@ -41,7 +41,10 @@ let Results = class Results {
                 if (typeof body === 'string') {
                     body = JSON.parse(body);
                 }
-                const results = body.results;
+                let results = body.results;
+                if (typeof results === 'string') {
+                    results = JSON.parse(results);
+                }
                 const db = yield data_1.DBHandler.getConnection();
                 const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
                 const result_id = uuidv1();

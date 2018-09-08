@@ -24,8 +24,10 @@ export class Results {
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
-            const results = body.results;
-
+            let results = body.results;
+            if (typeof results === 'string') {
+                results = JSON.parse(results);
+            }
             const db = await DBHandler.getConnection();
             const tableName = 'RESULTS_' + hashCode(group_id + script_id);
 
@@ -46,6 +48,7 @@ export class Results {
                 Object.keys(results).forEach(async (item) => {
                     for (let i = 0; i < results[item].length; i++) {
                         const rowObject = results[item][i];
+
                         try {
                             rowObject.ResultId = result_id
                             const insertResult = await db.collection(tableName).insertOne(rowObject);
