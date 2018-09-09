@@ -55,5 +55,19 @@ function SkriboPostResults(results) {
     UrlFetchApp.fetch(SkriboResultUrl, options);
 }
 
+function timespanToRange(timespan) {
+    switch (timespan) {
+        case 'LAST_MONTH':
+            var date = new Date();
+            date.setDate(date.getDate() - 30);
+            var dateString = date.toISOString().split('T')[0];
+            return { start: dateString, end: new Date().split('T')[0] }
+
+
+    }
+
+
+
+}
 /*Skribo end pipe functions*/
 
