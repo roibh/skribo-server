@@ -33,7 +33,12 @@ export class Results {
 
             const result_id = uuidv1();
             const resultObject = new ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
+            resultObject.Data = results;
+            
             await resultObject.save();
+
+
+
             if (Array.isArray(results)) {
                 for (let i = 0; i < results.length; i++) {
                     const rowObject = results[i];
