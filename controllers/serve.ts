@@ -20,12 +20,38 @@ export class Serve {
 
 
     static timespanToRange(timespan) {
+        //'TODAY', 'YESTERDAY', 'LAST_7_DAYS', 'THIS_WEEK_SUN_TODAY',
+        // 'THIS_WEEK_MON_TODAY', 'LAST_WEEK', 'LAST_14_DAYS', 'LAST_30_DAYS',
+        // 'LAST_WEEK', 'LAST_BUSINESS_WEEK', 'LAST_WEEK_SUN_SAT', 'THIS_MONTH', 'LAST_MONTH', 'ALL_TIME'
         switch (timespan) {
-            case 'LAST_MONTH':
-                var date = new Date();
-                date.setDate(date.getDate() - 30);
-                var dateString = date.toISOString().split('T')[0];
+            case 'TODAY': {
+                let dateString = new Date().toISOString().split('T')[0];
+                return { start: dateString, end: dateString }
+            }
+
+            case 'YESTERDAY': {
+                let date = new Date();
+                date.setDate(date.getDate() - 1);
+                let dateString = date.toISOString().split('T')[0];
                 return { start: dateString, end: new Date().toISOString().split('T')[0] }
+            }
+
+            case 'LAST_7_DAYS': {
+                let date = new Date();
+                date.setDate(date.getDate() - 7);
+                let dateString = date.toISOString().split('T')[0];
+                return { start: dateString, end: new Date().toISOString().split('T')[0] }
+            }
+
+            case 'LAST_MONTH':
+                {
+                    let date = new Date();
+                    date.setDate(date.getDate() - 30);
+                    let dateString = date.toISOString().split('T')[0];
+                    return { start: dateString, end: new Date().toISOString().split('T')[0] }
+                }
+
+
         }
     }
 

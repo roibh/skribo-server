@@ -112,7 +112,15 @@ export class Results {
             if (results.length > 0) {
                 const db = await DBHandler.getConnection();
                 const tableName = 'RESULTS_' + hashCode(group_id + script_id);
-                const reportResults = await db.collection(tableName).find({ ResultId: result_id }).toArray();
+                let reportResults = await db.collection(tableName).find({ ResultId: result_id }).toArray();
+
+                reportResults = reportResults.map((item) => {
+                    delete item._id;
+                    delete item.ResultId;
+                    return item;
+                });
+
+
                 const returnObject = Object.assign({}, results[0], { Data: reportResults });
                 return new MethodResult(returnObject);
             }
