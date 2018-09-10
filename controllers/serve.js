@@ -35,6 +35,15 @@ const FS = require("fs");
 const data_1 = require("@methodus/data");
 const uuidv1 = require('uuid/v1');
 let Serve = class Serve {
+    static timespanToRange(timespan) {
+        switch (timespan) {
+            case 'LAST_MONTH':
+                var date = new Date();
+                date.setDate(date.getDate() - 30);
+                var dateString = date.toISOString().split('T')[0];
+                return { start: dateString, end: new Date().toISOString().split('T')[0] };
+        }
+    }
     static get(script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -55,6 +64,10 @@ let Serve = class Serve {
                                         return `"${item.name}":${item.value},`;
                                     case 'string':
                                         return `"${item.name}":"${item.value}",`;
+                                    case 'date':
+                                        return `"${item.name}":"${item.value}",`;
+                                    case 'date-span':
+                                        return `"${item.name}":${JSON.stringify(this.timespanToRange(item.value))},`;
                                 }
                             }),
                             '};'

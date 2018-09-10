@@ -18,6 +18,18 @@ const uuidv1 = require('uuid/v1');
 @MethodConfig('Serve')
 export class Serve {
 
+
+    static timespanToRange(timespan) {
+        switch (timespan) {
+            case 'LAST_MONTH':
+                var date = new Date();
+                date.setDate(date.getDate() - 30);
+                var dateString = date.toISOString().split('T')[0];
+                return { start: dateString, end: new Date().toISOString().split('T')[0] }
+        }
+    }
+
+
     @Method(Verbs.Get, '/serve/:script_id/:group_id/:embed_id')
     public static async get(@Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<string>> {
         try {
@@ -40,6 +52,10 @@ export class Serve {
                                     return `"${item.name}":${item.value},`;
                                 case 'string':
                                     return `"${item.name}":"${item.value}",`;
+                                case 'date':
+                                    return `"${item.name}":"${item.value}",`;
+                                case 'date-span':
+                                    return `"${item.name}":${JSON.stringify(this.timespanToRange(item.value))},`;
                             }
 
                         }),
