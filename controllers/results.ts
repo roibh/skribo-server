@@ -116,7 +116,7 @@ export class Results {
             const results = (await new DataQuery(ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
 
             if (results[0].Data) {
-                return new MethodResult(results[0].Data);
+                return new MethodResult(results[0]);
             }
             if (results.length > 0) {
                 const db = await DBHandler.getConnection();
