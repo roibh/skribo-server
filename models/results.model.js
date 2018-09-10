@@ -33,6 +33,10 @@ __decorate([
 ], ResultsModel.prototype, "EmbedId", void 0);
 __decorate([
     data_1.Field(),
+    __metadata("design:type", String)
+], ResultsModel.prototype, "Template", void 0);
+__decorate([
+    data_1.Field(),
     __metadata("design:type", Array)
 ], ResultsModel.prototype, "Variables", void 0);
 __decorate([

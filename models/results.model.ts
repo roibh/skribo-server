@@ -17,6 +17,8 @@ export class ResultsModel extends Repo<ResultsModel>{
     @Field()
     EmbedId?: string;
     @Field()
+    Template?: string;
+    @Field()
     Variables?: string[];
     @Field()
     Date?: Date;
