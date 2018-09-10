@@ -34,7 +34,7 @@ export class Results {
             const result_id = uuidv1();
             const resultObject = new ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
             resultObject.Data = results;
-            
+
             await resultObject.save();
 
 
@@ -114,6 +114,10 @@ export class Results {
     public static async get(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: any): Promise<MethodResult<ResultsModel>> {
         try {
             const results = (await new DataQuery(ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
+
+            if (results[0].Data) {
+                return new MethodResult(results[0].Data);
+            }
             if (results.length > 0) {
                 const db = await DBHandler.getConnection();
                 const tableName = 'RESULTS_' + hashCode(group_id + script_id);

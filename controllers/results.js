@@ -118,6 +118,9 @@ let Results = class Results {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
+                if (results[0].Data) {
+                    return new server_1.MethodResult(results[0].Data);
+                }
                 if (results.length > 0) {
                     const db = yield data_1.DBHandler.getConnection();
                     const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
