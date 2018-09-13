@@ -1,27 +1,28 @@
-import { Repo, Field, Model, ObjectId } from '@methodus/data'
+import { Repo, Field, Model, ObjectId } from '@methodus/data';
 import { VariableModel } from './variable.model';
 
-
 @Model('Embed')
-export class EmbedModel extends Repo<EmbedModel>{
+export class EmbedModel extends Repo<EmbedModel> {
+
+    @ObjectId()
+    @Field()
+    public _id: string;
+    @Field()
+    public ID?: number;
+    @Field()
+    public GroupId?: any;
+    @Field()
+    public ScriptId?: string;
+    @Field()
+    public EmbedId?: string;
+    @Field()
+    public Variables?: VariableModel[];
+    @Field()
+    public Name?: string;
+    @Field()
+    public Page?: string;
+
     constructor(copyData?: any) {
         super(copyData, EmbedModel);
     }
-    @ObjectId()
-    @Field()
-    _id: string;
-    @Field()
-    ID?: number;
-    @Field()
-    GroupId?: any;
-    @Field()
-    ScriptId?: string;
-    @Field()
-    EmbedId?: string;
-    @Field()
-    Variables?: VariableModel[];
-    @Field()
-    Name?: string;
-    @Field()
-    Page?: string;
 }

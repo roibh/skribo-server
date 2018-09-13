@@ -41,6 +41,9 @@
         "includes": {
             "VariableModel": {
                 "path": "./models/variable.model.ts"
+            },
+            "ResultsDescriptor": {
+                "path": "./models/resultsDescriptor.model.ts"
             }
         },
         "dependencies": {},

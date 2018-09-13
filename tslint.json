@@ -5,8 +5,23 @@
     ],
     "jsRules": {},
     "rules": {
-        "quotemark": [true, "single", "jsx-double"],
-        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore","allow-pascal-case"]
+        "ordered-imports": false,
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
+        "quotemark": [
+            true,
+            "single",
+            "jsx-double"
+        ],
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore",
+            "allow-pascal-case"
+        ]
     },
     "rulesDirectory": []
 }
