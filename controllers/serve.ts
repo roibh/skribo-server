@@ -55,11 +55,45 @@ export class Serve {
         }
     }
 
+    static processTemplate(script_id, group_id, embed_id) {
+        let function_code: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
+        const dataUrl = script_id + '/' + group_id + '/' + embed_id;
+        function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve/${dataUrl}`);
+        function_code = function_code.replace(/\$LOGURL\$/g, `log/${dataUrl}`);
+        function_code = function_code.replace(/\$RESULTURL\$/g, `results/${dataUrl}/`);
+        function_code = function_code.replace(/\$SERVERURL\$/g, `https://skribo.herokuapp.com/`);
+        function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${group_id}/`);
+        function_code = function_code.replace(/\$SKRIBODATA\$/g, `'` + JSON.stringify({
+            'group_id': group_id,
+            'base_url': 'https://skribo.herokuapp.com'
+        }) + `'`);
 
+        return function_code;
+    }
+
+    static generateVariables(variables: any[]) {
+        return [
+            'var SkriboEnv =  {',
+            ...variables.map((item) => {
+                switch (item.type) {
+                    case 'number':
+                        return `"${item.name}":${item.value},`;
+                    case 'string':
+                        return `"${item.name}":"${item.value}",`;
+                    case 'date':
+                        return `"${item.name}":"${item.value}",`;
+                    case 'date-span':
+                        return `"${item.name}":${JSON.stringify(this.timespanToRange(item.value))},`;
+                }
+
+            }),
+            '};'
+        ].join('\n');
+    }
+    
     @Method(Verbs.Get, '/serve/:script_id/:group_id/:embed_id')
     public static async get(@Param('script_id') script_id: string, @Param("group_id") group_id: string, @Param('embed_id') embed_id: string): Promise<MethodResult<string>> {
         try {
-
             const codeResult = await ScriptModel.query(new DataQuery(ScriptModel).filter({ 'ScriptId': script_id }));
             if (codeResult.length > 0) {
                 let code = codeResult[0].Code;
@@ -69,63 +103,16 @@ export class Serve {
                     if (typeof variables === 'string') {
                         variables = JSON.parse(variables);
                     }
-
-                    let preCode = [
-                        'var SkriboEnv =  {',
-                        ...variables.map((item) => {
-                            switch (item.type) {
-                                case 'number':
-                                    return `"${item.name}":${item.value},`;
-                                case 'string':
-                                    return `"${item.name}":"${item.value}",`;
-                                case 'date':
-                                    return `"${item.name}":"${item.value}",`;
-                                case 'date-span':
-                                    return `"${item.name}":${JSON.stringify(this.timespanToRange(item.value))},`;
-                            }
-
-                        }),
-                        '};'
-                    ].join('\n');
-
-                    // variables.forEach((element: any) => {
-                    //     preCode += `class SkriboEnv {
-                    //         _${element.name}='${element.value}';`;
-                    //     // const regex = new RegExp(`$Skribo_${element.name}`, 'g');
-                    //     // code = code.replace(regex, element.value);
-                    // });
-
-
-
-                    let function_code: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
-
-                    const dataUrl = script_id + '/' + group_id + '/' + embed_id;
-
-                    function_code = function_code.replace(/\$SCRIPTURL\$/g, `serve/${dataUrl}`);
-                    function_code = function_code.replace(/\$LOGURL\$/g, `log/${dataUrl}`);
-                    function_code = function_code.replace(/\$RESULTURL\$/g, `results/${dataUrl}/`);
-                    function_code = function_code.replace(/\$SERVERURL\$/g, `https://skribo.herokuapp.com/`);
-                    function_code = function_code.replace(/\$SYNCURL\$/g, `sync/${group_id}/`);
-
-                    function_code = function_code.replace(/\$SKRIBODATA\$/g, `'` + JSON.stringify({
-                        'group_id': group_id,
-                        'base_url': 'https://skribo.herokuapp.com'
-                    }) + `'`);
-
+                    let preCode = this.generateVariables(variables);
+                    let function_code: string = this.processTemplate(script_id, group_id, embed_id);
                     console.log('complete script', preCode)
-                    return new MethodResult(preCode + function_code + code)
+                    return new MethodResult(preCode + function_code + code);
                 }
-
-
-
             }
             throw (new MethodError('not found', 404));
-
         }
         catch (error) {
             console.error(error);
         }
     }
-
-
 }
