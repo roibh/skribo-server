@@ -4,8 +4,6 @@
 ____ _  _ ____ _ ___  ____
 [__  |_/  |__/ | |__] |  |
 ___] | \_ |  \ | |__] |__|
-                           
-
 */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -30,15 +28,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const data_1 = require("@methodus/data");
+const uuidv1 = require("uuid/v1");
 const logelas_1 = require("logelas");
 const embed_model_1 = require("../models/embed.model");
-const uuidv1 = require('uuid/v1');
 let Embed = class Embed {
-    static update(embed, script_id, group_id, embed_id) {
+    static update(embed, scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 delete embed._id;
-                const updateResults = yield embed_model_1.EmbedModel.update({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }, embed);
+                const updateResults = yield embed_model_1.EmbedModel.update({
+                    EmbedId: embedId,
+                    GroupId: groupId,
+                    ScriptId: scriptId,
+                }, embed);
                 return new server_1.MethodResult(updateResults);
             }
             catch (error) {
@@ -46,10 +48,14 @@ let Embed = class Embed {
             }
         });
     }
-    static get(script_id, group_id, embed_id) {
+    static get(scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const listResults = yield embed_model_1.EmbedModel.query(new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id }));
+                const listResults = yield embed_model_1.EmbedModel.query(new data_1.Query(embed_model_1.EmbedModel).filter({
+                    EmbedId: embedId,
+                    GroupId: groupId,
+                    ScriptId: scriptId,
+                }));
                 return new server_1.MethodResult(listResults);
             }
             catch (error) {
@@ -57,10 +63,10 @@ let Embed = class Embed {
             }
         });
     }
-    static list(script_id, group_id) {
+    static list(scriptId, groupId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pred = new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: script_id, GroupId: group_id });
+                const pred = new data_1.Query(embed_model_1.EmbedModel).filter({ ScriptId: scriptId, GroupId: groupId });
                 const InstanceScript = yield pred.run();
                 return new server_1.MethodResult(InstanceScript);
             }
@@ -69,10 +75,10 @@ let Embed = class Embed {
             }
         });
     }
-    static delete(script_id, group_id, embed_id) {
+    static delete(scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const InstanceScript = yield embed_model_1.EmbedModel.delete({ ScriptId: script_id, GroupId: group_id, EmbedId: embed_id });
+                const InstanceScript = yield embed_model_1.EmbedModel.delete({ ScriptId: scriptId, GroupId: groupId, EmbedId: embedId });
                 return new server_1.MethodResult(InstanceScript);
             }
             catch (error) {
@@ -80,11 +86,11 @@ let Embed = class Embed {
             }
         });
     }
-    static create(embed, script_id, group_id) {
+    static create(embed, scriptId, groupId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                embed.ScriptId = script_id;
-                embed.GroupId = group_id;
+                embed.ScriptId = scriptId;
+                embed.GroupId = groupId;
                 embed.EmbedId = uuidv1();
                 const createdObject = yield embed_model_1.EmbedModel.insert(embed);
                 if (createdObject) {
@@ -102,35 +108,45 @@ let Embed = class Embed {
 };
 __decorate([
     server_1.Method("PUT" /* Put */, '/embed/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("group_id")), __param(3, server_1.Param('embed_id')),
+    __param(0, server_1.Body('embed')),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('group_id')),
+    __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [embed_model_1.EmbedModel, String, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "update", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/embed/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("group_id")), __param(2, server_1.Param("embed_id")),
+    __param(0, server_1.Param('script_id')),
+    __param(1, server_1.Param('group_id')),
+    __param(2, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "get", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/embed/:script_id/:group_id/'),
-    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("group_id")),
+    __param(0, server_1.Param('script_id')),
+    __param(1, server_1.Param('group_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "list", null);
 __decorate([
     server_1.Method("DELETE" /* Delete */, '/embed/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Param('script_id')), __param(1, server_1.Param("group_id")), __param(2, server_1.Param("embed_id")),
+    __param(0, server_1.Param('script_id')),
+    __param(1, server_1.Param('group_id')),
+    __param(2, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], Embed, "delete", null);
 __decorate([
     server_1.Method("POST" /* Post */, '/embed/:script_id/:group_id'),
-    __param(0, server_1.Body('embed')), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("group_id")),
+    __param(0, server_1.Body('embed')),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('group_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [embed_model_1.EmbedModel, String, String]),
     __metadata("design:returntype", Promise)
