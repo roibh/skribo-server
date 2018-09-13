@@ -16,12 +16,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const models_1 = require("../models/");
+const _1 = require("../models/");
 const uuidv1 = require('uuid/v1');
 class EmbedHelper {
     static update(embed, script_id, group_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const updatedDocument = yield models_1.EmbedModel.save(embed);
+            const updatedDocument = yield _1.EmbedModel.save(embed);
             return updatedDocument;
             // try {
             //     const client = await DB();

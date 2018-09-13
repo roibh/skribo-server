@@ -29,7 +29,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const models_1 = require("../models/");
+const _1 = require("../models/");
 const data_1 = require("@methodus/data");
 const hash_1 = require("../db/hash");
 const uuidv1 = require('uuid/v1');
@@ -37,46 +37,14 @@ let Results = class Results {
     static create(group_id, script_id, embed_id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('typeof', typeof body === 'string');
-                if (typeof body === 'string') {
-                    body = JSON.parse(body);
-                }
-                let results = body.results;
-                if (typeof results === 'string') {
-                    results = JSON.parse(results);
-                }
-                const db = yield data_1.DBHandler.getConnection();
-                const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
+                let results = this.verifyBody(body);
                 const result_id = uuidv1();
-                const resultObject = new models_1.ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
+                const resultObject = new _1.ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
                 resultObject.Data = results;
+                const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
+                resultObject.TableName = tableName;
                 yield resultObject.save();
-                if (Array.isArray(results)) {
-                    for (let i = 0; i < results.length; i++) {
-                        const rowObject = results[i];
-                        try {
-                            rowObject.ResultId = result_id;
-                            const insertResult = yield db.collection(tableName).insertOne(rowObject);
-                        }
-                        catch (error) {
-                            console.error(error);
-                        }
-                    }
-                }
-                else {
-                    Object.keys(results).forEach((item) => __awaiter(this, void 0, void 0, function* () {
-                        for (let i = 0; i < results[item].length; i++) {
-                            const rowObject = results[item][i];
-                            try {
-                                rowObject.ResultId = result_id;
-                                const insertResult = yield db.collection(tableName).insertOne(rowObject);
-                            }
-                            catch (error) {
-                                console.error(error);
-                            }
-                        }
-                    }));
-                }
+                this.storeResults(results, tableName, result_id);
                 return new server_1.MethodResult(resultObject);
             }
             catch (error) {
@@ -88,10 +56,51 @@ let Results = class Results {
     catch(error) {
         throw (new server_1.MethodError(error));
     }
+    static verifyBody(body) {
+        if (typeof body === 'string') {
+            body = JSON.parse(body);
+        }
+        let results = body.results;
+        if (typeof results === 'string') {
+            results = JSON.parse(results);
+        }
+        return results;
+    }
+    static storeResults(results, tableName, result_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const db = yield data_1.DBHandler.getConnection();
+            if (Array.isArray(results)) {
+                for (let i = 0; i < results.length; i++) {
+                    const rowObject = results[i];
+                    try {
+                        rowObject.ResultId = result_id;
+                        const insertResult = yield db.collection(tableName).insertOne(rowObject);
+                    }
+                    catch (error) {
+                        console.error(error);
+                    }
+                }
+            }
+            else {
+                Object.keys(results).forEach((item) => __awaiter(this, void 0, void 0, function* () {
+                    for (let i = 0; i < results[item].length; i++) {
+                        const rowObject = results[item][i];
+                        try {
+                            rowObject.ResultId = result_id;
+                            const insertResult = yield db.collection(tableName).insertOne(rowObject);
+                        }
+                        catch (error) {
+                            console.error(error);
+                        }
+                    }
+                }));
+            }
+        });
+    }
     static listByScript(group_id, script_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id }).run());
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id }).run());
                 if (results.length > 0) {
                     return new server_1.MethodResult(results);
                 }
@@ -104,7 +113,7 @@ let Results = class Results {
     static list(group_id, script_id, embed_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id }).run());
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id }).run());
                 if (results.length > 0) {
                     return new server_1.MethodResult(results);
                 }
@@ -117,7 +126,7 @@ let Results = class Results {
     static get(group_id, script_id, embed_id, result_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
                 if (results[0].Data) {
                     return new server_1.MethodResult(results[0]);
                 }
@@ -142,7 +151,7 @@ let Results = class Results {
     static delete(group_id, script_id, embed_id, result_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleteResult = yield models_1.ResultsModel.delete({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ID: result_id });
+                const deleteResult = yield _1.ResultsModel.delete({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ID: result_id });
                 return new server_1.MethodResult(deleteResult);
             }
             catch (error) {

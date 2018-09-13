@@ -25,6 +25,6 @@ export class ResultsModel extends Repo<ResultsModel>{
     @Field()
     Data?: any;
     @Field()
-    TableName?:string;
+    TableName?: string;
 
 }
