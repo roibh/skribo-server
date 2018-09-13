@@ -1,12 +1,4 @@
 "use strict";
-/*
-
-____ _  _ ____ _ ___  ____
-[__  |_/  |__/ | |__] |  |
-___] | \_ |  \ | |__] |__|
-                           
-
-*/
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -28,23 +20,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+
+____ _  _ ____ _ ___  ____
+[__  |_/  |__/ | |__] |  |
+___] | \_ |  \ | |__] |__|
+*/
+const logelas_1 = require("logelas");
 const server_1 = require("@methodus/server");
 const models_1 = require("../models");
-const uuidv1 = require('uuid/v1');
 let Log = class Log {
-    static log(log, script_id, group_id, embed_id) {
+    static log(log, scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const createdObject = yield models_1.LogModel.insert({
+                    EmbedId: embedId,
+                    GroupId: groupId,
                     Log: log,
-                    GroupId: group_id,
-                    EmbedId: embed_id,
-                    ScriptId: script_id,
+                    ScriptId: scriptId,
                 });
                 return new server_1.MethodResult(true);
             }
             catch (error) {
-                console.error(error);
+                logelas_1.AutoLogger.error(error);
             }
             return new server_1.MethodResult(true);
         });
@@ -52,7 +50,10 @@ let Log = class Log {
 };
 __decorate([
     server_1.Method("POST" /* Post */, '/log/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Body()), __param(1, server_1.Param('script_id')), __param(2, server_1.Param("group_id")), __param(3, server_1.Param('embed_id')),
+    __param(0, server_1.Body()),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('group_id')),
+    __param(3, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, String, String]),
     __metadata("design:returntype", Promise)
