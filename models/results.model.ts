@@ -24,5 +24,7 @@ export class ResultsModel extends Repo<ResultsModel>{
     Date?: Date;
     @Field()
     Data?: any;
+    @Field()
+    TableName?:string;
 
 }

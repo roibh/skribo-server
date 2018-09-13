@@ -20,50 +20,14 @@ export class Results {
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
     public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() body: any): Promise<MethodResult<ResultsModel>> {
         try {
-            console.log('typeof', typeof body === 'string');
-            if (typeof body === 'string') {
-                body = JSON.parse(body);
-            }
-            let results = body.results;
-            if (typeof results === 'string') {
-                results = JSON.parse(results);
-            }
-            const db = await DBHandler.getConnection();
-            const tableName = 'RESULTS_' + hashCode(group_id + script_id);
-
+            let results = this.verifyBody(body);
             const result_id = uuidv1();
             const resultObject = new ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
             resultObject.Data = results;
-
+            const tableName = 'RESULTS_' + hashCode(group_id + script_id);
+            resultObject.TableName = tableName;
             await resultObject.save();
-
-
-
-            if (Array.isArray(results)) {
-                for (let i = 0; i < results.length; i++) {
-                    const rowObject = results[i];
-                    try {
-                        rowObject.ResultId = result_id
-                        const insertResult = await db.collection(tableName).insertOne(rowObject);
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }
-            } else {
-                Object.keys(results).forEach(async (item) => {
-                    for (let i = 0; i < results[item].length; i++) {
-                        const rowObject = results[item][i];
-
-                        try {
-                            rowObject.ResultId = result_id
-                            const insertResult = await db.collection(tableName).insertOne(rowObject);
-                        } catch (error) {
-                            console.error(error);
-                        }
-                    }
-                })
-
-            }
+            this.storeResults(results, tableName, result_id);
             return new MethodResult(resultObject);
         } catch (error) {
             console.error(error);
@@ -75,7 +39,44 @@ export class Results {
         throw (new MethodError(error));
     }
 
+    static verifyBody(body: any) {
+        if (typeof body === 'string') {
+            body = JSON.parse(body);
+        }
+        let results = body.results;
+        if (typeof results === 'string') {
+            results = JSON.parse(results);
+        }
+        return results
+    }
+    static async storeResults(results, tableName: string, result_id: string) {
+        const db = await DBHandler.getConnection();
+        if (Array.isArray(results)) {
+            for (let i = 0; i < results.length; i++) {
+                const rowObject = results[i];
+                try {
+                    rowObject.ResultId = result_id
+                    const insertResult = await db.collection(tableName).insertOne(rowObject);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        } else {
+            Object.keys(results).forEach(async (item) => {
+                for (let i = 0; i < results[item].length; i++) {
+                    const rowObject = results[item][i];
 
+                    try {
+                        rowObject.ResultId = result_id
+                        const insertResult = await db.collection(tableName).insertOne(rowObject);
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+            })
+
+        }
+    }
 
 
     @Method(Verbs.Get, '/results/:script_id/:group_id')
