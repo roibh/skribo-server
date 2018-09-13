@@ -1,45 +1,130 @@
 /*
 
-____ _  _ ____ _ ___  ____ 
-[__  |_/  |__/ | |__] |  | 
-___] | \_ |  \ | |__] |__| 
-                           
+____ _  _ ____ _ ___  ____
+[__  |_/  |__/ | |__] |  |
+___] | \_ |  \ | |__] |__|
 
 */
 
-import { Body, Method, MethodConfig, MethodType, Param, Response, Query, Verbs, MethodError, MethodResult } from '@methodus/server';
-
-import { ResultsModel } from '../models/';
 import { DBHandler, Query as DataQuery } from '@methodus/data';
+import { Body, Method, MethodConfig, MethodError, MethodResult, Param, Query, Verbs } from '@methodus/server';
+import { AutoLogger } from 'logelas';
+import * as uuidv1 from 'uuid/v1';
 import { hashCode } from '../db/hash';
-const uuidv1 = require('uuid/v1');
-
+import { ResultsModel } from '../models/';
 @MethodConfig('Results')
 export class Results {
 
     @Method(Verbs.Post, '/results/:script_id/:group_id/:embed_id')
-    public static async create(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Body() body: any): Promise<MethodResult<ResultsModel>> {
+    public static async create(
+        @Param('group_id') groupId: string,
+        @Param('script_id') scriptId: string,
+        @Param('embed_id') embedId: string,
+        @Body() body: any): Promise<MethodResult<ResultsModel>> {
         try {
-            let results = this.verifyBody(body);
-            const result_id = uuidv1();
-            const resultObject = new ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
+            const results = this.verifyBody(body);
+            const resultId = uuidv1();
+            const resultObject = new ResultsModel({
+                Date: new Date(),
+                EmbedId: embedId,
+                GroupId: groupId,
+                ResultId: resultId,
+                ScriptId: scriptId,
+            });
             resultObject.Data = results;
-            const tableName = 'RESULTS_' + hashCode(group_id + script_id);
+            const tableName = 'RESULTS_' + hashCode(groupId + scriptId);
             resultObject.TableName = tableName;
             await resultObject.save();
-            this.storeResults(results, tableName, result_id);
+            this.storeResults(results, tableName, resultId);
             return new MethodResult(resultObject);
         } catch (error) {
-            console.error(error);
             throw (new MethodError(error));
         }
-
-    }
-    catch(error) {
-        throw (new MethodError(error));
     }
 
-    static verifyBody(body: any) {
+    @Method(Verbs.Get, '/results/:script_id/:group_id')
+    public static async listByScript(@Param('group_id') groupId: string, @Param('script_id') scriptId: string):
+        Promise<MethodResult<ResultsModel[]>> {
+        const results = (await new DataQuery(ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
+        if (results.length > 0) {
+            return new MethodResult(results);
+        }
+    }
+
+    @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id')
+    public static async list(
+        @Param('group_id') groupId: string,
+        @Param('script_id') scriptId: string,
+        @Param('embed_id') embedId: string): Promise<MethodResult<ResultsModel[]>> {
+        try {
+            const results = (await new DataQuery(ResultsModel).filter({
+                EmbedId: embedId,
+                GroupId: groupId,
+                ScriptId: scriptId,
+            }).run());
+            if (results.length > 0) {
+                return new MethodResult(results);
+            }
+        } catch (error) {
+            throw (new MethodError(error));
+        }
+    }
+
+    @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id/:result_id')
+    public static async get(
+        @Param('group_id') groupId: string,
+        @Param('script_id') scriptId: string,
+        @Param('embed_id') embedId: string,
+        @Param('result_id') resultId: any): Promise<MethodResult<ResultsModel>> {
+        try {
+            const results = (await new DataQuery(ResultsModel).filter({
+                EmbedId: embedId,
+                GroupId: groupId,
+                ResultId: resultId,
+                ScriptId: scriptId,
+            }).run());
+
+            if (results[0].Data) {
+                return new MethodResult(results[0]);
+            }
+            if (results.length > 0) {
+                const db = await DBHandler.getConnection();
+                const tableName = 'RESULTS_' + hashCode(groupId + scriptId);
+                let reportResults = await db.collection(tableName).find({ ResultId: resultId }).toArray();
+
+                reportResults = reportResults.map((item) => {
+                    delete item._id;
+                    delete item.ResultId;
+                    return item;
+                });
+                const returnObject = Object.assign({}, results[0], { Data: reportResults });
+                return new MethodResult(returnObject);
+            }
+        } catch (error) {
+            throw (new MethodError(error));
+        }
+    }
+
+    @Method(Verbs.Delete, '/results/:script_id/:group_id/:embed_id/:result_id')
+    public static async delete(
+        @Param('group_id') groupId: string,
+        @Param('script_id') scriptId: string,
+        @Param('embed_id') embedId: string,
+        @Param('result_id') resultId: string): Promise<MethodResult<boolean>> {
+        try {
+            const deleteResult = await ResultsModel.delete({
+                EmbedId: embedId,
+                GroupId: groupId,
+                ID: resultId,
+                ScriptId: scriptId,
+            });
+            return new MethodResult(deleteResult);
+        } catch (error) {
+            throw (new MethodError(error));
+        }
+    }
+
+    private static verifyBody(body: any) {
         if (typeof body === 'string') {
             body = JSON.parse(body);
         }
@@ -47,114 +132,29 @@ export class Results {
         if (typeof results === 'string') {
             results = JSON.parse(results);
         }
-        return results
+        return results;
     }
-    static async storeResults(results, tableName: string, result_id: string) {
+
+    private static async insertToDB(rowObject, tableName, resultId) {
         const db = await DBHandler.getConnection();
+        try {
+            rowObject.ResultId = resultId;
+            const insertResult = await db.collection(tableName).insertOne(rowObject);
+        } catch (error) {
+            AutoLogger.error(error);
+        }
+    }
+    private static async storeResults(results, tableName: string, resultId: string) {
         if (Array.isArray(results)) {
-            for (let i = 0; i < results.length; i++) {
-                const rowObject = results[i];
-                try {
-                    rowObject.ResultId = result_id
-                    const insertResult = await db.collection(tableName).insertOne(rowObject);
-                } catch (error) {
-                    console.error(error);
-                }
-            }
+            results.forEach(async (rowObject) => {
+                this.insertToDB(rowObject, tableName, resultId);
+            });
         } else {
             Object.keys(results).forEach(async (item) => {
-                for (let i = 0; i < results[item].length; i++) {
-                    const rowObject = results[item][i];
-
-                    try {
-                        rowObject.ResultId = result_id
-                        const insertResult = await db.collection(tableName).insertOne(rowObject);
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }
-            })
-
-        }
-    }
-
-
-    @Method(Verbs.Get, '/results/:script_id/:group_id')
-    public static async listByScript(@Param("group_id") group_id: string, @Param("script_id") script_id: string): Promise<MethodResult<ResultsModel[]>> {
-        try {
-            const results = (await new DataQuery(ResultsModel).filter({ GroupId: group_id, ScriptId: script_id }).run());
-            if (results.length > 0) {
-                return new MethodResult(results);
-            }
-        }
-        catch (error) {
-            throw (new MethodError(error));
-        }
-    }
-
-
-    @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id')
-    public static async list(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string): Promise<MethodResult<ResultsModel[]>> {
-        try {
-
-            const results = (await new DataQuery(ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id }).run());
-            if (results.length > 0) {
-                return new MethodResult(results);
-            }
-
-
-        }
-        catch (error) {
-            throw (new MethodError(error));
-        }
-    }
-
-
-
-    @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id/:result_id')
-    public static async get(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: any): Promise<MethodResult<ResultsModel>> {
-        try {
-            const results = (await new DataQuery(ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
-
-            if (results[0].Data) {
-                return new MethodResult(results[0]);
-            }
-            if (results.length > 0) {
-                const db = await DBHandler.getConnection();
-                const tableName = 'RESULTS_' + hashCode(group_id + script_id);
-                let reportResults = await db.collection(tableName).find({ ResultId: result_id }).toArray();
-
-                reportResults = reportResults.map((item) => {
-                    delete item._id;
-                    delete item.ResultId;
-                    return item;
+                results[item].forEach(async (rowObject) => {
+                    this.insertToDB(rowObject, tableName, resultId);
                 });
-
-
-                const returnObject = Object.assign({}, results[0], { Data: reportResults });
-                return new MethodResult(returnObject);
-            }
-
-
-        }
-        catch (error) {
-            throw (new MethodError(error));
-        }
-    }
-
-
-
-
-
-    @Method(Verbs.Delete, '/results/:script_id/:group_id/:embed_id/:result_id')
-    public static async delete(@Param("group_id") group_id: string, @Param("script_id") script_id: string, @Param("embed_id") embed_id: string, @Param("result_id") result_id: string): Promise<MethodResult<boolean>> {
-        try {
-            const deleteResult = await ResultsModel.delete({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ID: result_id });
-            return new MethodResult(deleteResult);
-        }
-        catch (error) {
-            throw (new MethodError(error));
-
+            });
         }
     }
 }

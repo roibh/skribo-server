@@ -4,7 +4,6 @@
 ____ _  _ ____ _ ___  ____
 [__  |_/  |__/ | |__] |  |
 ___] | \_ |  \ | |__] |__|
-                           
 
 */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -28,79 +27,53 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = require("@methodus/server");
-const _1 = require("../models/");
 const data_1 = require("@methodus/data");
+const server_1 = require("@methodus/server");
+const logelas_1 = require("logelas");
+const uuidv1 = require("uuid/v1");
 const hash_1 = require("../db/hash");
-const uuidv1 = require('uuid/v1');
+const _1 = require("../models/");
 let Results = class Results {
-    static create(group_id, script_id, embed_id, body) {
+    static create(groupId, scriptId, embedId, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let results = this.verifyBody(body);
-                const result_id = uuidv1();
-                const resultObject = new _1.ResultsModel({ Date: new Date(), GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id });
+                const results = this.verifyBody(body);
+                const resultId = uuidv1();
+                const resultObject = new _1.ResultsModel({
+                    Date: new Date(),
+                    EmbedId: embedId,
+                    GroupId: groupId,
+                    ResultId: resultId,
+                    ScriptId: scriptId,
+                });
                 resultObject.Data = results;
-                const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
+                const tableName = 'RESULTS_' + hash_1.hashCode(groupId + scriptId);
                 resultObject.TableName = tableName;
                 yield resultObject.save();
-                this.storeResults(results, tableName, result_id);
+                this.storeResults(results, tableName, resultId);
                 return new server_1.MethodResult(resultObject);
             }
             catch (error) {
-                console.error(error);
                 throw (new server_1.MethodError(error));
             }
         });
     }
-    catch(error) {
-        throw (new server_1.MethodError(error));
-    }
-    static verifyBody(body) {
-        if (typeof body === 'string') {
-            body = JSON.parse(body);
-        }
-        let results = body.results;
-        if (typeof results === 'string') {
-            results = JSON.parse(results);
-        }
-        return results;
-    }
-    static storeResults(results, tableName, result_id) {
+    static listByScript(groupId, scriptId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const db = yield data_1.DBHandler.getConnection();
-            if (Array.isArray(results)) {
-                for (let i = 0; i < results.length; i++) {
-                    const rowObject = results[i];
-                    try {
-                        rowObject.ResultId = result_id;
-                        const insertResult = yield db.collection(tableName).insertOne(rowObject);
-                    }
-                    catch (error) {
-                        console.error(error);
-                    }
-                }
-            }
-            else {
-                Object.keys(results).forEach((item) => __awaiter(this, void 0, void 0, function* () {
-                    for (let i = 0; i < results[item].length; i++) {
-                        const rowObject = results[item][i];
-                        try {
-                            rowObject.ResultId = result_id;
-                            const insertResult = yield db.collection(tableName).insertOne(rowObject);
-                        }
-                        catch (error) {
-                            console.error(error);
-                        }
-                    }
-                }));
+            const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
+            if (results.length > 0) {
+                return new server_1.MethodResult(results);
             }
         });
     }
-    static listByScript(group_id, script_id) {
+    static list(groupId, scriptId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id }).run());
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({
+                    EmbedId: embedId,
+                    GroupId: groupId,
+                    ScriptId: scriptId,
+                }).run());
                 if (results.length > 0) {
                     return new server_1.MethodResult(results);
                 }
@@ -110,30 +83,22 @@ let Results = class Results {
             }
         });
     }
-    static list(group_id, script_id, embed_id) {
+    static get(groupId, scriptId, embedId, resultId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id }).run());
-                if (results.length > 0) {
-                    return new server_1.MethodResult(results);
-                }
-            }
-            catch (error) {
-                throw (new server_1.MethodError(error));
-            }
-        });
-    }
-    static get(group_id, script_id, embed_id, result_id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ResultId: result_id }).run());
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({
+                    EmbedId: embedId,
+                    GroupId: groupId,
+                    ResultId: resultId,
+                    ScriptId: scriptId,
+                }).run());
                 if (results[0].Data) {
                     return new server_1.MethodResult(results[0]);
                 }
                 if (results.length > 0) {
                     const db = yield data_1.DBHandler.getConnection();
-                    const tableName = 'RESULTS_' + hash_1.hashCode(group_id + script_id);
-                    let reportResults = yield db.collection(tableName).find({ ResultId: result_id }).toArray();
+                    const tableName = 'RESULTS_' + hash_1.hashCode(groupId + scriptId);
+                    let reportResults = yield db.collection(tableName).find({ ResultId: resultId }).toArray();
                     reportResults = reportResults.map((item) => {
                         delete item._id;
                         delete item.ResultId;
@@ -148,10 +113,15 @@ let Results = class Results {
             }
         });
     }
-    static delete(group_id, script_id, embed_id, result_id) {
+    static delete(groupId, scriptId, embedId, resultId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleteResult = yield _1.ResultsModel.delete({ GroupId: group_id, ScriptId: script_id, EmbedId: embed_id, ID: result_id });
+                const deleteResult = yield _1.ResultsModel.delete({
+                    EmbedId: embedId,
+                    GroupId: groupId,
+                    ID: resultId,
+                    ScriptId: scriptId,
+                });
                 return new server_1.MethodResult(deleteResult);
             }
             catch (error) {
@@ -159,38 +129,87 @@ let Results = class Results {
             }
         });
     }
+    static verifyBody(body) {
+        if (typeof body === 'string') {
+            body = JSON.parse(body);
+        }
+        let results = body.results;
+        if (typeof results === 'string') {
+            results = JSON.parse(results);
+        }
+        return results;
+    }
+    static insertToDB(rowObject, tableName, resultId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const db = yield data_1.DBHandler.getConnection();
+            try {
+                rowObject.ResultId = resultId;
+                const insertResult = yield db.collection(tableName).insertOne(rowObject);
+            }
+            catch (error) {
+                logelas_1.AutoLogger.error(error);
+            }
+        });
+    }
+    static storeResults(results, tableName, resultId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (Array.isArray(results)) {
+                results.forEach((rowObject) => __awaiter(this, void 0, void 0, function* () {
+                    this.insertToDB(rowObject, tableName, resultId);
+                }));
+            }
+            else {
+                Object.keys(results).forEach((item) => __awaiter(this, void 0, void 0, function* () {
+                    results[item].forEach((rowObject) => __awaiter(this, void 0, void 0, function* () {
+                        this.insertToDB(rowObject, tableName, resultId);
+                    }));
+                }));
+            }
+        });
+    }
 };
 __decorate([
     server_1.Method("POST" /* Post */, '/results/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Body()),
+    __param(0, server_1.Param('group_id')),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('embed_id')),
+    __param(3, server_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], Results, "create", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/results/:script_id/:group_id'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")),
+    __param(0, server_1.Param('group_id')), __param(1, server_1.Param('script_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], Results, "listByScript", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/results/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")),
+    __param(0, server_1.Param('group_id')),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], Results, "list", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/results/:script_id/:group_id/:embed_id/:result_id'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Param("result_id")),
+    __param(0, server_1.Param('group_id')),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('embed_id')),
+    __param(3, server_1.Param('result_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], Results, "get", null);
 __decorate([
     server_1.Method("DELETE" /* Delete */, '/results/:script_id/:group_id/:embed_id/:result_id'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Param("script_id")), __param(2, server_1.Param("embed_id")), __param(3, server_1.Param("result_id")),
+    __param(0, server_1.Param('group_id')),
+    __param(1, server_1.Param('script_id')),
+    __param(2, server_1.Param('embed_id')),
+    __param(3, server_1.Param('result_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
