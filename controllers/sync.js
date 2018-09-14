@@ -4,7 +4,6 @@
 ____ _  _ ____ _ ___  ____
 [__  |_/  |__/ | |__] |  |
 ___] | \_ |  \ | |__] |__|
-                           
 
 */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -30,32 +29,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
 const models_1 = require("../models");
+const logelas_1 = require("logelas");
 let Sync = class Sync {
-    static accounts(group_id, accounts) {
+    static accounts(groupId, accounts) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const accountsList = JSON.parse(accounts.accounts);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                    const account = new models_1.UserAccountModel({ GroupId: group_id, AccountKey: element.id, AccountName: element.name });
+                    const account = new models_1.UserAccountModel({
+                        AccountKey: element.id,
+                        AccountName: element.name,
+                        GroupId: groupId,
+                    });
                     yield account.save();
-                    // const foundAccounts = await client.query('SELECT * FROM  public.user_accounts WHERE "GroupId"=$1 AND "AccountKey"=$2', [group_id, element.id]);
-                    // if (foundAccounts.length > 0) {
-                    //     await client.query('UPDATE   public.user_accounts set   "AccountKey"=$1 , "AccountName"=$2', [element.id, element.name])
-                    // } else {
-                    //     await client.query('INSERT INTO public.user_accounts("GroupId", "AccountKey", "AccountName") VALUES($1,$2,$3) RETURNING "ID"', [group_id, element.id, element.name])
-                    // }
                 }));
                 return new server_1.MethodResult(true);
             }
             catch (error) {
-                console.error(error);
+                logelas_1.AutoLogger.error(error);
             }
         });
     }
 };
 __decorate([
     server_1.Method("POST" /* Post */, '/sync/:group_id/accounts'),
-    __param(0, server_1.Param("group_id")), __param(1, server_1.Body()),
+    __param(0, server_1.Param('group_id')),
+    __param(1, server_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
