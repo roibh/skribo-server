@@ -78,27 +78,23 @@ let Serve = class Serve {
         // 'LAST_WEEK', 'LAST_BUSINESS_WEEK', 'LAST_WEEK_SUN_SAT', 'THIS_MONTH', 'LAST_MONTH', 'ALL_TIME'
         switch (timespan) {
             case 'TODAY': {
-                const dateString = new Date().toISOString().split('T')[0];
+                const dateString = this.rangeBack(0);
                 return { start: dateString, end: dateString };
             }
             case 'YESTERDAY': {
                 const date = new Date();
                 date.setDate(date.getDate() - 1);
-                const dateString = date.toISOString().split('T')[0];
-                return { start: dateString, end: new Date().toISOString().split('T')[0] };
+                const dateString = this.rangeBack(1);
+                return { start: dateString, end: this.rangeBack(0) };
             }
             case 'LAST_7_DAYS': {
-                const date = new Date();
-                date.setDate(date.getDate() - 7);
-                const dateString = date.toISOString().split('T')[0];
-                return { start: dateString, end: new Date().toISOString().split('T')[0] };
+                const dateString = this.rangeBack(7);
+                return { start: dateString, end: this.rangeBack(0) };
             }
             case 'LAST_MONTH':
                 {
-                    const date = new Date();
-                    date.setDate(date.getDate() - 30);
-                    const dateString = date.toISOString().split('T')[0];
-                    return { start: dateString, end: new Date().toISOString().split('T')[0] };
+                    const dateString = this.rangeBack(30);
+                    return { start: dateString, end: this.rangeBack(0) };
                 }
         }
     }
@@ -115,6 +111,11 @@ let Serve = class Serve {
             group_id: groupId,
         }) + `'`);
         return functionCode;
+    }
+    static rangeBack(days) {
+        const date = new Date();
+        date.setDate(date.getDate() - days);
+        return date.toISOString().split('T')[0];
     }
 };
 __decorate([

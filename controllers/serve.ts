@@ -59,39 +59,35 @@ export class Serve {
         ].join('\n');
     }
 
+
     private static timespanToRange(timespan) {
         // 'TODAY', 'YESTERDAY', 'LAST_7_DAYS', 'THIS_WEEK_SUN_TODAY',
         // 'THIS_WEEK_MON_TODAY', 'LAST_WEEK', 'LAST_14_DAYS', 'LAST_30_DAYS',
         // 'LAST_WEEK', 'LAST_BUSINESS_WEEK', 'LAST_WEEK_SUN_SAT', 'THIS_MONTH', 'LAST_MONTH', 'ALL_TIME'
         switch (timespan) {
             case 'TODAY': {
-                const dateString = new Date().toISOString().split('T')[0];
+                const dateString = this.rangeBack(0);
                 return { start: dateString, end: dateString };
             }
 
             case 'YESTERDAY': {
                 const date = new Date();
                 date.setDate(date.getDate() - 1);
-                const dateString = date.toISOString().split('T')[0];
-                return { start: dateString, end: new Date().toISOString().split('T')[0] };
+                const dateString = this.rangeBack(1);
+                return { start: dateString, end: this.rangeBack(0) };
             }
-
             case 'LAST_7_DAYS': {
-                const date = new Date();
-                date.setDate(date.getDate() - 7);
-                const dateString = date.toISOString().split('T')[0];
-                return { start: dateString, end: new Date().toISOString().split('T')[0] };
+                const dateString = this.rangeBack(7);
+                return { start: dateString, end: this.rangeBack(0) };
             }
-
             case 'LAST_MONTH':
                 {
-                    const date = new Date();
-                    date.setDate(date.getDate() - 30);
-                    const dateString = date.toISOString().split('T')[0];
-                    return { start: dateString, end: new Date().toISOString().split('T')[0] };
+                    const dateString = this.rangeBack(30);
+                    return { start: dateString, end: this.rangeBack(0) };
                 }
         }
     }
+
 
     private static processTemplate(scriptId: string, groupId: string, embedId: string): string {
         let functionCode: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
@@ -108,5 +104,9 @@ export class Serve {
 
         return functionCode;
     }
-
+    private static rangeBack(days) {
+        const date = new Date();
+        date.setDate(date.getDate() - days);
+        return date.toISOString().split('T')[0];
+    }
 }
