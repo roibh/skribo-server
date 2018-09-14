@@ -52,7 +52,7 @@ let User = class User {
     static getGroups(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userquery = (yield new data_1.Query(models_1.UserGroupModel).filter({ UserId: userId }).run());
+                const userquery = yield this.getUserGroup(userId);
                 const groupResult = (yield new data_1.Query(models_1.GroupModel).filter({
                     GroupId: { $in: userquery.map((item) => item.GroupId) },
                 }).run());
@@ -68,7 +68,7 @@ let User = class User {
     static attachToGroup(userId, userData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const groupResult = yield models_1.UserGroupModel.query(new data_1.Query(models_1.UserGroupModel).filter({ UserId: userId }));
+                const groupResult = yield this.getUserGroup(userId);
                 if (groupResult.length === 0) {
                     const groupModel = new models_1.GroupModel({ Name: userData.Name, Date: new Date(), GroupId: uuidv1() });
                     const insertResult = yield groupModel.save();
@@ -107,6 +107,11 @@ let User = class User {
             catch (error) {
                 throw (error);
             }
+        });
+    }
+    static getUserGroup(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield models_1.UserGroupModel.query(new data_1.Query(models_1.UserGroupModel).filter({ UserId: userId }));
         });
     }
 };

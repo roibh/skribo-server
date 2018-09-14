@@ -32,7 +32,7 @@ export class User {
     @Method(Verbs.Get, '/user/:user_id/groups')
     public static async getGroups(@Param('user_id') userId: string): Promise<MethodResult<any>> {
         try {
-            const userquery = (await new DataQuery(UserGroupModel).filter({ UserId: userId }).run());
+            const userquery = await this.getUserGroup(userId);
             const groupResult = (await new DataQuery(GroupModel).filter({
                 GroupId: { $in: userquery.map((item) => item.GroupId) },
             }).run());
@@ -50,7 +50,8 @@ export class User {
         @Param('user_id') userId: string,
         @Body('data', 'object') userData: any): Promise<MethodResult<string>> {
         try {
-            const groupResult = await UserGroupModel.query(new DataQuery(UserGroupModel).filter({ UserId: userId }));
+            const groupResult: any = await this.getUserGroup(userId);
+
             if (groupResult.length === 0) {
                 const groupModel = new GroupModel({ Name: userData.Name, Date: new Date(), GroupId: uuidv1() });
                 const insertResult: GroupModel = await groupModel.save();
@@ -85,5 +86,9 @@ export class User {
         } catch (error) {
             throw (error);
         }
+    }
+
+    private static async  getUserGroup(userId) {
+        return await UserGroupModel.query(new DataQuery(UserGroupModel).filter({ UserId: userId }));
     }
 }

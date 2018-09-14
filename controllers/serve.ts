@@ -59,7 +59,6 @@ export class Serve {
         ].join('\n');
     }
 
-
     private static timespanToRange(timespan) {
         // 'TODAY', 'YESTERDAY', 'LAST_7_DAYS', 'THIS_WEEK_SUN_TODAY',
         // 'THIS_WEEK_MON_TODAY', 'LAST_WEEK', 'LAST_14_DAYS', 'LAST_30_DAYS',
@@ -87,7 +86,6 @@ export class Serve {
                 }
         }
     }
-
 
     private static processTemplate(scriptId: string, groupId: string, embedId: string): string {
         let functionCode: string = FS.readFileSync('./content/pipe_functions.js', { encoding: 'utf-8' });
