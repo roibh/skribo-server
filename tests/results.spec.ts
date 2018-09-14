@@ -1,18 +1,17 @@
-import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Timeout, TeardownFixture, Teardown, AsyncTeardown, AsyncTeardownFixture, FocusTest, SetupFixture } from 'alsatian';
+import { AsyncTest, Expect, TestCase, TestFixture, Timeout } from 'alsatian';
 import * as Data from './data';
 import { Results } from '../controllers/results';
 
 @TestFixture('Test Results')
 export class TestsOfResults {
 
-
-
-
     @AsyncTest('create')
-    @TestCase(Data.ReportResult)
+    @TestCase(Data.ReportResultCollection)
+    @TestCase(Data.ReportResultEmbeded)
     @Timeout(10000)
     public async create(resultMutation) {
-        const result = (await Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation)).result;
+        const result = (await Results.create(Data.User.GroupId,
+            Data.User.ScriptId, Data.User.EmbedId, resultMutation)).result;
         Data.User.ResultId = result.ResultId;
         Expect(result).toBeDefined();
     }
@@ -37,8 +36,3 @@ export class TestsOfResults {
         Expect(result).toBeDefined();
     }
 }
-
-
-
-
-

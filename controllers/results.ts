@@ -31,11 +31,16 @@ export class Results {
                 ResultId: resultId,
                 ScriptId: scriptId,
             });
-            resultObject.Data = results;
-            const tableName = 'RESULTS_' + hashCode(groupId + scriptId);
-            resultObject.TableName = tableName;
+            if (results.reportType === 'embeded') {
+                resultObject.Data = results;
+            } else {
+                const tableName = 'RESULTS_' + hashCode(groupId + scriptId);
+                resultObject.TableName = tableName;
+                this.storeResults(results, tableName, resultId);
+            }
+
             await resultObject.save();
-            this.storeResults(results, tableName, resultId);
+
             return new MethodResult(resultObject);
         } catch (error) {
             throw (new MethodError(error));

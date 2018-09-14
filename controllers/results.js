@@ -46,11 +46,15 @@ let Results = class Results {
                     ResultId: resultId,
                     ScriptId: scriptId,
                 });
-                resultObject.Data = results;
-                const tableName = 'RESULTS_' + hash_1.hashCode(groupId + scriptId);
-                resultObject.TableName = tableName;
+                if (results.reportType === 'embeded') {
+                    resultObject.Data = results;
+                }
+                else {
+                    const tableName = 'RESULTS_' + hash_1.hashCode(groupId + scriptId);
+                    resultObject.TableName = tableName;
+                    this.storeResults(results, tableName, resultId);
+                }
                 yield resultObject.save();
-                this.storeResults(results, tableName, resultId);
                 return new server_1.MethodResult(resultObject);
             }
             catch (error) {

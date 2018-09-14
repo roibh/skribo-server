@@ -49,7 +49,8 @@ let TestsOfResults = class TestsOfResults {
 };
 __decorate([
     alsatian_1.AsyncTest('create'),
-    alsatian_1.TestCase(Data.ReportResult),
+    alsatian_1.TestCase(Data.ReportResultCollection),
+    alsatian_1.TestCase(Data.ReportResultEmbeded),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
