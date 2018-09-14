@@ -23,24 +23,24 @@ const user_1 = require("../controllers/user");
 const data_1 = require("@methodus/data");
 data_1.DBHandler.config = {
     connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
+        default: {
             db: 'test',
-            poolSize: 10,
-            ssl: false,
             exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
+            poolSize: 10,
+            readPreference: 'primaryPreferred',
+            server: 'mongodb://localhost:27017',
+            ssl: false,
+        },
+    },
 };
-const user_id = '000000000000000000';
-const group_id = '000000000000000000';
-const script_id = '000000000000000000';
-const embed_id = '000000000000000000';
+const userId = '000000000000000000';
+const groupId = '000000000000000000';
+const scriptId = '000000000000000000';
+const embedId = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
-            const userResult = (yield user_1.User.attachToGroup(user_id, Data.User)).result;
+            const userResult = (yield user_1.User.attachToGroup(userId, Data.User)).result;
             Data.User.GroupId = userResult.GroupId;
         });
     }
@@ -52,31 +52,8 @@ let TestsOfResults = class TestsOfResults {
     }
     user_getGroups() {
         return __awaiter(this, void 0, void 0, function* () {
-            const groups = yield user_1.User.getGroups(user_id);
+            const groups = yield user_1.User.getGroups(userId);
             alsatian_1.Expect(groups).toBeDefined();
-        });
-    }
-    CleanUp() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                // const client = await DB();
-                // const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
-                // await client.query(`DROP TABLE public."${tableName}"`, []);
-                // await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
-                // await User.deleteGroup(Data.User.GroupId);
-                // await User.delete(user_id);
-            }
-            catch (error) {
-                console.error(error);
-            }
-            // var query = "DELETE * FROM Users WHERE Email=@Email";
-            // const deleteResult = await dal.query(query, {
-            //     "Email": Data.newUserNew.Email
-            // });
-            // Expect(deleteResult.result.ok).toBe(1);
-            // const db = await DBHandler.getConnection('default');
-            // const result = await db.collection('Message').remove({ 'TEST': true });
-            // Expect(result).toBeDefined();
         });
     }
 };
@@ -100,12 +77,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOfResults.prototype, "user_getGroups", null);
-__decorate([
-    alsatian_1.AsyncTeardownFixture,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "CleanUp", null);
 TestsOfResults = __decorate([
     alsatian_1.TestFixture('Test Setup')
 ], TestsOfResults);

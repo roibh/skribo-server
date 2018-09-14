@@ -1,4 +1,4 @@
-import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Timeout, TeardownFixture, Teardown, AsyncTeardown, AsyncTeardownFixture, FocusTest, SetupFixture } from 'alsatian';
+import { AsyncTest, Expect, TestFixture, Timeout } from 'alsatian';
 import * as Data from './data';
 import { Embed, Scripts, Results, User } from '../controllers';
 
@@ -22,7 +22,8 @@ export class TestsOfServe {
     @AsyncTest('result_delete')
     @Timeout(10000)
     public async result_delete() {
-        const result = await Results.delete(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
+        const result = await Results.delete(Data.User.GroupId,
+            Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
         Expect(result).toBeDefined();
     }
 
