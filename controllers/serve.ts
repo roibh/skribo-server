@@ -25,19 +25,22 @@ export class Serve {
                 EmbedId: embedId, GroupId: groupId, ScriptId: scriptId,
             }).run());
             if (InstanceScript.length > 0) {
-                let variables = InstanceScript[0].Variables || [];
-                if (typeof variables === 'string') {
-                    variables = JSON.parse(variables);
-                }
-                const preCode = this.generateVariables(variables);
-                const code = codeResult[0].Code;
-                const functionCode: string = this.processTemplate(scriptId, groupId, embedId);
-                return new MethodResult(preCode + functionCode + code);
+                return this.generateCode(InstanceScript, codeResult, scriptId, groupId, embedId);
             }
         }
         throw (new MethodError('not found', 404));
     }
 
+    private static generateCode(InstanceScript, codeResult, scriptId, groupId, embedId) {
+        let variables = InstanceScript[0].Variables || [];
+        if (typeof variables === 'string') {
+            variables = JSON.parse(variables);
+        }
+        const preCode = this.generateVariables(variables);
+        const code = codeResult[0].Code;
+        const functionCode: string = this.processTemplate(scriptId, groupId, embedId);
+        return new MethodResult(preCode + functionCode + code);
+    }
     private static generateVariables(variables: any[]) {
         return [
             'var SkriboEnv =  {',

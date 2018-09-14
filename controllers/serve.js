@@ -41,18 +41,21 @@ let Serve = class Serve {
                     EmbedId: embedId, GroupId: groupId, ScriptId: scriptId,
                 }).run());
                 if (InstanceScript.length > 0) {
-                    let variables = InstanceScript[0].Variables || [];
-                    if (typeof variables === 'string') {
-                        variables = JSON.parse(variables);
-                    }
-                    const preCode = this.generateVariables(variables);
-                    const code = codeResult[0].Code;
-                    const functionCode = this.processTemplate(scriptId, groupId, embedId);
-                    return new server_1.MethodResult(preCode + functionCode + code);
+                    return this.generateCode(InstanceScript, codeResult, scriptId, groupId, embedId);
                 }
             }
             throw (new server_1.MethodError('not found', 404));
         });
+    }
+    static generateCode(InstanceScript, codeResult, scriptId, groupId, embedId) {
+        let variables = InstanceScript[0].Variables || [];
+        if (typeof variables === 'string') {
+            variables = JSON.parse(variables);
+        }
+        const preCode = this.generateVariables(variables);
+        const code = codeResult[0].Code;
+        const functionCode = this.processTemplate(scriptId, groupId, embedId);
+        return new server_1.MethodResult(preCode + functionCode + code);
     }
     static generateVariables(variables) {
         return [
