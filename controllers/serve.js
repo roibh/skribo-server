@@ -120,9 +120,7 @@ let Serve = class Serve {
 };
 __decorate([
     server_1.Method("GET" /* Get */, '/serve/:script_id/:group_id/:embed_id'),
-    __param(0, server_1.Param('script_id')),
-    __param(1, server_1.Param('group_id')),
-    __param(2, server_1.Param('embed_id')),
+    __param(0, server_1.Param('script_id')), __param(1, server_1.Param('group_id')), __param(2, server_1.Param('embed_id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)

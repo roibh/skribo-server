@@ -16,9 +16,8 @@ export class Serve {
 
     @Method(Verbs.Get, '/serve/:script_id/:group_id/:embed_id')
     public static async get(
-        @Param('script_id') scriptId: string,
-        @Param('group_id') groupId: string,
-        @Param('embed_id') embedId: string): Promise<MethodResult<string>> {
+        @Param('script_id') scriptId: string, @Param('group_id') groupId: string, @Param('embed_id') embedId: string):
+        Promise<MethodResult<string>> {
         const codeResult = await ScriptModel.query(new DataQuery(ScriptModel).filter({ ScriptId: scriptId }));
         if (codeResult.length > 0) {
 
