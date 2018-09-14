@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var UserModel_1;
 const data_1 = require("@methodus/data");
 let UserModel = UserModel_1 = class UserModel extends data_1.Repo {
     constructor(copyData) {
@@ -36,5 +37,4 @@ UserModel = UserModel_1 = __decorate([
     __metadata("design:paramtypes", [Object])
 ], UserModel);
 exports.UserModel = UserModel;
-var UserModel_1;
 //# sourceMappingURL=user.model.js.map

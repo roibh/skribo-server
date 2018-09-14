@@ -1,4 +1,4 @@
-import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Timeout, TeardownFixture, Teardown, AsyncTeardown, AsyncTeardownFixture, FocusTest, SetupFixture } from 'alsatian';
+import { AsyncTest, Expect, TestFixture, Timeout, TestCase } from 'alsatian';
 
 import * as Data from './data';
 import { Scripts, Embed, Serve } from '../controllers';
@@ -7,68 +7,51 @@ import { DBHandler } from '@methodus/data';
 
 DBHandler.config = {
     connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
+        default: {
             db: 'test',
-            poolSize: 10,
-            ssl: false,
             exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
+            poolSize: 10,
+            readPreference: 'primaryPreferred',
+            server: 'mongodb://localhost:27017',
+            ssl: false,
+        },
+    },
 
-}
-
+};
 
 @TestFixture('Test Embeds')
 export class TestsOEmbeds {
 
-
-
     @AsyncTest('embed_create')
+    @TestCase(Data.Embed)
+    @TestCase(null)
     @Timeout(10000)
-    public async embed_create() {
-        const embed: EmbedModel = new EmbedModel({
-            GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [
-                {
-                    type: 'number',
-                    name: 'limit',
-                    value: '5'
-                },
-                {
-                    type: 'string',
-                    name: 'keyValue',
-                    value: 'a fancy key'
-                }
-            ]
-        });
+    public async embed_create(embedData) {
+        const embed: EmbedModel = new EmbedModel(embedData);
 
-        const result: any = (await Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
-        Data.User.EmbedId = result.EmbedId;
-        Expect(result).toBeDefined();
+        try {
+            const result: any = (await Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
+            Data.User.EmbedId = result.EmbedId;
+            Expect(result).toBeDefined();
+        } catch (ex) {
+            Expect(embedData).toBe(null);
+        }
 
 
     }
 
     @AsyncTest('embed_update')
+    @TestCase(Data.Embed)
+    @TestCase(null)
     @Timeout(10000)
-    public async embed_update() {
-
-        const embed: EmbedModel = new EmbedModel({
-            Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [{
-                type: 'number',
-                name: 'limit',
-                value: '5'
-            },
-            {
-                type: 'string',
-                name: 'keyValue',
-                value: 'a fancy key'
-            }]
-        })
-        const result = await Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
-        Expect(result).toBeDefined();
-
+    public async embed_update(embedData) {
+        const embed: EmbedModel = new EmbedModel(embedData);
+        try {
+            const result = await Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            Expect(result).toBeDefined();
+        } catch (ex) {
+            Expect(embedData).toBe(null);
+        }
 
     }
 
@@ -86,11 +69,4 @@ export class TestsOEmbeds {
         Expect(result).toBeDefined();
     }
 
-
-
 }
-
-
-
-
-

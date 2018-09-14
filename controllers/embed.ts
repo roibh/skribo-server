@@ -21,8 +21,14 @@ export class Embed {
         @Param('group_id') groupId: string,
         @Param('embed_id') embedId: string):
         Promise<MethodResult<ScriptModel>> {
+        if (!embed.ScriptId) {
+            throw (new MethodError('no data'));
+        }
         try {
             delete embed._id;
+            delete embed.ScriptId;
+            delete embed.GroupId;
+            delete embed.EmbedId;
             const updateResults = await EmbedModel.update({
                 EmbedId: embedId,
                 GroupId: groupId,
@@ -84,10 +90,15 @@ export class Embed {
         @Body('embed') embed: EmbedModel,
         @Param('script_id') scriptId: string,
         @Param('group_id') groupId: string): Promise<MethodResult<ScriptModel>> {
+
+        if (!embed.ScriptId) {
+            throw (new MethodError('bad request', 400));
+        }
         try {
             embed.ScriptId = scriptId;
             embed.GroupId = groupId;
             embed.EmbedId = uuidv1();
+
             const createdObject = await EmbedModel.insert(embed);
             if (createdObject) {
                 return new MethodResult(createdObject);

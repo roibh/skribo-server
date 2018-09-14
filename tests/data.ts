@@ -13,7 +13,6 @@ export const ReportResult = {
 }
 
 
-
 export const User =
 {
     EmbedId: '000000000000000000',
@@ -22,4 +21,17 @@ export const User =
     ResultId: '000000000000000000',
     ScriptId: '000000000000000000',
     UserId: '000000000000000000',
+}
+
+export const Embed = {
+    Name: 'Test embed', ScriptId: exports.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+        type: 'number',
+        name: 'limit',
+        value: '5'
+    },
+    {
+        type: 'string',
+        name: 'keyValue',
+        value: 'a fancy key'
+    }]
 }

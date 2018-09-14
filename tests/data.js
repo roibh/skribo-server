@@ -19,4 +19,16 @@ exports.User = {
     ScriptId: '000000000000000000',
     UserId: '000000000000000000',
 };
+exports.Embed = {
+    Name: 'Test embed', ScriptId: exports.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+            type: 'number',
+            name: 'limit',
+            value: '5'
+        },
+        {
+            type: 'string',
+            name: 'keyValue',
+            value: 'a fancy key'
+        }]
+};
 //# sourceMappingURL=data.js.map

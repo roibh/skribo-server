@@ -34,8 +34,14 @@ const embed_model_1 = require("../models/embed.model");
 let Embed = class Embed {
     static update(embed, scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!embed.ScriptId) {
+                throw (new server_1.MethodError('no data'));
+            }
             try {
                 delete embed._id;
+                delete embed.ScriptId;
+                delete embed.GroupId;
+                delete embed.EmbedId;
                 const updateResults = yield embed_model_1.EmbedModel.update({
                     EmbedId: embedId,
                     GroupId: groupId,
@@ -88,6 +94,9 @@ let Embed = class Embed {
     }
     static create(embed, scriptId, groupId) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!embed.ScriptId) {
+                throw (new server_1.MethodError('bad request', 400));
+            }
             try {
                 embed.ScriptId = scriptId;
                 embed.GroupId = groupId;

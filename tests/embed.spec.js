@@ -24,54 +24,40 @@ const models_1 = require("../models");
 const data_1 = require("@methodus/data");
 data_1.DBHandler.config = {
     connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
+        default: {
             db: 'test',
-            poolSize: 10,
-            ssl: false,
             exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
+            poolSize: 10,
+            readPreference: 'primaryPreferred',
+            server: 'mongodb://localhost:27017',
+            ssl: false,
+        },
+    },
 };
 let TestsOEmbeds = class TestsOEmbeds {
-    embed_create() {
+    embed_create(embedData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const embed = new models_1.EmbedModel({
-                GroupId: Data.User.GroupId, Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [
-                    {
-                        type: 'number',
-                        name: 'limit',
-                        value: '5'
-                    },
-                    {
-                        type: 'string',
-                        name: 'keyValue',
-                        value: 'a fancy key'
-                    }
-                ]
-            });
-            const result = (yield controllers_1.Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
-            Data.User.EmbedId = result.EmbedId;
-            alsatian_1.Expect(result).toBeDefined();
+            const embed = new models_1.EmbedModel(embedData);
+            try {
+                const result = (yield controllers_1.Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
+                Data.User.EmbedId = result.EmbedId;
+                alsatian_1.Expect(result).toBeDefined();
+            }
+            catch (ex) {
+                alsatian_1.Expect(embedData).toBe(null);
+            }
         });
     }
-    embed_update() {
+    embed_update(embedData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const embed = new models_1.EmbedModel({
-                Name: 'Test embed', ScriptId: Data.User.ScriptId, Page: 'https://www.google.com', Variables: [{
-                        type: 'number',
-                        name: 'limit',
-                        value: '5'
-                    },
-                    {
-                        type: 'string',
-                        name: 'keyValue',
-                        value: 'a fancy key'
-                    }]
-            });
-            const result = yield controllers_1.Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
-            alsatian_1.Expect(result).toBeDefined();
+            const embed = new models_1.EmbedModel(embedData);
+            try {
+                const result = yield controllers_1.Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+                alsatian_1.Expect(result).toBeDefined();
+            }
+            catch (ex) {
+                alsatian_1.Expect(embedData).toBe(null);
+            }
         });
     }
     embed_list() {
@@ -89,16 +75,20 @@ let TestsOEmbeds = class TestsOEmbeds {
 };
 __decorate([
     alsatian_1.AsyncTest('embed_create'),
+    alsatian_1.TestCase(Data.Embed),
+    alsatian_1.TestCase(null),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TestsOEmbeds.prototype, "embed_create", null);
 __decorate([
     alsatian_1.AsyncTest('embed_update'),
+    alsatian_1.TestCase(Data.Embed),
+    alsatian_1.TestCase(null),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TestsOEmbeds.prototype, "embed_update", null);
 __decorate([
