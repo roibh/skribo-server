@@ -1,3 +1,5 @@
+
+
 export const ReportResultEmbeded = {
     reportType: 'ebeded',
     results:
@@ -28,8 +30,7 @@ export const ReportResultCollection = {
     }
 }
 
-export const User =
-{
+global.User = {
     EmbedId: '000000000000000000',
     GroupId: '000000000000000000',
     Name: 'test user',
@@ -37,6 +38,10 @@ export const User =
     ScriptId: '000000000000000000',
     UserId: '000000000000000000',
 }
+
+
+
+
 
 export const Embed = {
     Name: 'Test embed', ScriptId: exports.User.ScriptId, Page: 'https://www.google.com', Variables: [{

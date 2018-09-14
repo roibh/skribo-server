@@ -39,8 +39,8 @@ let TestsOEmbeds = class TestsOEmbeds {
         return __awaiter(this, void 0, void 0, function* () {
             const embed = new models_1.EmbedModel(embedData);
             try {
-                const result = (yield controllers_1.Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
-                Data.User.EmbedId = result.EmbedId;
+                const result = (yield controllers_1.Embed.create(embed, global.User.ScriptId, global.User.GroupId)).result;
+                global.User.EmbedId = result.EmbedId;
                 alsatian_1.Expect(result).toBeDefined();
             }
             catch (ex) {
@@ -52,7 +52,7 @@ let TestsOEmbeds = class TestsOEmbeds {
         return __awaiter(this, void 0, void 0, function* () {
             const embed = new models_1.EmbedModel(embedData);
             try {
-                const result = yield controllers_1.Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+                const result = yield controllers_1.Embed.update(embed, global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
                 alsatian_1.Expect(result).toBeDefined();
             }
             catch (ex) {
@@ -62,13 +62,13 @@ let TestsOEmbeds = class TestsOEmbeds {
     }
     embed_list() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Embed.list(Data.User.ScriptId, Data.User.GroupId);
+            const result = yield controllers_1.Embed.list(global.User.ScriptId, global.User.GroupId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     embed_get() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Embed.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            const result = yield controllers_1.Embed.get(global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }

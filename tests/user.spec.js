@@ -18,7 +18,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
-const Data = require("./data");
 const user_1 = require("../controllers/user");
 const data_1 = require("@methodus/data");
 data_1.DBHandler.config = {
@@ -37,7 +36,7 @@ const user_id = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
     user_get() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_1.User.get(Data.User.UserId);
+            const user = yield user_1.User.get(global.User.UserId);
             alsatian_1.Expect(user).toBeDefined();
         });
     }

@@ -29,7 +29,7 @@ export class TestsOfResults {
     @AsyncTest('user_get')
     @Timeout(10000)
     public async user_get() {
-        const user = await User.get(Data.User.UserId);
+        const user = await User.get(global.User.UserId);
         Expect(user).toBeDefined();
     }
 
@@ -50,11 +50,11 @@ export class TestsOfResults {
     //     try {
     //         const client = await DB();
 
-    //         const tableName = 'RESULTS_' + client.hashCode(Data.User.GroupId + Data.User.ScriptId);
+    //         const tableName = 'RESULTS_' + client.hashCode(global.User.GroupId + global.User.ScriptId);
     //         await client.query(`DROP TABLE public."${tableName}"`, []);
     //         await client.query(`DROP SEQUENCE public."${tableName}_ID_seq"`, []);
 
-    //         await User.deleteGroup(Data.User.GroupId);
+    //         await User.deleteGroup(global.User.GroupId);
     //         await User.delete(user_id);
     //     } catch (error) {
 

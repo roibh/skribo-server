@@ -18,12 +18,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
-const Data = require("./data");
 const controllers_1 = require("../controllers");
 let TestsOfLog = class TestsOfLog {
     log_log() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Log.log('log data', Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            const result = yield controllers_1.Log.log('log data', global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }

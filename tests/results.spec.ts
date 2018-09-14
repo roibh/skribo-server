@@ -10,29 +10,29 @@ export class TestsOfResults {
     @TestCase(Data.ReportResultEmbeded)
     @Timeout(10000)
     public async create(resultMutation) {
-        const result = (await Results.create(Data.User.GroupId,
-            Data.User.ScriptId, Data.User.EmbedId, resultMutation)).result;
-        Data.User.ResultId = result.ResultId;
+        const result = (await Results.create(global.User.GroupId,
+            global.User.ScriptId, global.User.EmbedId, resultMutation)).result;
+        global.User.ResultId = result.ResultId;
         Expect(result).toBeDefined();
     }
     @AsyncTest('list')
     @Timeout(10000)
     public async list() {
-        const result = await Results.list(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId);
+        const result = await Results.list(global.User.GroupId, global.User.ScriptId, global.User.EmbedId);
         Expect(result).toBeDefined();
     }
 
     @AsyncTest('listByScript')
     @Timeout(10000)
     public async listByScript() {
-        const result = await Results.listByScript(Data.User.GroupId, Data.User.ScriptId);
+        const result = await Results.listByScript(global.User.GroupId, global.User.ScriptId);
         Expect(result).toBeDefined();
     }
 
     @AsyncTest('get')
     @Timeout(10000)
     public async get() {
-        const result = await Results.get(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
+        const result = await Results.get(global.User.GroupId, global.User.ScriptId, global.User.EmbedId, global.User.ResultId);
         Expect(result).toBeDefined();
     }
 }

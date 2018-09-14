@@ -23,26 +23,26 @@ const results_1 = require("../controllers/results");
 let TestsOfResults = class TestsOfResults {
     create(resultMutation) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = (yield results_1.Results.create(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, resultMutation)).result;
-            Data.User.ResultId = result.ResultId;
+            const result = (yield results_1.Results.create(global.User.GroupId, global.User.ScriptId, global.User.EmbedId, resultMutation)).result;
+            global.User.ResultId = result.ResultId;
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     list() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield results_1.Results.list(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId);
+            const result = yield results_1.Results.list(global.User.GroupId, global.User.ScriptId, global.User.EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     listByScript() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield results_1.Results.listByScript(Data.User.GroupId, Data.User.ScriptId);
+            const result = yield results_1.Results.listByScript(global.User.GroupId, global.User.ScriptId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     get() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield results_1.Results.get(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
+            const result = yield results_1.Results.get(global.User.GroupId, global.User.ScriptId, global.User.EmbedId, global.User.ResultId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }

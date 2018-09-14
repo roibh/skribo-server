@@ -14,7 +14,7 @@ export class TestsOfScripts {
     @Timeout(10000)
     public async scripts_create() {
         const script: ScriptModel = new ScriptModel({
-            Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
+            Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: global.User.GroupId, Code: '', Variables: [{
                 "type": "number",
                 "name": "namedd",
                 "value": "1"
@@ -22,8 +22,8 @@ export class TestsOfScripts {
         });
 
 
-        const result = (await Scripts.create(Data.User.GroupId, script)).result;
-        Data.User.ScriptId = result.ScriptId;
+        const result = (await Scripts.create(global.User.GroupId, script)).result;
+        global.User.ScriptId = result.ScriptId;
         Expect(result.ScriptId).toBeDefined();
     }
 
@@ -33,7 +33,7 @@ export class TestsOfScripts {
     @Timeout(10000)
     public async scripts_update() {
         const script: ScriptModel = new ScriptModel({
-            Name: 'Test script', Description: 'Test description updated', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
+            Name: 'Test script', Description: 'Test description updated', ResultsDescriptor: {}, GroupId: global.User.GroupId, Code: '', Variables: [{
                 "type": "number",
                 "name": "namedd",
                 "value": "1"
@@ -41,8 +41,8 @@ export class TestsOfScripts {
         });
 
 
-        const result = (await Scripts.update(Data.User.GroupId, Data.User.ScriptId, script)).result;
-        Data.User.ScriptId = result.ScriptId;
+        const result = (await Scripts.update(global.User.GroupId, global.User.ScriptId, script)).result;
+        global.User.ScriptId = result.ScriptId;
         Expect(result.ScriptId).toBeDefined();
     }
 
@@ -51,14 +51,14 @@ export class TestsOfScripts {
     @AsyncTest('scripts_list')
     @Timeout(10000)
     public async scripts_list() {
-        const result = (await Scripts.list(Data.User.GroupId)).result;
+        const result = (await Scripts.list(global.User.GroupId)).result;
         Expect(result).toBeDefined();
     }
 
     @AsyncTest('scripts_get')
     @Timeout(10000)
     public async scripts_get() {
-        const result = (await Scripts.get(Data.User.GroupId, Data.User.ScriptId)).result;
+        const result = (await Scripts.get(global.User.GroupId, global.User.ScriptId)).result;
         Expect(result).toBeDefined();
     }
 

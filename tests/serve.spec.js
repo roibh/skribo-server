@@ -18,21 +18,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
-const Data = require("./data");
 const controllers_1 = require("../controllers");
 let TestsOfServe = class TestsOfServe {
-    serve_get() {
+    serve_get(ScriptId, GroupId, EmbedId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Serve.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            const result = yield controllers_1.Serve.get(ScriptId, GroupId, EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
 };
 __decorate([
     alsatian_1.AsyncTest('serve_get'),
+    alsatian_1.TestCase(global.User.ScriptId, global.User.GroupId, global.User.EmbedId),
+    alsatian_1.TestCase(null, global.User.GroupId, global.User.EmbedId),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], TestsOfServe.prototype, "serve_get", null);
 TestsOfServe = __decorate([

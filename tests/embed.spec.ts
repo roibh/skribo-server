@@ -30,8 +30,8 @@ export class TestsOEmbeds {
         const embed: EmbedModel = new EmbedModel(embedData);
 
         try {
-            const result: any = (await Embed.create(embed, Data.User.ScriptId, Data.User.GroupId)).result;
-            Data.User.EmbedId = result.EmbedId;
+            const result: any = (await Embed.create(embed, global.User.ScriptId, global.User.GroupId)).result;
+            global.User.EmbedId = result.EmbedId;
             Expect(result).toBeDefined();
         } catch (ex) {
             Expect(embedData).toBe(null);
@@ -47,7 +47,7 @@ export class TestsOEmbeds {
     public async embed_update(embedData) {
         const embed: EmbedModel = new EmbedModel(embedData);
         try {
-            const result = await Embed.update(embed, Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            const result = await Embed.update(embed, global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
             Expect(result).toBeDefined();
         } catch (ex) {
             Expect(embedData).toBe(null);
@@ -58,14 +58,14 @@ export class TestsOEmbeds {
     @AsyncTest('embed_list')
     @Timeout(10000)
     public async embed_list() {
-        const result = await Embed.list(Data.User.ScriptId, Data.User.GroupId);
+        const result = await Embed.list(global.User.ScriptId, global.User.GroupId);
         Expect(result).toBeDefined();
     }
 
     @AsyncTest('embed_get')
     @Timeout(10000)
     public async embed_get() {
-        const result = await Embed.get(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+        const result = await Embed.get(global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
         Expect(result).toBeDefined();
     }
 

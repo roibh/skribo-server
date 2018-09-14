@@ -18,47 +18,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
-const Data = require("./data");
 const controllers_1 = require("../controllers");
 const models_1 = require("../models");
 let TestsOfScripts = class TestsOfScripts {
     scripts_create() {
         return __awaiter(this, void 0, void 0, function* () {
             const script = new models_1.ScriptModel({
-                Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
+                Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: global.User.GroupId, Code: '', Variables: [{
                         "type": "number",
                         "name": "namedd",
                         "value": "1"
                     }]
             });
-            const result = (yield controllers_1.Scripts.create(Data.User.GroupId, script)).result;
-            Data.User.ScriptId = result.ScriptId;
+            const result = (yield controllers_1.Scripts.create(global.User.GroupId, script)).result;
+            global.User.ScriptId = result.ScriptId;
             alsatian_1.Expect(result.ScriptId).toBeDefined();
         });
     }
     scripts_update() {
         return __awaiter(this, void 0, void 0, function* () {
             const script = new models_1.ScriptModel({
-                Name: 'Test script', Description: 'Test description updated', ResultsDescriptor: {}, GroupId: Data.User.GroupId, Code: '', Variables: [{
+                Name: 'Test script', Description: 'Test description updated', ResultsDescriptor: {}, GroupId: global.User.GroupId, Code: '', Variables: [{
                         "type": "number",
                         "name": "namedd",
                         "value": "1"
                     }]
             });
-            const result = (yield controllers_1.Scripts.update(Data.User.GroupId, Data.User.ScriptId, script)).result;
-            Data.User.ScriptId = result.ScriptId;
+            const result = (yield controllers_1.Scripts.update(global.User.GroupId, global.User.ScriptId, script)).result;
+            global.User.ScriptId = result.ScriptId;
             alsatian_1.Expect(result.ScriptId).toBeDefined();
         });
     }
     scripts_list() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = (yield controllers_1.Scripts.list(Data.User.GroupId)).result;
+            const result = (yield controllers_1.Scripts.list(global.User.GroupId)).result;
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     scripts_get() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = (yield controllers_1.Scripts.get(Data.User.GroupId, Data.User.ScriptId)).result;
+            const result = (yield controllers_1.Scripts.get(global.User.GroupId, global.User.ScriptId)).result;
             alsatian_1.Expect(result).toBeDefined();
         });
     }

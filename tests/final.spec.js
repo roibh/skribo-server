@@ -18,36 +18,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
-const Data = require("./data");
 const controllers_1 = require("../controllers");
 let TestsOfServe = class TestsOfServe {
     embed_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Embed.delete(Data.User.ScriptId, Data.User.GroupId, Data.User.EmbedId);
+            const result = yield controllers_1.Embed.delete(global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     script_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Scripts.remove(Data.User.GroupId, Data.User.ScriptId);
+            const result = yield controllers_1.Scripts.remove(global.User.GroupId, global.User.ScriptId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     result_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Results.delete(Data.User.GroupId, Data.User.ScriptId, Data.User.EmbedId, Data.User.ResultId);
+            const result = yield controllers_1.Results.delete(global.User.GroupId, global.User.ScriptId, global.User.EmbedId, global.User.ResultId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     user_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.User.delete(Data.User.UserId);
+            const result = yield controllers_1.User.delete(global.User.UserId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
     group_delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.User.deleteGroup(Data.User.GroupId);
+            const result = yield controllers_1.User.deleteGroup(global.User.GroupId);
             alsatian_1.Expect(result).toBeDefined();
         });
     }
