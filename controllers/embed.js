@@ -34,10 +34,10 @@ const embed_model_1 = require("../models/embed.model");
 let Embed = class Embed {
     static update(embed, scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!embed.ScriptId) {
-                throw (new server_1.MethodError('no data'));
-            }
             try {
+                if (!embed.ScriptId) {
+                    throw (new server_1.MethodError('no data'));
+                }
                 delete embed._id;
                 delete embed.ScriptId;
                 delete embed.GroupId;

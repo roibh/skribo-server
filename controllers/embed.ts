@@ -21,10 +21,12 @@ export class Embed {
         @Param('group_id') groupId: string,
         @Param('embed_id') embedId: string):
         Promise<MethodResult<ScriptModel>> {
-        if (!embed.ScriptId) {
-            throw (new MethodError('no data'));
-        }
+
         try {
+            if (!embed.ScriptId) {
+                throw (new MethodError('no data'));
+            }
+
             delete embed._id;
             delete embed.ScriptId;
             delete embed.GroupId;
