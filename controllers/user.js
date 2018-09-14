@@ -90,7 +90,8 @@ let User = class User {
     static delete(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleteResult = yield models_1.UserGroupModel.delete({ UserId: userId });
+                const UserGroupRepo = models_1.UserGroupModel;
+                const deleteResult = yield UserGroupRepo.delete({ UserId: userId });
                 return new server_1.MethodResult(deleteResult);
             }
             catch (error) {

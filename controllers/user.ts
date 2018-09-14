@@ -71,7 +71,8 @@ export class User {
     @Method(Verbs.Delete, '/user/:user_id/')
     public static async delete(@Param('user_id') userId: string): Promise<MethodResult<string>> {
         try {
-            const deleteResult = await UserGroupModel.delete({ UserId: userId });
+            const UserGroupRepo = UserGroupModel;
+            const deleteResult = await UserGroupRepo.delete({ UserId: userId });
             return new MethodResult(deleteResult);
         } catch (error) {
             throw (error);
