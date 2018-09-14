@@ -60,4 +60,6 @@ typings/
 .next
 *.map
 *.d.ts
+!*.js
+!**/*.js
  
