@@ -36,9 +36,7 @@ let User = class User {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userquery = (yield new data_1.Query(models_1.UserModel).filter({ UserId: userId }).run());
-                const groupResult = (yield new data_1.Query(models_1.UserModel).filter({
-                    GroupId: { $in: userquery.map((item) => item.GroupId) },
-                }).run());
+                const groupResult = (yield new data_1.Query(models_1.UserModel).filter(this.getGroupParams(userquery)).run());
                 if (groupResult) {
                     return new server_1.MethodResult(groupResult);
                 }
@@ -53,9 +51,7 @@ let User = class User {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userquery = yield this.getUserGroup(userId);
-                const groupResult = (yield new data_1.Query(models_1.GroupModel).filter({
-                    GroupId: { $in: userquery.map((item) => item.GroupId) },
-                }).run());
+                const groupResult = (yield new data_1.Query(models_1.GroupModel).filter(this.getGroupParams(userquery)).run());
                 if (groupResult) {
                     return new server_1.MethodResult(groupResult);
                 }
@@ -113,6 +109,11 @@ let User = class User {
     static getUserGroup(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield models_1.UserGroupModel.query(new data_1.Query(models_1.UserGroupModel).filter({ UserId: userId }));
+        });
+    }
+    static getGroupParams(userquery) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return { GroupId: { $in: userquery.map((item) => item.GroupId) } };
         });
     }
 };

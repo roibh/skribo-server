@@ -17,10 +17,7 @@ export class User {
     public static async get(@Param('user_id') userId: string): Promise<MethodResult<any>> {
         try {
             const userquery = (await new DataQuery(UserModel).filter({ UserId: userId }).run());
-            const groupResult = (await new DataQuery(UserModel).filter({
-                GroupId: { $in: userquery.map((item) => item.GroupId) },
-            }).run());
-
+            const groupResult = (await new DataQuery(UserModel).filter(this.getGroupParams(userquery)).run());
             if (groupResult) {
                 return new MethodResult(groupResult);
             }
@@ -33,10 +30,7 @@ export class User {
     public static async getGroups(@Param('user_id') userId: string): Promise<MethodResult<any>> {
         try {
             const userquery = await this.getUserGroup(userId);
-            const groupResult = (await new DataQuery(GroupModel).filter({
-                GroupId: { $in: userquery.map((item) => item.GroupId) },
-            }).run());
-
+            const groupResult = (await new DataQuery(GroupModel).filter(this.getGroupParams(userquery)).run());
             if (groupResult) {
                 return new MethodResult(groupResult);
             }
@@ -91,5 +85,9 @@ export class User {
 
     private static async  getUserGroup(userId) {
         return await UserGroupModel.query(new DataQuery(UserGroupModel).filter({ UserId: userId }));
+    }
+
+    private static async getGroupParams(userquery) {
+        return { GroupId: { $in: userquery.map((item) => item.GroupId) } };
     }
 }
