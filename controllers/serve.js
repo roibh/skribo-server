@@ -44,7 +44,9 @@ let Serve = class Serve {
                     return this.generateCode(InstanceScript, codeResult, scriptId, groupId, embedId);
                 }
             }
-            throw (new server_1.MethodError('not found', 404));
+            else {
+                throw (new server_1.MethodError('not found', 404));
+            }
         });
     }
     static generateCode(InstanceScript, codeResult, scriptId, groupId, embedId) {

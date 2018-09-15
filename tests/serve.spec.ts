@@ -7,14 +7,20 @@ export class TestsOfServe {
     @AsyncTest('serve_get')
     @TestCase()
     @TestCase('111111')
+    @TestCase(null, '111111')
     @Timeout(10000)
     public async serve_get(ScriptId?: string, GroupId?: string, EmbedId?: string) {
         try {
-            const result = await Serve.get(ScriptId || global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
+            const result = await Serve.get(ScriptId || global.User.ScriptId,
+                GroupId || global.User.GroupId,
+                global.User.EmbedId);
             Expect(result).toBeDefined();
         } catch (ex) {
-            Expect(ScriptId).toBe('111111');
+            if (ScriptId === null) {
+                Expect(GroupId).toBe('111111');
+            } else {
+                Expect(ScriptId).toBe('111111');
+            }
         }
-
     }
 }

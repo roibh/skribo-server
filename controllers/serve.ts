@@ -27,8 +27,9 @@ export class Serve {
             if (InstanceScript.length > 0) {
                 return this.generateCode(InstanceScript, codeResult, scriptId, groupId, embedId);
             }
+        } else {
+            throw (new MethodError('not found', 404));
         }
-        throw (new MethodError('not found', 404));
     }
 
     private static generateCode(InstanceScript, codeResult, scriptId, groupId, embedId) {

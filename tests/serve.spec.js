@@ -23,11 +23,16 @@ let TestsOfServe = class TestsOfServe {
     serve_get(ScriptId, GroupId, EmbedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield controllers_1.Serve.get(ScriptId || global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
+                const result = yield controllers_1.Serve.get(ScriptId || global.User.ScriptId, GroupId || global.User.GroupId, global.User.EmbedId);
                 alsatian_1.Expect(result).toBeDefined();
             }
             catch (ex) {
-                alsatian_1.Expect(ScriptId).toBe('111111');
+                if (ScriptId === null) {
+                    alsatian_1.Expect(GroupId).toBe('111111');
+                }
+                else {
+                    alsatian_1.Expect(ScriptId).toBe('111111');
+                }
             }
         });
     }
@@ -36,6 +41,7 @@ __decorate([
     alsatian_1.AsyncTest('serve_get'),
     alsatian_1.TestCase(),
     alsatian_1.TestCase('111111'),
+    alsatian_1.TestCase(null, '111111'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
