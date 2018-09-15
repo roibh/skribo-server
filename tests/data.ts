@@ -1,7 +1,7 @@
 
 
 export const ReportResultEmbeded = {
-    reportType: 'ebeded',
+    reportType: 'embeded',
     results:
 
     {

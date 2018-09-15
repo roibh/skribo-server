@@ -19,19 +19,6 @@ DBHandler.config = {
 @TestFixture('Test Results')
 export class TestsOfResults {
 
-    // @AsyncTest('user_get')
-    // @TestCase(null)
-    // @TestCase('111111')
-    // @Timeout(10000)
-    // public async user_get(userId) {
-    //     try {
-    //         const user = await User.get(userId || global.User.UserId);
-    //         Expect(user).toBeDefined();
-    //     } catch (ex) {
-    //         Expect(userId).toBe('111111');
-    //     }
-    // }
-
     @AsyncTest('user_new')
     @Timeout(10000)
     public async user_new() {

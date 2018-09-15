@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportResultEmbeded = {
-    reportType: 'ebeded',
+    reportType: 'embeded',
     results: {
         'Leibish': [{ 'label': '+yellow +diamonds', 'value': 61052 },
             { 'label': '+yellow +diamond +earrings', 'value': 36713 },

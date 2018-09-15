@@ -32,14 +32,14 @@ const server_1 = require("@methodus/server");
 const logelas_1 = require("logelas");
 const uuidv1 = require("uuid/v1");
 const hash = require("object-hash");
-const models_1 = require("../models/");
+const _1 = require("../models/");
 let Results = class Results {
     static create(groupId, scriptId, embedId, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const results = this.verifyBody(body);
                 const resultId = uuidv1();
-                const resultObject = new models_1.ResultsModel({
+                const resultObject = new _1.ResultsModel({
                     Date: new Date(),
                     EmbedId: embedId,
                     GroupId: groupId,
@@ -64,7 +64,7 @@ let Results = class Results {
     }
     static listByScript(groupId, scriptId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const results = (yield new data_1.Query(models_1.ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
+            const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
             if (results.length > 0) {
                 return new server_1.MethodResult(results);
             }
@@ -73,7 +73,7 @@ let Results = class Results {
     static list(groupId, scriptId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({
                     EmbedId: embedId,
                     GroupId: groupId,
                     ScriptId: scriptId,
@@ -90,7 +90,7 @@ let Results = class Results {
     static get(groupId, scriptId, embedId, resultId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({
                     EmbedId: embedId,
                     GroupId: groupId,
                     ResultId: resultId,
@@ -120,10 +120,10 @@ let Results = class Results {
     static delete(groupId, scriptId, embedId, resultId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleteResult = yield models_1.ResultsModel.delete({
+                const deleteResult = yield _1.ResultsModel.delete({
                     EmbedId: embedId,
                     GroupId: groupId,
-                    ID: resultId,
+                    ResultId: resultId,
                     ScriptId: scriptId,
                 });
                 return new server_1.MethodResult(deleteResult);

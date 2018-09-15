@@ -42,11 +42,12 @@ function SkriboLog(message) {
     UrlFetchApp.fetch(SkriboLogUrl, options);
 }
 
-function SkriboPostResults(results) {
+function SkriboPostResults(results, reportType) {
     var options = {
         "muteHttpExceptions": false,
         "method": "post",
         "payload": {
+            "reportType": reportType || 'embeded',
             "results": results,
             "variables": null
 

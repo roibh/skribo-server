@@ -121,7 +121,7 @@ export class Results {
             const deleteResult = await ResultsModel.delete({
                 EmbedId: embedId,
                 GroupId: groupId,
-                ID: resultId,
+                ResultId: resultId,
                 ScriptId: scriptId,
             });
             return new MethodResult(deleteResult);

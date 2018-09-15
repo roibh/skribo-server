@@ -34,18 +34,6 @@ data_1.DBHandler.config = {
     },
 };
 let TestsOfResults = class TestsOfResults {
-    // @AsyncTest('user_get')
-    // @TestCase(null)
-    // @TestCase('111111')
-    // @Timeout(10000)
-    // public async user_get(userId) {
-    //     try {
-    //         const user = await User.get(userId || global.User.UserId);
-    //         Expect(user).toBeDefined();
-    //     } catch (ex) {
-    //         Expect(userId).toBe('111111');
-    //     }
-    // }
     user_new() {
         return __awaiter(this, void 0, void 0, function* () {
             const user = new models_1.UserModel();

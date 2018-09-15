@@ -32,19 +32,6 @@ const data_1 = require("@methodus/data");
 const uuidv1 = require("uuid/v1");
 const models_1 = require("../models");
 let User = class User {
-    // @Method(Verbs.Get, '/user/:user_id/')
-    // public static async get(@Param('user_id') userId: string): Promise<MethodResult<any>> {
-    //     try {
-    //         const userquery = (await new DataQuery(UserModel).filter({ UserId: userId }).run());
-    //         const groupResult = (await new DataQuery(UserModel).filter(this.getGroupParams(userquery)).run());
-    //         if (groupResult && groupResult.length > 0) {
-    //             return new MethodResult(groupResult);
-    //         }
-    //         throw (new MethodError('not found', 404));
-    //     } catch (error) {
-    //         throw (error);
-    //     }
-    // }
     static getGroups(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
