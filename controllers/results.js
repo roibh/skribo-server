@@ -31,7 +31,7 @@ const data_1 = require("@methodus/data");
 const server_1 = require("@methodus/server");
 const logelas_1 = require("logelas");
 const uuidv1 = require("uuid/v1");
-const hash_1 = require("../db/hash");
+const hash = require("object-hash");
 const models_1 = require("../models/");
 let Results = class Results {
     static create(groupId, scriptId, embedId, body) {
@@ -50,7 +50,7 @@ let Results = class Results {
                     resultObject.Data = results;
                 }
                 else {
-                    const tableName = 'RESULTS_' + hash_1.hashCode(groupId + scriptId);
+                    const tableName = 'RESULTS_' + hash(groupId + scriptId);
                     resultObject.TableName = tableName;
                     this.storeResults(results, tableName, resultId);
                 }
@@ -101,7 +101,7 @@ let Results = class Results {
                 }
                 if (results.length > 0) {
                     const db = yield data_1.DBHandler.getConnection();
-                    const tableName = 'RESULTS_' + hash_1.hashCode(groupId + scriptId);
+                    const tableName = 'RESULTS_' + hash(groupId + scriptId);
                     let reportResults = yield db.collection(tableName).find({ ResultId: resultId }).toArray();
                     reportResults = reportResults.map((item) => {
                         delete item._id;

@@ -2,6 +2,7 @@ import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Time
 import * as Data from './data';
 import { User } from '../controllers/user';
 import { DBHandler } from '@methodus/data';
+import { UserModel } from '../models';
 
 DBHandler.config = {
     connections: {
@@ -16,7 +17,7 @@ DBHandler.config = {
     }
 
 }
- 
+
 
 const user_id = '000000000000000000';
 
@@ -24,12 +25,17 @@ const user_id = '000000000000000000';
 @TestFixture('Test Results')
 export class TestsOfResults {
 
-
-
     @AsyncTest('user_get')
     @Timeout(10000)
     public async user_get() {
         const user = await User.get(global.User.UserId);
+        Expect(user).toBeDefined();
+    }
+
+    @AsyncTest('user_new')
+    @Timeout(10000)
+    public async user_new() {
+        const user = new UserModel();
         Expect(user).toBeDefined();
     }
 

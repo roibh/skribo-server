@@ -10,7 +10,8 @@ import { DBHandler, Query as DataQuery } from '@methodus/data';
 import { Body, Method, MethodConfig, MethodError, MethodResult, Param, Query, Verbs } from '@methodus/server';
 import { AutoLogger } from 'logelas';
 import * as uuidv1 from 'uuid/v1';
-import { hashCode } from '../db/hash';
+import * as hash from 'object-hash';
+
 import { ResultsModel } from '../models/';
 @MethodConfig('Results')
 export class Results {
@@ -34,7 +35,7 @@ export class Results {
             if (results.reportType === 'embeded') {
                 resultObject.Data = results;
             } else {
-                const tableName = 'RESULTS_' + hashCode(groupId + scriptId);
+                const tableName = 'RESULTS_' + hash(groupId + scriptId);
                 resultObject.TableName = tableName;
                 this.storeResults(results, tableName, resultId);
             }
@@ -94,7 +95,7 @@ export class Results {
             }
             if (results.length > 0) {
                 const db = await DBHandler.getConnection();
-                const tableName = 'RESULTS_' + hashCode(groupId + scriptId);
+                const tableName = 'RESULTS_' + hash(groupId + scriptId);
                 let reportResults = await db.collection(tableName).find({ ResultId: resultId }).toArray();
 
                 reportResults = reportResults.map((item) => {

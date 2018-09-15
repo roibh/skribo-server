@@ -20,6 +20,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const user_1 = require("../controllers/user");
 const data_1 = require("@methodus/data");
+const models_1 = require("../models");
 data_1.DBHandler.config = {
     connections: {
         'default': {
@@ -40,6 +41,12 @@ let TestsOfResults = class TestsOfResults {
             alsatian_1.Expect(user).toBeDefined();
         });
     }
+    user_new() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = new models_1.UserModel();
+            alsatian_1.Expect(user).toBeDefined();
+        });
+    }
     user_getGroups() {
         return __awaiter(this, void 0, void 0, function* () {
             const groups = yield user_1.User.getGroups(user_id);
@@ -54,6 +61,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOfResults.prototype, "user_get", null);
+__decorate([
+    alsatian_1.AsyncTest('user_new'),
+    alsatian_1.Timeout(10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TestsOfResults.prototype, "user_new", null);
 __decorate([
     alsatian_1.AsyncTest('user_getGroups'),
     alsatian_1.Timeout(10000),

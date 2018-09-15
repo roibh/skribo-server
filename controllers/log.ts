@@ -18,15 +18,16 @@ export class Log {
         @Param('group_id') groupId: string,
         @Param('embed_id') embedId: string): Promise<MethodResult<boolean>> {
         try {
-
-            const createdObject = await LogModel.insert({
+            const logObject = new LogModel({
                 EmbedId: embedId,
                 GroupId: groupId,
                 Log: log,
                 ScriptId: scriptId,
 
             });
-            return new MethodResult(true);
+
+            const createdObject = await LogModel.insert(logObject);
+            return new MethodResult(createdObject !== undefined);
         } catch (error) {
             AutoLogger.error(error);
         }

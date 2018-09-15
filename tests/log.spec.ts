@@ -1,5 +1,4 @@
-import { AsyncTest, AsyncSetupFixture, Expect, Test, TestCase, TestFixture, Timeout, TeardownFixture, Teardown, AsyncTeardown, AsyncTeardownFixture, FocusTest, SetupFixture } from 'alsatian';
-import * as Data from './data';
+import { AsyncTest, Expect, TestFixture, Timeout } from 'alsatian';
 import { Log } from '../controllers';
 
 @TestFixture('Test log')

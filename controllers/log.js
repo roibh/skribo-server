@@ -33,13 +33,14 @@ let Log = class Log {
     static log(log, scriptId, groupId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const createdObject = yield models_1.LogModel.insert({
+                const logObject = new models_1.LogModel({
                     EmbedId: embedId,
                     GroupId: groupId,
                     Log: log,
                     ScriptId: scriptId,
                 });
-                return new server_1.MethodResult(true);
+                const createdObject = yield models_1.LogModel.insert(logObject);
+                return new server_1.MethodResult(createdObject !== undefined);
             }
             catch (error) {
                 logelas_1.AutoLogger.error(error);
