@@ -1,10 +1,6 @@
-
-
 export const ReportResultEmbeded = {
     reportType: 'embeded',
-    results:
-
-    {
+    results: {
         'Leibish': [{ 'label': '+yellow +diamonds', 'value': 61052 },
         { 'label': '+yellow +diamond +earrings', 'value': 36713 },
         { 'label': '+pink +diamonds', 'value': 30628 },

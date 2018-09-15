@@ -43,14 +43,16 @@ function SkriboLog(message) {
 }
 
 function SkriboPostResults(results, reportType) {
+    if (!reportType) {
+        reportType = 'embeded';
+    }
     var options = {
         "muteHttpExceptions": false,
         "method": "post",
         "payload": {
-            "reportType": reportType || 'embeded',
+            "reportType": reportType,
             "results": results,
             "variables": null
-
         }
     };
     UrlFetchApp.fetch(SkriboResultUrl, options);
