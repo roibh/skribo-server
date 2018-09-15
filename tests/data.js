@@ -33,15 +33,42 @@ global.User = {
     UserId: '000000000000000000',
 };
 exports.Embed = {
-    Name: 'Test embed', ScriptId: global.User.ScriptId, Page: 'https://www.google.com', Variables: [{
-            type: 'number',
+    Name: 'Test embed',
+    Page: 'https://www.google.com',
+    ScriptId: global.User.ScriptId,
+    Variables: [{
             name: 'limit',
-            value: '5'
+            type: 'number',
+            value: '5',
         },
         {
-            type: 'string',
             name: 'keyValue',
-            value: 'a fancy key'
-        }]
+            type: 'string',
+            value: 'a fancy key',
+        },
+        {
+            name: 'keyValue',
+            type: 'date',
+            value: 'a fancy key',
+        }, {
+            name: 'keyValue',
+            type: 'date-span',
+            value: 'TODAY',
+        },
+        {
+            name: 'keyValue',
+            type: 'date-span',
+            value: 'YESTERDAY',
+        },
+        {
+            name: 'keyValue',
+            type: 'date-span',
+            value: 'LAST_7_DAYS',
+        },
+        {
+            name: 'keyValue',
+            type: 'date-span',
+            value: 'LAST_MONTH',
+        }],
 };
 //# sourceMappingURL=data.js.map
