@@ -62,4 +62,5 @@ typings/
 *.d.ts
 !*.js
 !**/*.js
+!types.d.ts
  
