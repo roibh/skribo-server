@@ -55,6 +55,7 @@ function SkriboPostResults(results, reportType) {
             "variables": null
         }
     };
+    Logger.log(JSON.stringify(options));
     UrlFetchApp.fetch(SkriboResultUrl, options);
 }
 
