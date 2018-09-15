@@ -33,7 +33,7 @@ global.User = {
     UserId: '000000000000000000',
 };
 exports.Embed = {
-    Name: 'Test embed', ScriptId: exports.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+    Name: 'Test embed', ScriptId: global.User.ScriptId, Page: 'https://www.google.com', Variables: [{
             type: 'number',
             name: 'limit',
             value: '5'

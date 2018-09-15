@@ -22,18 +22,23 @@ const controllers_1 = require("../controllers");
 let TestsOfServe = class TestsOfServe {
     serve_get(ScriptId, GroupId, EmbedId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Serve.get(ScriptId, GroupId, EmbedId);
-            alsatian_1.Expect(result).toBeDefined();
+            try {
+                const result = yield controllers_1.Serve.get(ScriptId || global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
+                alsatian_1.Expect(result).toBeDefined();
+            }
+            catch (ex) {
+                alsatian_1.Expect(ScriptId).toBe('111111');
+            }
         });
     }
 };
 __decorate([
     alsatian_1.AsyncTest('serve_get'),
-    alsatian_1.TestCase(global.User.ScriptId, global.User.GroupId, global.User.EmbedId),
-    alsatian_1.TestCase(null, global.User.GroupId, global.User.EmbedId),
+    alsatian_1.TestCase(),
+    alsatian_1.TestCase('111111'),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], TestsOfServe.prototype, "serve_get", null);
 TestsOfServe = __decorate([

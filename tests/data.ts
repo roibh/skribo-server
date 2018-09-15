@@ -44,7 +44,7 @@ global.User = {
 
 
 export const Embed = {
-    Name: 'Test embed', ScriptId: exports.User.ScriptId, Page: 'https://www.google.com', Variables: [{
+    Name: 'Test embed', ScriptId: global.User.ScriptId, Page: 'https://www.google.com', Variables: [{
         type: 'number',
         name: 'limit',
         value: '5'
