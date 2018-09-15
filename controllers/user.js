@@ -32,21 +32,19 @@ const data_1 = require("@methodus/data");
 const uuidv1 = require("uuid/v1");
 const models_1 = require("../models");
 let User = class User {
-    static get(userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const userquery = (yield new data_1.Query(models_1.UserModel).filter({ UserId: userId }).run());
-                const groupResult = (yield new data_1.Query(models_1.UserModel).filter(this.getGroupParams(userquery)).run());
-                if (groupResult) {
-                    return new server_1.MethodResult(groupResult);
-                }
-                throw (new server_1.MethodError('not found', 404));
-            }
-            catch (error) {
-                throw (error);
-            }
-        });
-    }
+    // @Method(Verbs.Get, '/user/:user_id/')
+    // public static async get(@Param('user_id') userId: string): Promise<MethodResult<any>> {
+    //     try {
+    //         const userquery = (await new DataQuery(UserModel).filter({ UserId: userId }).run());
+    //         const groupResult = (await new DataQuery(UserModel).filter(this.getGroupParams(userquery)).run());
+    //         if (groupResult && groupResult.length > 0) {
+    //             return new MethodResult(groupResult);
+    //         }
+    //         throw (new MethodError('not found', 404));
+    //     } catch (error) {
+    //         throw (error);
+    //     }
+    // }
     static getGroups(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -117,13 +115,6 @@ let User = class User {
         });
     }
 };
-__decorate([
-    server_1.Method("GET" /* Get */, '/user/:user_id/'),
-    __param(0, server_1.Param('user_id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], User, "get", null);
 __decorate([
     server_1.Method("GET" /* Get */, '/user/:user_id/groups'),
     __param(0, server_1.Param('user_id')),

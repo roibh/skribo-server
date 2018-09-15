@@ -43,12 +43,12 @@ let TestsOfResults = class TestsOfResults {
             global.User.GroupId = userResult.GroupId;
         });
     }
-    user_get() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_1.User.get(global.User.UserId);
-            alsatian_1.Expect(user).toBeDefined();
-        });
-    }
+    // @AsyncTest('user_get')
+    // @Timeout(10000)
+    // public async user_get() {
+    //     const user = await User.get(global.User.UserId);
+    //     Expect(user).toBeDefined();
+    // }
     user_getGroups() {
         return __awaiter(this, void 0, void 0, function* () {
             const groups = yield user_1.User.getGroups(userId);
@@ -62,13 +62,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TestsOfResults.prototype, "setup", null);
-__decorate([
-    alsatian_1.AsyncTest('user_get'),
-    alsatian_1.Timeout(10000),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "user_get", null);
 __decorate([
     alsatian_1.AsyncTest('user_getGroups'),
     alsatian_1.Timeout(10000),

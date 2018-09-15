@@ -30,12 +30,12 @@ export class TestsOfResults {
         global.User.GroupId = userResult.GroupId;
     }
 
-    @AsyncTest('user_get')
-    @Timeout(10000)
-    public async user_get() {
-        const user = await User.get(global.User.UserId);
-        Expect(user).toBeDefined();
-    }
+    // @AsyncTest('user_get')
+    // @Timeout(10000)
+    // public async user_get() {
+    //     const user = await User.get(global.User.UserId);
+    //     Expect(user).toBeDefined();
+    // }
 
     @AsyncTest('user_getGroups')
     @Timeout(10000)

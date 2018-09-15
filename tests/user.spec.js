@@ -23,24 +23,29 @@ const data_1 = require("@methodus/data");
 const models_1 = require("../models");
 data_1.DBHandler.config = {
     connections: {
-        'default': {
-            server: 'mongodb://localhost:27017',
+        default: {
             db: 'test',
-            poolSize: 10,
-            ssl: false,
             exchanges: ['event-bus', 'cache-bus'],
-            readPreference: 'primaryPreferred'
-        }
-    }
+            poolSize: 10,
+            readPreference: 'primaryPreferred',
+            server: 'mongodb://localhost:27017',
+            ssl: false,
+        },
+    },
 };
-const user_id = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
-    user_get() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_1.User.get(global.User.UserId);
-            alsatian_1.Expect(user).toBeDefined();
-        });
-    }
+    // @AsyncTest('user_get')
+    // @TestCase(null)
+    // @TestCase('111111')
+    // @Timeout(10000)
+    // public async user_get(userId) {
+    //     try {
+    //         const user = await User.get(userId || global.User.UserId);
+    //         Expect(user).toBeDefined();
+    //     } catch (ex) {
+    //         Expect(userId).toBe('111111');
+    //     }
+    // }
     user_new() {
         return __awaiter(this, void 0, void 0, function* () {
             const user = new models_1.UserModel();
@@ -49,18 +54,11 @@ let TestsOfResults = class TestsOfResults {
     }
     user_getGroups() {
         return __awaiter(this, void 0, void 0, function* () {
-            const groups = yield user_1.User.getGroups(user_id);
+            const groups = yield user_1.User.getGroups(global.User.UserId);
             alsatian_1.Expect(groups).toBeDefined();
         });
     }
 };
-__decorate([
-    alsatian_1.AsyncTest('user_get'),
-    alsatian_1.Timeout(10000),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TestsOfResults.prototype, "user_get", null);
 __decorate([
     alsatian_1.AsyncTest('user_new'),
     alsatian_1.Timeout(10000),

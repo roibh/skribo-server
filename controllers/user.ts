@@ -13,19 +13,19 @@ import { GroupModel, UserGroupModel, UserModel } from '../models';
 
 @MethodConfig('User')
 export class User {
-    @Method(Verbs.Get, '/user/:user_id/')
-    public static async get(@Param('user_id') userId: string): Promise<MethodResult<any>> {
-        try {
-            const userquery = (await new DataQuery(UserModel).filter({ UserId: userId }).run());
-            const groupResult = (await new DataQuery(UserModel).filter(this.getGroupParams(userquery)).run());
-            if (groupResult) {
-                return new MethodResult(groupResult);
-            }
-            throw (new MethodError('not found', 404));
-        } catch (error) {
-            throw (error);
-        }
-    }
+    // @Method(Verbs.Get, '/user/:user_id/')
+    // public static async get(@Param('user_id') userId: string): Promise<MethodResult<any>> {
+    //     try {
+    //         const userquery = (await new DataQuery(UserModel).filter({ UserId: userId }).run());
+    //         const groupResult = (await new DataQuery(UserModel).filter(this.getGroupParams(userquery)).run());
+    //         if (groupResult && groupResult.length > 0) {
+    //             return new MethodResult(groupResult);
+    //         }
+    //         throw (new MethodError('not found', 404));
+    //     } catch (error) {
+    //         throw (error);
+    //     }
+    // }
     @Method(Verbs.Get, '/user/:user_id/groups')
     public static async getGroups(@Param('user_id') userId: string): Promise<MethodResult<any>> {
         try {
