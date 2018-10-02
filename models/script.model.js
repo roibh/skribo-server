@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_1 = require("@methodus/data");
 /*start custom*/
-const index_1 = require("./index");
 /*end custom*/
 let ScriptModel = ScriptModel_1 = class ScriptModel extends data_1.Repo {
     constructor(copyData) {
@@ -44,7 +43,7 @@ __decorate([
 ], ScriptModel.prototype, "GroupId", void 0);
 __decorate([
     data_1.Field(),
-    __metadata("design:type", index_1.ResultsDescriptor)
+    __metadata("design:type", Object)
 ], ScriptModel.prototype, "ResultsDescriptor", void 0);
 ScriptModel = ScriptModel_1 = __decorate([
     data_1.Model('Scripts'),
