@@ -52,9 +52,7 @@ export class Results {
     public static async listByScript(@Param('group_id') groupId: string, @Param('script_id') scriptId: string):
         Promise<MethodResult<ResultsModel[]>> {
         const results = (await new DataQuery(ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
-        if (results.length > 0) {
-            return new MethodResult(results);
-        }
+        return new MethodResult(results);
     }
 
     @Method(Verbs.Get, '/results/:script_id/:group_id/:embed_id')
@@ -111,6 +109,24 @@ export class Results {
         }
     }
 
+
+
+    @Method(Verbs.Get, '/results/script/:script_id/group/:group_id/')
+    public static async getSample(
+        @Param('group_id') groupId: string,
+        @Param('script_id') scriptId: string,
+    ): Promise<MethodResult<any>> {
+        try {
+            const db = await DBHandler.getConnection();
+            const tableName = 'RESULTS_' + hash(groupId + scriptId);
+            const reportResults = await db.collection(tableName).find({}).limit(1).toArray();
+            return new MethodResult(reportResults);
+        } catch (error) {
+            throw (new MethodError(error));
+        }
+    }
+
+
     @Method(Verbs.Delete, '/results/:script_id/:group_id/:embed_id/:result_id')
     public static async delete(
         @Param('group_id') groupId: string,
@@ -124,6 +140,9 @@ export class Results {
                 ResultId: resultId,
                 ScriptId: scriptId,
             });
+            const db = await DBHandler.getConnection();
+            const tableName = 'RESULTS_' + hash(groupId + scriptId);
+            const tableDelete = await db.collection(tableName).deleteMany({ ResultId: resultId });
             return new MethodResult(deleteResult);
         } catch (error) {
             throw (new MethodError(error));

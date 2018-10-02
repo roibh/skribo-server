@@ -32,14 +32,14 @@ const server_1 = require("@methodus/server");
 const logelas_1 = require("logelas");
 const uuidv1 = require("uuid/v1");
 const hash = require("object-hash");
-const models_1 = require("../models/");
+const _1 = require("../models/");
 let Results = class Results {
     static create(groupId, scriptId, embedId, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const results = this.verifyBody(body);
                 const resultId = uuidv1();
-                const resultObject = new models_1.ResultsModel({
+                const resultObject = new _1.ResultsModel({
                     Date: new Date(),
                     EmbedId: embedId,
                     GroupId: groupId,
@@ -64,16 +64,14 @@ let Results = class Results {
     }
     static listByScript(groupId, scriptId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const results = (yield new data_1.Query(models_1.ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
-            if (results.length > 0) {
-                return new server_1.MethodResult(results);
-            }
+            const results = (yield new data_1.Query(_1.ResultsModel).filter({ GroupId: groupId, ScriptId: scriptId }).run());
+            return new server_1.MethodResult(results);
         });
     }
     static list(groupId, scriptId, embedId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({
                     EmbedId: embedId,
                     GroupId: groupId,
                     ScriptId: scriptId,
@@ -90,7 +88,7 @@ let Results = class Results {
     static get(groupId, scriptId, embedId, resultId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const results = (yield new data_1.Query(models_1.ResultsModel).filter({
+                const results = (yield new data_1.Query(_1.ResultsModel).filter({
                     EmbedId: embedId,
                     GroupId: groupId,
                     ResultId: resultId,
@@ -117,15 +115,31 @@ let Results = class Results {
             }
         });
     }
+    static getSample(groupId, scriptId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const db = yield data_1.DBHandler.getConnection();
+                const tableName = 'RESULTS_' + hash(groupId + scriptId);
+                const reportResults = yield db.collection(tableName).find({}).limit(1).toArray();
+                return new server_1.MethodResult(reportResults);
+            }
+            catch (error) {
+                throw (new server_1.MethodError(error));
+            }
+        });
+    }
     static delete(groupId, scriptId, embedId, resultId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleteResult = yield models_1.ResultsModel.delete({
+                const deleteResult = yield _1.ResultsModel.delete({
                     EmbedId: embedId,
                     GroupId: groupId,
                     ResultId: resultId,
                     ScriptId: scriptId,
                 });
+                const db = yield data_1.DBHandler.getConnection();
+                const tableName = 'RESULTS_' + hash(groupId + scriptId);
+                const tableDelete = yield db.collection(tableName).deleteMany({ ResultId: resultId });
                 return new server_1.MethodResult(deleteResult);
             }
             catch (error) {
@@ -209,6 +223,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], Results, "get", null);
+__decorate([
+    server_1.Method("GET" /* Get */, '/results/script/:script_id/group/:group_id/'),
+    __param(0, server_1.Param('group_id')),
+    __param(1, server_1.Param('script_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], Results, "getSample", null);
 __decorate([
     server_1.Method("DELETE" /* Delete */, '/results/:script_id/:group_id/:embed_id/:result_id'),
     __param(0, server_1.Param('group_id')),
