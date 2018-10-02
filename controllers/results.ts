@@ -111,11 +111,12 @@ export class Results {
 
 
 
-    @Method(Verbs.Get, '/results/script/:script_id/group/:group_id/')
+    @Method(Verbs.Get, '/results-sample/:script_id/:group_id/')
     public static async getSample(
         @Param('group_id') groupId: string,
         @Param('script_id') scriptId: string,
     ): Promise<MethodResult<any>> {
+
         try {
             const db = await DBHandler.getConnection();
             const tableName = 'RESULTS_' + hash(groupId + scriptId);

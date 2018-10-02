@@ -224,7 +224,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], Results, "get", null);
 __decorate([
-    server_1.Method("GET" /* Get */, '/results/script/:script_id/group/:group_id/'),
+    server_1.Method("GET" /* Get */, '/results-sample/:script_id/:group_id/'),
     __param(0, server_1.Param('group_id')),
     __param(1, server_1.Param('script_id')),
     __metadata("design:type", Function),
