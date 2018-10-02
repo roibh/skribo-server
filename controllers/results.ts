@@ -158,6 +158,7 @@ export class Results {
         } else {
             Object.keys(results).forEach(async (item) => {
                 results[item].forEach(async (rowObject) => {
+                    rowObject.accountName = item;
                     this.insertToDB(rowObject, tableName, resultId);
                 });
             });

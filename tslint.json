@@ -19,6 +19,7 @@
             true,
             "ban-keywords",
             "check-format",
+            "allow-snake-case",
             "allow-leading-underscore",
             "allow-pascal-case"
         ]
