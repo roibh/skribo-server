@@ -1,7 +1,8 @@
 import { Field, Model, Repo } from '@methodus/data';
 import { VariableModel } from '../';
-import { ResultsDescriptor } from './resultsDescriptor.model';
-
+/*start custom*/
+import { ResultsDescriptor } from './index';
+/*end custom*/
 @Model('Scripts')
 export class ScriptModel extends Repo<ScriptModel> {
 
