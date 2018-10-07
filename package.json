@@ -18,7 +18,7 @@
   "author": "DO",
   "license": "ISC",
   "dependencies": {
-    "@methodus/contracts": "^0.0.12",
+    "@methodus/contracts": "^0.0.13",
     "@methodus/data": "^1.0.1",
     "@methodus/describe": "latest",
     "@methodus/server": "latest",

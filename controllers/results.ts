@@ -109,8 +109,6 @@ export class Results {
         }
     }
 
-
-
     @Method(Verbs.Get, '/results-sample/:script_id/:group_id/')
     public static async getSample(
         @Param('group_id') groupId: string,
@@ -126,7 +124,6 @@ export class Results {
             throw (new MethodError(error));
         }
     }
-
 
     @Method(Verbs.Delete, '/results/:script_id/:group_id/:embed_id/:result_id')
     public static async delete(
