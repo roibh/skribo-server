@@ -175,8 +175,8 @@
     express "^4.15.3"
 
 "@methodus/server@latest":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@methodus/server/-/server-0.0.21.tgz#87be67ad88aee43d91704831d468785dadf509ff"
+  version "0.0.22"
+  resolved "https://registry.npmjs.org/@methodus/server/-/server-0.0.22.tgz#29ef8d777482b0ca4390e3e5af353747e2fcedf4"
   dependencies:
     amqplib "^0.5.1"
     child-process-debug "0.0.7"
@@ -2393,8 +2393,8 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.npmjs.org/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
 mongoose@^5.0.0, mongoose@^5.2.10:
-  version "5.3.1"
-  resolved "https://registry.npmjs.org/mongoose/-/mongoose-5.3.1.tgz#52d5bfb67788a2194e5f7a2a5c0d597e4b86fd7a"
+  version "5.3.2"
+  resolved "https://registry.npmjs.org/mongoose/-/mongoose-5.3.2.tgz#184887c359401ea42fedf7c48692d65eba91ce99"
   dependencies:
     async "2.6.1"
     bson "~1.0.5"

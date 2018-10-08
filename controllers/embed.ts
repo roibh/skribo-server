@@ -93,9 +93,9 @@ export class Embed {
         @Param('script_id') scriptId: string,
         @Param('group_id') groupId: string): Promise<MethodResult<ScriptModel>> {
 
-        if (!embed.ScriptId) {
-            throw (new MethodError('bad request', 400));
-        }
+        // if (!embed.ScriptId) {
+        //     throw (new MethodError('bad request', 400));
+        // }
         try {
             embed.ScriptId = scriptId;
             embed.GroupId = groupId;

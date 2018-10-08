@@ -94,9 +94,9 @@ let Embed = class Embed {
     }
     static create(embed, scriptId, groupId) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!embed.ScriptId) {
-                throw (new server_1.MethodError('bad request', 400));
-            }
+            // if (!embed.ScriptId) {
+            //     throw (new MethodError('bad request', 400));
+            // }
             try {
                 embed.ScriptId = scriptId;
                 embed.GroupId = groupId;
