@@ -10,11 +10,19 @@ var SkriboData = JSON.parse($SKRIBODATA$);
 var currentDate = Utilities.formatDate(new Date(), "PST", "yyyy-MM-dd HH:mm:ss");
 
 
-function SkriboForAccounts(cb, limit) {
-    var accountSelector = MccApp.accounts();
-    if (limit) {
-        accountSelector = MccApp.accounts().withLimit(limit);
+function SkriboForAccounts(cb, limit_or_list) {
+    var accountSelector;
+
+    if (typeof limit_or_list === 'object') {
+        accountSelector = MccApp.accounts().withIds(Object.keys(limit_or_list));
+    } else if (typeof limit_or_list === 'number') {
+        accountSelector = MccApp.accounts().withLimit(limit_or_list);
     }
+
+    if (!accountSelector) {
+        return;
+    }
+
     var accountIterator = accountSelector.get();
 
     // Iterate through the list of accounts

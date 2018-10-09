@@ -28,15 +28,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const models_1 = require("../models");
+const _1 = require("../");
 const logelas_1 = require("logelas");
+const data_1 = require("@methodus/data");
 let Sync = class Sync {
-    static accounts(groupId, accounts) {
+    static post_accounts(groupId, accounts) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const accountsList = JSON.parse(accounts.accounts);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                    const account = new models_1.UserAccountModel({
+                    const account = new _1.UserAccountModel({
                         AccountKey: element.id,
                         AccountName: element.name,
                         GroupId: groupId,
@@ -44,6 +45,19 @@ let Sync = class Sync {
                     yield account.save();
                 }));
                 return new server_1.MethodResult(true);
+            }
+            catch (error) {
+                logelas_1.AutoLogger.error(error);
+            }
+        });
+    }
+    static get_accounts(groupId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = new data_1.Query(_1.UserAccountModel);
+                query.filter({ GroupId: groupId });
+                const results = yield query.run();
+                return new server_1.MethodResult(results);
             }
             catch (error) {
                 logelas_1.AutoLogger.error(error);
@@ -58,7 +72,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
-], Sync, "accounts", null);
+], Sync, "post_accounts", null);
+__decorate([
+    server_1.Method("GET" /* Get */, '/sync/:group_id/accounts'),
+    __param(0, server_1.Param('group_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], Sync, "get_accounts", null);
 Sync = __decorate([
     server_1.MethodConfig('Sync')
 ], Sync);

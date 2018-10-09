@@ -22,7 +22,7 @@ const controllers_1 = require("../controllers");
 let TestsOfSync = class TestsOfSync {
     serve_get() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield controllers_1.Sync.accounts(global.User.GroupId, { accounts: JSON.stringify([{ id: '1', name: 'first name' }]) });
+            const result = yield controllers_1.Sync.post_accounts(global.User.GroupId, { accounts: JSON.stringify([{ id: '1', name: 'first name' }]) });
             alsatian_1.Expect(result).toBeDefined();
         });
     }
