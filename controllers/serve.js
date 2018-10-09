@@ -72,6 +72,8 @@ let Serve = class Serve {
                         return `"${item.name}":"${item.value}",`;
                     case 'date-span':
                         return `"${item.name}":${JSON.stringify(this.timespanToRange(item.value))},`;
+                    case 'account':
+                        return `"${item.name}": ${JSON.stringify(item.value)},`;
                 }
             }),
             '};',
