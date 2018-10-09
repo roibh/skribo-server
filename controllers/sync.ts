@@ -7,7 +7,7 @@ ___] | \_ |  \ | |__] |__|
 */
 
 import { Body, Method, MethodConfig, Param, Query, Verbs, MethodResult } from '@methodus/server';
-import { UserAccountModel } from '../models';
+import { UserAccountModel } from '../';
 import { AutoLogger } from 'logelas';
 import { DBHandler, Query as DataQuery } from '@methodus/data';
 @MethodConfig('Sync')
@@ -39,7 +39,7 @@ export class Sync {
     ): Promise<MethodResult<UserAccountModel[]>> {
         try {
 
-            const query = new DataQuery<UserAccountModel>();
+            const query = new DataQuery(UserAccountModel);
             query.filter({ GroupId: groupId });
             const results: UserAccountModel[] = await query.run();
             return new MethodResult(results);
