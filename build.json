@@ -36,6 +36,9 @@
             },
             "ResultsModel": {
                 "path": "./models/results.model.ts"
+            },
+            "UserAccountModel": {
+                "path": "./models/user-account.model.ts"
             }
         },
         "includes": {
