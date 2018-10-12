@@ -91,7 +91,7 @@ export class Embed {
     public static async create(
         @Body('embed') embed: EmbedModel,
         @Param('script_id') scriptId: string,
-        @Param('group_id') groupId: string): Promise<MethodResult<ScriptModel>> {
+        @Param('group_id') groupId: string): Promise<MethodResult<EmbedModel>> {
 
         // if (!embed.ScriptId) {
         //     throw (new MethodError('bad request', 400));

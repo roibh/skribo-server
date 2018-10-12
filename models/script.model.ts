@@ -20,6 +20,10 @@ export class ScriptModel extends Repo<ScriptModel> {
     public GroupId?: string;
     @Field()
     public ResultsDescriptor?: any;
+    @Field()
+    public LastRunDate: Date;
+    @Field()
+    public LastResultId: string;
 
     constructor(copyData?: any) {
         super(copyData, ScriptModel);

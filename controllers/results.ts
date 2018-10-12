@@ -6,7 +6,7 @@ ___] | \_ |  \ | |__] |__|
 
 */
 
-import { DBHandler, Query as DataQuery } from '@methodus/data';
+import { DBHandler, Query as DataQuery, Repo } from '@methodus/data';
 import { Body, Method, MethodConfig, MethodError, MethodResult, Param, Query, Verbs } from '@methodus/server';
 import { AutoLogger } from 'logelas';
 import * as uuidv1 from 'uuid/v1';
@@ -41,6 +41,9 @@ export class Results {
             }
 
             await resultObject.save();
+
+            await Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+
 
             return new MethodResult(resultObject);
         } catch (error) {

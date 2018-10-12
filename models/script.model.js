@@ -45,6 +45,14 @@ __decorate([
     data_1.Field(),
     __metadata("design:type", Object)
 ], ScriptModel.prototype, "ResultsDescriptor", void 0);
+__decorate([
+    data_1.Field(),
+    __metadata("design:type", Date)
+], ScriptModel.prototype, "LastRunDate", void 0);
+__decorate([
+    data_1.Field(),
+    __metadata("design:type", String)
+], ScriptModel.prototype, "LastResultId", void 0);
 ScriptModel = ScriptModel_1 = __decorate([
     data_1.Model('Scripts'),
     __metadata("design:paramtypes", [Object])
