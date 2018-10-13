@@ -42,7 +42,12 @@ export class Results {
 
             await resultObject.save();
 
-            await Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+            try {
+                await Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+
+            } catch (error) {
+                console.error(error);
+            }
 
 
             return new MethodResult(resultObject);

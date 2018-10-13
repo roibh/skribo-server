@@ -55,7 +55,12 @@ let Results = class Results {
                     this.storeResults(results, tableName, resultId);
                 }
                 yield resultObject.save();
-                yield data_1.Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+                try {
+                    yield data_1.Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+                }
+                catch (error) {
+                    console.error(error);
+                }
                 return new server_1.MethodResult(resultObject);
             }
             catch (error) {
