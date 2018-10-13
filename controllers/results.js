@@ -56,7 +56,7 @@ let Results = class Results {
                 }
                 yield resultObject.save();
                 try {
-                    yield data_1.Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+                    yield _1.ScriptModel.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
                 }
                 catch (error) {
                     console.error(error);

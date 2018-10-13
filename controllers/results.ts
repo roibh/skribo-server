@@ -12,7 +12,7 @@ import { AutoLogger } from 'logelas';
 import * as uuidv1 from 'uuid/v1';
 import * as hash from 'object-hash';
 
-import { ResultsModel } from '../models/';
+import { ResultsModel, ScriptModel } from '../models/';
 @MethodConfig('Results')
 export class Results {
 
@@ -43,7 +43,8 @@ export class Results {
             await resultObject.save();
 
             try {
-                await Repo.update({ ScriptId: scriptId }, { LastRunDate: new Date(), LastResultId: resultId });
+                await ScriptModel.update({ ScriptId: scriptId },
+                    { LastRunDate: new Date(), LastResultId: resultId });
 
             } catch (error) {
                 console.error(error);
