@@ -17,6 +17,9 @@ export class Sync {
         @Param('group_id') groupId: string,
         @Body() accounts: any): Promise<MethodResult<boolean>> {
         try {
+
+            await UserAccountModel.delete({ GroupId: groupId }, UserAccountModel, false);
+
             const accountsList = JSON.parse(accounts.accounts);
             accountsList.forEach(async (element) => {
                 const account = new UserAccountModel({

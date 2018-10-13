@@ -35,6 +35,7 @@ let Sync = class Sync {
     static post_accounts(groupId, accounts) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                yield _1.UserAccountModel.delete({ GroupId: groupId }, _1.UserAccountModel, false);
                 const accountsList = JSON.parse(accounts.accounts);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
                     const account = new _1.UserAccountModel({
