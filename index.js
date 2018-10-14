@@ -14,6 +14,7 @@ const _1 = require("./controllers/");
 __export(require("./models/"));
 const data_1 = require("@methodus/data");
 const config_1 = require("./db/config");
+const alexa_1 = require("./controllers/alexa");
 data_1.DBHandler.config = config_1.configuration;
 let SetupServer = class SetupServer extends server_1.ConfiguredServer {
 };
@@ -26,7 +27,8 @@ SetupServer = __decorate([
     server_1.ClientConfiguration(_1.Log, "Local" /* Local */, "express" /* Express */),
     server_1.ClientConfiguration(_1.Sync, "Local" /* Local */, "express" /* Express */),
     server_1.ClientConfiguration(_1.Results, "Local" /* Local */, "express" /* Express */),
-    server_1.ClientConfiguration(_1.User, "Local" /* Local */, "express" /* Express */)
+    server_1.ClientConfiguration(_1.User, "Local" /* Local */, "express" /* Express */),
+    server_1.ClientConfiguration(alexa_1.Alexa, "Local" /* Local */, "express" /* Express */)
 ], SetupServer);
 global.skribo = new SetupServer();
 //# sourceMappingURL=index.js.map

@@ -7,6 +7,7 @@ import { Embed, Scripts, Serve, Log, Sync, Results, User } from './controllers/'
 export * from './models/';
 import { DBHandler } from '@methodus/data';
 import { configuration } from './db/config';
+import { Alexa } from './controllers/alexa';
 
 DBHandler.config = configuration;
 
@@ -19,6 +20,7 @@ DBHandler.config = configuration;
 @ClientConfiguration(Sync, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Results, MethodType.Local, ServerType.Express)
 @ClientConfiguration(User, MethodType.Local, ServerType.Express)
+@ClientConfiguration(Alexa, MethodType.Local, ServerType.Express)
 class SetupServer extends ConfiguredServer {
 
 }

@@ -7,7 +7,7 @@ ___] | \_ |  \ | |__] |__|
 */
 
 import { Body, Method, MethodConfig, Param, Query, Verbs, MethodResult } from '@methodus/server';
-import { UserAccountModel } from '../';
+import { UserAccountModel, ScriptModel } from '../';
 import { AutoLogger } from 'logelas';
 import { DBHandler, Query as DataQuery } from '@methodus/data';
 @MethodConfig('Sync')
@@ -30,6 +30,7 @@ export class Sync {
                 await account.save();
 
             });
+
             return new MethodResult(true);
         } catch (error) {
             AutoLogger.error(error);
