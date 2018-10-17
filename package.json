@@ -20,8 +20,8 @@
   "dependencies": {
     "@methodus/contracts": "^0.0.13",
     "@methodus/data": "^1.0.1",
-    "@methodus/describe": "latest",
-    "@methodus/server": "latest",
+    "@methodus/describe": "^1.0.8",
+    "@methodus/server": "^0.0.26",
     "@types/node": "^10.0.4",
     "adwords-auth": "^0.0.10",
     "alsatian": "^2.3.0",
