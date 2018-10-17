@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var EmbedModel_1;
 const data_1 = require("@methodus/data");
 let EmbedModel = EmbedModel_1 = class EmbedModel extends data_1.Repo {
     constructor(copyData) {
@@ -53,5 +54,4 @@ EmbedModel = EmbedModel_1 = __decorate([
     __metadata("design:paramtypes", [Object])
 ], EmbedModel);
 exports.EmbedModel = EmbedModel;
-var EmbedModel_1;
 //# sourceMappingURL=embed.model.js.map

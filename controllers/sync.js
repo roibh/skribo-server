@@ -28,17 +28,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
-const _1 = require("../");
+const __1 = require("../");
 const logelas_1 = require("logelas");
 const data_1 = require("@methodus/data");
 let Sync = class Sync {
     static post_accounts(groupId, accounts) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield _1.UserAccountModel.delete({ GroupId: groupId }, _1.UserAccountModel, false);
+                yield __1.UserAccountModel.delete({ GroupId: groupId }, __1.UserAccountModel, false);
                 const accountsList = JSON.parse(accounts.accounts);
                 accountsList.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                    const account = new _1.UserAccountModel({
+                    const account = new __1.UserAccountModel({
                         AccountKey: element.id,
                         AccountName: element.name,
                         GroupId: groupId,
@@ -55,7 +55,7 @@ let Sync = class Sync {
     static get_accounts(groupId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = new data_1.Query(_1.UserAccountModel);
+                const query = new data_1.Query(__1.UserAccountModel);
                 query.filter({ GroupId: groupId });
                 const results = yield query.run();
                 return new server_1.MethodResult(results);

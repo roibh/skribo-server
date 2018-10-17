@@ -71,6 +71,8 @@ let Serve = class Serve {
                     case 'date':
                         return `"${item.name}":"${item.value}",`;
                     case 'date-span':
+                        return `"${item.name}":"${item.value}",`;
+                    case 'date-range':
                         return `"${item.name}":${JSON.stringify(this.timespanToRange(item.value))},`;
                     case 'account':
                         return `"${item.name}": ${JSON.stringify(item.value)},`;
@@ -98,11 +100,15 @@ let Serve = class Serve {
                 const dateString = this.rangeBack(7);
                 return { start: dateString, end: this.rangeBack(0) };
             }
+            case 'LAST_14_DAYS': {
+                const dateString = this.rangeBack(14);
+                return { start: dateString, end: this.rangeBack(0) };
+            }
             case 'LAST_MONTH':
-                {
-                    const dateString = this.rangeBack(30);
-                    return { start: dateString, end: this.rangeBack(0) };
-                }
+            case 'LAST_30_DAYS': {
+                const dateString = this.rangeBack(30);
+                return { start: dateString, end: this.rangeBack(0) };
+            }
         }
     }
     static processTemplate(scriptId, groupId, embedId) {
