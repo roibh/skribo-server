@@ -49,8 +49,8 @@ let Results = class Results {
                 });
                 // load embed variables
                 const embed = (yield embed_1.Embed.get(scriptId, groupId, embedId)).result;
-                console.warn(embed);
                 resultObject.Variables = embed.Variables;
+                console.warn(resultObject);
                 if (results.reportType === 'embeded') {
                     resultObject.Data = results;
                 }

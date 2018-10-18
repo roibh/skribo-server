@@ -37,9 +37,10 @@ export class Results {
 
             // load embed variables
             const embed = (await Embed.get(scriptId, groupId, embedId)).result;
-            console.warn(embed);
+          
 
             resultObject.Variables = embed.Variables;
+            console.warn(resultObject);
             if (results.reportType === 'embeded') {
                 resultObject.Data = results;
             } else {
