@@ -20,7 +20,7 @@ export class Embed {
         @Param('script_id') scriptId: string,
         @Param('group_id') groupId: string,
         @Param('embed_id') embedId: string):
-        Promise<MethodResult<ScriptModel>> {
+        Promise<MethodResult<EmbedModel>> {
 
         try {
             if (!embed.ScriptId) {
@@ -47,14 +47,14 @@ export class Embed {
         @Param('script_id') scriptId: string,
         @Param('group_id') groupId: string,
         @Param('embed_id') embedId: string):
-        Promise<MethodResult<ScriptModel>> {
+        Promise<MethodResult<EmbedModel>> {
         try {
             const listResults = await EmbedModel.query(new DataQuery(EmbedModel).filter({
                 EmbedId: embedId,
                 GroupId: groupId,
                 ScriptId: scriptId,
             }));
-            return new MethodResult(listResults);
+            return new MethodResult(listResults[0]);
         } catch (error) {
             AutoLogger.error(error);
         }

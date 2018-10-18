@@ -34,15 +34,14 @@ export class Results {
                 ScriptId: scriptId,
             });
 
+            try {
+                // load embed variables
+                const embed = await Embed.get(scriptId, groupId, embedId);
+                resultObject.Variables = embed.result.Variables;
+            } catch (error) {
+                console.error(error);
+            }
 
-            // load embed variables
-            const embed = (await Embed.get(scriptId, groupId, embedId)).result;
-          
-            console.warn(embed.Variables);
-            resultObject.Variables = embed.Variables;
-            console.warn(resultObject.Variables);
-
-            
             if (results.reportType === 'embeded') {
                 resultObject.Data = results;
             } else {

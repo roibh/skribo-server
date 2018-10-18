@@ -47,11 +47,14 @@ let Results = class Results {
                     ResultId: resultId,
                     ScriptId: scriptId,
                 });
-                // load embed variables
-                const embed = (yield embed_1.Embed.get(scriptId, groupId, embedId)).result;
-                console.warn(embed.Variables);
-                resultObject.Variables = embed.Variables;
-                console.warn(resultObject.Variables);
+                try {
+                    // load embed variables
+                    const embed = yield embed_1.Embed.get(scriptId, groupId, embedId);
+                    resultObject.Variables = embed.result.Variables;
+                }
+                catch (error) {
+                    console.error(error);
+                }
                 if (results.reportType === 'embeded') {
                     resultObject.Data = results;
                 }

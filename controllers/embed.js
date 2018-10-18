@@ -62,7 +62,7 @@ let Embed = class Embed {
                     GroupId: groupId,
                     ScriptId: scriptId,
                 }));
-                return new server_1.MethodResult(listResults);
+                return new server_1.MethodResult(listResults[0]);
             }
             catch (error) {
                 logelas_1.AutoLogger.error(error);
