@@ -33,6 +33,7 @@ const logelas_1 = require("logelas");
 const uuidv1 = require("uuid/v1");
 const hash = require("object-hash");
 const models_1 = require("../models/");
+const embed_1 = require("./embed");
 let Results = class Results {
     static create(groupId, scriptId, embedId, body) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -46,6 +47,9 @@ let Results = class Results {
                     ResultId: resultId,
                     ScriptId: scriptId,
                 });
+                // load embed variables
+                const embed = (yield embed_1.Embed.get(scriptId, groupId, embedId)).result;
+                resultObject.Variables = embed.Variables;
                 if (results.reportType === 'embeded') {
                     resultObject.Data = results;
                 }

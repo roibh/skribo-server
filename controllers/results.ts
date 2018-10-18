@@ -13,6 +13,7 @@ import * as uuidv1 from 'uuid/v1';
 import * as hash from 'object-hash';
 
 import { ResultsModel, ScriptModel } from '../models/';
+import { Embed } from './embed';
 @MethodConfig('Results')
 export class Results {
 
@@ -32,6 +33,11 @@ export class Results {
                 ResultId: resultId,
                 ScriptId: scriptId,
             });
+
+
+            // load embed variables
+            const embed = (await Embed.get(scriptId, groupId, embedId)).result;
+            resultObject.Variables = embed.Variables;
             if (results.reportType === 'embeded') {
                 resultObject.Data = results;
             } else {

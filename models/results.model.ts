@@ -14,7 +14,7 @@ export class ResultsModel extends Repo<ResultsModel> {
     @Field()
     public Template?: string;
     @Field()
-    public Variables?: string[];
+    public Variables?: any;
     @Field()
     public Date?: Date;
     @Field()

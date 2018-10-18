@@ -38,7 +38,7 @@ __decorate([
 ], ResultsModel.prototype, "Template", void 0);
 __decorate([
     data_1.Field(),
-    __metadata("design:type", Array)
+    __metadata("design:type", Object)
 ], ResultsModel.prototype, "Variables", void 0);
 __decorate([
     data_1.Field(),
