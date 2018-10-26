@@ -36,8 +36,6 @@ export class TestsOEmbeds {
         } catch (ex) {
             Expect(embedData).toBe(null);
         }
-
-
     }
 
     @AsyncTest('embed_update')
@@ -52,7 +50,6 @@ export class TestsOEmbeds {
         } catch (ex) {
             Expect(embedData).toBe(null);
         }
-
     }
 
     @AsyncTest('embed_list')
@@ -68,5 +65,4 @@ export class TestsOEmbeds {
         const result = await Embed.get(global.User.ScriptId, global.User.GroupId, global.User.EmbedId);
         Expect(result).toBeDefined();
     }
-
 }

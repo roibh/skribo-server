@@ -27,7 +27,6 @@ export class ScriptModel extends Repo<ScriptModel> {
     @Field()
     public Category: string;
 
-    
     constructor(copyData?: any) {
         super(copyData, ScriptModel);
     }

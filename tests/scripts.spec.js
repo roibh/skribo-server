@@ -24,10 +24,15 @@ let TestsOfScripts = class TestsOfScripts {
     scripts_create() {
         return __awaiter(this, void 0, void 0, function* () {
             const script = new models_1.ScriptModel({
-                Name: 'Test script', Description: 'Test description', ResultsDescriptor: {}, GroupId: global.User.GroupId, Code: '', Variables: [{
-                        "type": "number",
-                        "name": "namedd",
-                        "value": "1"
+                Code: '',
+                Description: 'Test description',
+                GroupId: global.User.GroupId,
+                Name: 'Test script',
+                ResultsDescriptor: {},
+                Variables: [{
+                        name: 'namedd',
+                        type: 'number',
+                        value: '1',
                     }]
             });
             const result = (yield controllers_1.Scripts.create(global.User.GroupId, script)).result;
@@ -38,10 +43,15 @@ let TestsOfScripts = class TestsOfScripts {
     scripts_update() {
         return __awaiter(this, void 0, void 0, function* () {
             const script = new models_1.ScriptModel({
-                Name: 'Test script', Description: 'Test description updated', ResultsDescriptor: {}, GroupId: global.User.GroupId, Code: '', Variables: [{
-                        "type": "number",
-                        "name": "namedd",
-                        "value": "1"
+                Code: '',
+                Description: 'Test description updated',
+                GroupId: global.User.GroupId,
+                Name: 'Test script',
+                ResultsDescriptor: {},
+                Variables: [{
+                        name: 'namedd',
+                        type: 'number',
+                        value: '1',
                     }]
             });
             const result = (yield controllers_1.Scripts.update(global.User.GroupId, global.User.ScriptId, script)).result;

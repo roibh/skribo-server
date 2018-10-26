@@ -26,14 +26,6 @@ export const ReportResultCollection = {
     }
 }
 
-global.User = {
-    EmbedId: '000000000000000000',
-    GroupId: '000000000000000000',
-    Name: 'test user',
-    ResultId: '000000000000000000',
-    ScriptId: '000000000000000000',
-    UserId: '000000000000000000',
-}
 
 
 

@@ -15,11 +15,16 @@ DBHandler.config = {
         },
     },
 };
+global.User = {
+    EmbedId: '000000000000000000',
+    GroupId: '000000000000000000',
+    Name: 'test user',
+    ResultId: '000000000000000000',
+    ScriptId: '000000000000000000',
+    UserId: '000000000000000000',
+}
 
 const userId = '000000000000000000';
-const groupId = '000000000000000000';
-const scriptId = '000000000000000000';
-const embedId = '000000000000000000';
 
 @TestFixture('Test Setup')
 export class TestsOfResults {

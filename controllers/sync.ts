@@ -7,9 +7,9 @@ ___] | \_ |  \ | |__] |__|
 */
 
 import { Body, Method, MethodConfig, Param, Query, Verbs, MethodResult } from '@methodus/server';
-import { UserAccountModel, ScriptModel } from '../';
+import { UserAccountModel } from '../models/user-account.model';
 import { AutoLogger } from 'logelas';
-import { DBHandler, Query as DataQuery } from '@methodus/data';
+import { Query as DataQuery } from '@methodus/data';
 @MethodConfig('Sync')
 export class Sync {
     @Method(Verbs.Post, '/sync/:group_id/accounts')
@@ -17,9 +17,7 @@ export class Sync {
         @Param('group_id') groupId: string,
         @Body() accounts: any): Promise<MethodResult<boolean>> {
         try {
-
             await UserAccountModel.delete({ GroupId: groupId }, UserAccountModel, false);
-
             const accountsList = JSON.parse(accounts.accounts);
             accountsList.forEach(async (element) => {
                 const account = new UserAccountModel({
@@ -28,9 +26,7 @@ export class Sync {
                     GroupId: groupId,
                 });
                 await account.save();
-
             });
-
             return new MethodResult(true);
         } catch (error) {
             AutoLogger.error(error);
@@ -42,7 +38,6 @@ export class Sync {
         @Param('group_id') groupId: string,
     ): Promise<MethodResult<UserAccountModel[]>> {
         try {
-
             const query = new DataQuery(UserAccountModel);
             query.filter({ GroupId: groupId });
             const results: UserAccountModel[] = await query.run();

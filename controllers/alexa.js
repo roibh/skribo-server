@@ -31,8 +31,6 @@ const server_1 = require("@methodus/server");
 let Alexa = class Alexa {
     static argue(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('alexa');
-            console.log(body);
             return new server_1.MethodResult({});
         });
     }

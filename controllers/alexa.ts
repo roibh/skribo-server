@@ -12,8 +12,7 @@ export class Alexa {
     @Method(Verbs.Post, '/alexa/commands/argue')
     public static async argue(
         @Body() body: any): Promise<MethodResult<any>> {
-        console.log('alexa');
-        console.log(body);
+  
         return new MethodResult({});
     }
 

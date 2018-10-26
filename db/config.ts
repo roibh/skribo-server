@@ -1,4 +1,4 @@
-const env = process.env.NODE_CONFIG_ENV;
+const env = process.env.NODE_CONFIG_ENV || 'local';
 export const configuration = require(`../config/${env}`).Config;
 
 console.log(configuration);
