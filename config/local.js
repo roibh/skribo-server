@@ -1,7 +1,7 @@
 module.exports.Config = {
- 
 
-        connections: {
+
+    connections: {
         'default': {
             server: 'mongodb://localhost:27017',
             db: 'skribo',
@@ -10,7 +10,7 @@ module.exports.Config = {
             exchanges: ['event-bus', 'cache-bus'],
             readPreference: 'primaryPreferred'
         }
-    }
+    },
 
 
     db: {
