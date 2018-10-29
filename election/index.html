@@ -16,36 +16,37 @@ td, th {
 <body ng-controller="MyController">
 
   <div class="container">
-    <div class="row">
-		<div style="position: fixed;z-index:2000;">
-        
-       
-        <h4>רשימת משתתפים</h4>
-          <div style="float: right; text-align: right;">
+    <div>
+    <div style="float: right; text-align: right;">
           <label>חיפוש</label>
 
-          <input type="text" class="form-control" name="search" style="width: 300px;direction: rtl;" ng-model="searchText">   
+          <input type="text" class="form-control" name="search" style="width: 300px;
+    direction: rtl;
+    font-size: 40px;
+    height: 70px;" ng-model="searchText">   
           </div>
-</div>
- <div class="col-md-12" style="margin-top: 100px;">
+ 
+ <div class="col-md-12">
 
-        <div class="table-responsive" >   
+        <div class="table-responsive">   
 
 
         <table id="mytable" class="table" style="direction: rtl">
           <thead>                   
             <th></th>
             
-            <th>שם פרטי</th>
+        
             <th>שם משפחה</th>
+                <th>שם פרטי</th>
            
           </thead>
           <tbody>    
-            <tr ng-repeat="user in users | filter:searchText" ng-class="{'bg-primary': user.Checked }">
+            <tr ng-repeat="user in users | filter:searchText | orderBy:'FirstName'" ng-class="{'bg-primary': user.Checked }">
               <td ><input  style="width: 60px;height: 60px;" type="checkbox" class="form-control" ng-model="user.Checked" ng-checked="user.Checked" ng-change="handleUserChange(user)" /></td>
-             
               <td>{{user.FirstName}}</td>
+             
               <td>{{user.LastName}}</td>
+              
               
             </tr>
           </tbody>
