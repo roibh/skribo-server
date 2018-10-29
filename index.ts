@@ -3,7 +3,7 @@ import {
     ServerConfiguration, PluginConfiguration,
     ClientConfiguration, ConfiguredServer, MethodType, ServerType,
 } from '@methodus/server';
-import { Embed, Scripts, Serve, Log, Sync, Results, User } from './controllers/';
+import { Embed, Scripts, Serve, Log, Sync, Results, User, Alexa } from './controllers/';
 export * from './models/';
 import { DBHandler } from '@methodus/data';
 import { configuration } from './db/config';
@@ -11,7 +11,8 @@ import { configuration } from './db/config';
 DBHandler.config = configuration;
 
 @ServerConfiguration(ServerType.Express, { port: process.env.PORT || 6200 })
-@PluginConfiguration('@methodus/describe')
+//@PluginConfiguration('@methodus/describe')
+@PluginConfiguration(__dirname + '/election/module')
 @ClientConfiguration(Scripts, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Embed, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Serve, MethodType.Local, ServerType.Express)
@@ -19,6 +20,7 @@ DBHandler.config = configuration;
 @ClientConfiguration(Sync, MethodType.Local, ServerType.Express)
 @ClientConfiguration(Results, MethodType.Local, ServerType.Express)
 @ClientConfiguration(User, MethodType.Local, ServerType.Express)
+@ClientConfiguration(Alexa, MethodType.Local, ServerType.Express)
 class SetupServer extends ConfiguredServer {
 
 }

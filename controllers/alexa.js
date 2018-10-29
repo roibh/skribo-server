@@ -28,10 +28,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@methodus/server");
+const election_model_1 = require("../models/election.model");
+const data_1 = require("@methodus/data");
 let Alexa = class Alexa {
     static argue(body) {
         return __awaiter(this, void 0, void 0, function* () {
             return new server_1.MethodResult({});
+        });
+    }
+    static election_users() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = new data_1.Query(election_model_1.ElectionModel).filter({});
+            const result = yield query.run();
+            return new server_1.MethodResult(result);
+        });
+    }
+    static election_users_update(id, checked) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield election_model_1.ElectionModel.update({ ID: id }, { Checked: (checked === 'true') });
+            return new server_1.MethodResult(result);
         });
     }
 };
@@ -42,6 +57,19 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], Alexa, "argue", null);
+__decorate([
+    server_1.Method("GET" /* Get */, '/election/users/all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], Alexa, "election_users", null);
+__decorate([
+    server_1.Method("GET" /* Get */, '/election/users/userid/:userid'),
+    __param(0, server_1.Param('userid')), __param(1, server_1.Query('checked')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], Alexa, "election_users_update", null);
 Alexa = __decorate([
     server_1.MethodConfig('Alexa')
 ], Alexa);

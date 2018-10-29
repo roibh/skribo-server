@@ -13,3 +13,4 @@ export * from './scripts';
 export * from './sync';
 export * from './results';
 export * from './user';
+export * from './alexa';

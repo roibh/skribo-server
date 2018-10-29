@@ -16,4 +16,5 @@ __export(require("./scripts"));
 __export(require("./sync"));
 __export(require("./results"));
 __export(require("./user"));
+__export(require("./alexa"));
 //# sourceMappingURL=index.js.map
