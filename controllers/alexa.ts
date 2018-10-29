@@ -31,7 +31,7 @@ export class Alexa {
     public static async election_users_update(
         @Param('userid') id: string, @Query('checked') checked: string): Promise<MethodResult> {
 
-        const result = await ElectionModel.update({ ID: id }, { Checked: (checked === 'true') });
+        const result = await ElectionModel.update({ _id: id }, { Checked: (checked === 'true') });
         return new MethodResult(result);
     }
 }

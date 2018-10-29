@@ -45,7 +45,7 @@ let Alexa = class Alexa {
     }
     static election_users_update(id, checked) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield election_model_1.ElectionModel.update({ ID: id }, { Checked: (checked === 'true') });
+            const result = yield election_model_1.ElectionModel.update({ _id: id }, { Checked: (checked === 'true') });
             return new server_1.MethodResult(result);
         });
     }

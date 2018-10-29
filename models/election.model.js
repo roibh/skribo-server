@@ -17,6 +17,11 @@ let ElectionModel = ElectionModel_1 = class ElectionModel extends data_1.Repo {
     }
 };
 __decorate([
+    data_1.ObjectId(),
+    data_1.Field(),
+    __metadata("design:type", String)
+], ElectionModel.prototype, "_id", void 0);
+__decorate([
     data_1.Field(),
     __metadata("design:type", Number)
 ], ElectionModel.prototype, "ID", void 0);
