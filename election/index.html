@@ -27,9 +27,9 @@ td, th {
           <input type="text" class="form-control" name="search" style="width: 300px;direction: rtl;" ng-model="searchText">   
           </div>
 </div>
- <div class="col-md-12">
+ <div class="col-md-12" style="margin-top: 100px;">
 
-        <div class="table-responsive" style="margin-top: 100px;">   
+        <div class="table-responsive" >   
 
 
         <table id="mytable" class="table" style="direction: rtl">
@@ -42,7 +42,7 @@ td, th {
           </thead>
           <tbody>    
             <tr ng-repeat="user in users | filter:searchText" ng-class="{'bg-primary': user.Checked }">
-              <td style="width: 50px;"><input type="checkbox" class="form-control" ng-model="user.Checked" ng-checked="user.Checked" ng-change="handleUserChange(user)" /></td>
+              <td ><input  style="width: 60px;height: 60px;" type="checkbox" class="form-control" ng-model="user.Checked" ng-checked="user.Checked" ng-change="handleUserChange(user)" /></td>
              
               <td>{{user.FirstName}}</td>
               <td>{{user.LastName}}</td>

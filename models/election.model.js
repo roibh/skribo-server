@@ -46,7 +46,7 @@ __decorate([
     __metadata("design:type", Boolean)
 ], ElectionModel.prototype, "Checked", void 0);
 ElectionModel = ElectionModel_1 = __decorate([
-    data_1.Model('Election'),
+    data_1.Model('Election', data_1.Transform.Automatic),
     __metadata("design:paramtypes", [Object])
 ], ElectionModel);
 exports.ElectionModel = ElectionModel;

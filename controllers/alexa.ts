@@ -8,7 +8,7 @@ ___] | \_ |  \ | |__] |__|
 
 import { Body, Method, MethodConfig, Param, Query, Verbs, MethodResult } from '@methodus/server';
 import { ElectionModel } from '../models/election.model';
-import { Query as QueryModel } from '@methodus/data';
+import { Query as QueryModel, ObjectId } from '@methodus/data';
 
 
 @MethodConfig('Alexa')

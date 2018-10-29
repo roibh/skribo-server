@@ -1,10 +1,11 @@
-import { Repo, Field, Model, ObjectId } from '@methodus/data';
-@Model('Election')
+import { Repo, Field, Model, ObjectId, Transform } from '@methodus/data';
+@Model('Election', Transform.Automatic)
 export class ElectionModel extends Repo<ElectionModel> {
 
     @ObjectId()
     @Field()
     public _id: string;
+
     @Field()
     public ID?: number;
     @Field()
