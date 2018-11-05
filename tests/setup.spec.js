@@ -19,27 +19,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const user_1 = require("../controllers/user");
-const data_1 = require("@methodus/data");
-data_1.DBHandler.config = {
-    connections: {
-        default: {
-            db: 'test',
-            exchanges: ['event-bus', 'cache-bus'],
-            poolSize: 10,
-            readPreference: 'primaryPreferred',
-            server: 'mongodb://localhost:27017',
-            ssl: false,
-        },
-    },
-};
-global.User = {
-    EmbedId: '000000000000000000',
-    GroupId: '000000000000000000',
-    Name: 'test user',
-    ResultId: '000000000000000000',
-    ScriptId: '000000000000000000',
-    UserId: '000000000000000000',
-};
 const userId = '000000000000000000';
 let TestsOfResults = class TestsOfResults {
     setup() {

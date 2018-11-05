@@ -168,9 +168,9 @@ let Results = class Results {
         }
         let results = body.results;
         if (typeof results === 'string') {
-            results = JSON.parse(results);
+            body.results = JSON.parse(results);
         }
-        return results;
+        return body;
     }
     static insertToDB(rowObject, tableName, resultId) {
         return __awaiter(this, void 0, void 0, function* () {

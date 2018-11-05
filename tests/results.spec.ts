@@ -1,13 +1,21 @@
 import { AsyncTest, Expect, TestCase, TestFixture, Timeout } from 'alsatian';
 import * as Data from './data';
 import { Results } from '../controllers/results';
-
+global.User = {
+    EmbedId: '000000000000000000',
+    GroupId: '000000000000000000',
+    Name: 'test user',
+    ResultId: '000000000000000000',
+    ScriptId: '000000000000000000',
+    UserId: '000000000000000000',
+}
 @TestFixture('Test Results')
 export class TestsOfResults {
 
     @AsyncTest('create')
-    @TestCase(Data.ReportResultCollection)
-    @TestCase(Data.ReportResultEmbeded)
+   // @TestCase(Data.ReportResultCollection)
+   // @TestCase(Data.ReportResultEmbeded)
+    @TestCase(Data.ReportResultEmbededCopy)
     @Timeout(10000)
     public async create(resultMutation) {
         const result = (await Results.create(global.User.GroupId,

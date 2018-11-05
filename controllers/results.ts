@@ -172,9 +172,9 @@ export class Results {
         }
         let results = body.results;
         if (typeof results === 'string') {
-            results = JSON.parse(results);
+            body.results = JSON.parse(results);
         }
-        return results;
+        return body;
     }
 
     private static async insertToDB(rowObject, tableName, resultId) {

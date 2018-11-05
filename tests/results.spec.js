@@ -20,6 +20,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const alsatian_1 = require("alsatian");
 const Data = require("./data");
 const results_1 = require("../controllers/results");
+global.User = {
+    EmbedId: '000000000000000000',
+    GroupId: '000000000000000000',
+    Name: 'test user',
+    ResultId: '000000000000000000',
+    ScriptId: '000000000000000000',
+    UserId: '000000000000000000',
+};
 let TestsOfResults = class TestsOfResults {
     create(resultMutation) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -48,9 +56,11 @@ let TestsOfResults = class TestsOfResults {
     }
 };
 __decorate([
-    alsatian_1.AsyncTest('create'),
-    alsatian_1.TestCase(Data.ReportResultCollection),
-    alsatian_1.TestCase(Data.ReportResultEmbeded),
+    alsatian_1.AsyncTest('create')
+    // @TestCase(Data.ReportResultCollection)
+    // @TestCase(Data.ReportResultEmbeded)
+    ,
+    alsatian_1.TestCase(Data.ReportResultEmbededCopy),
     alsatian_1.Timeout(10000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
