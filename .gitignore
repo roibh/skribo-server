@@ -5,3 +5,7 @@ client/node_modules
 build/**/*.*
 .nyc_output/
 coverage/
+@skribo/
+cc-test-reporter
+client/package-lock.json
+package-lock.json
