@@ -21,6 +21,7 @@ before_deploy:
   - ng build --prod
   - cd ..
   - npm run build
+  - git add package.json
   - git commit -m "automatic deploy"
 deploy:
   provider: heroku
