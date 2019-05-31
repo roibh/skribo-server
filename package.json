@@ -12,7 +12,8 @@
     "contract": "contracts-server ./build.json",
     "client": "contracts-client ./build.json",
     "contract-publish": "contracts-server ./build.json -p",
-    "client-publish": "contracts-client ./build.json -p"
+    "client-publish": "contracts-client ./build.json -p",
+    "heroku-postbuild": "cd client && npm install && ng build --prod"
   },
   "author": "DO",
   "license": "ISC",
