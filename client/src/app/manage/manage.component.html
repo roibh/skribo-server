@@ -1,0 +1,67 @@
+<div [appAdaptHeight]="100">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Category</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Last run date</th>
+        <th scope="col">
+          <a class="btn btn-primary btn-xs" routerLink="/adscript/manage/create">
+            + New Script</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of collectionData">
+
+        <td>
+          {{row.Category}}
+
+        </td>
+        <td>
+          <a href="#" [routerLink]="[row.ScriptId, 'details']">{{row.Name}}</a>
+        </td>
+        <td>
+          {{row.Description}}
+
+        </td>
+        <td>
+          {{row.LastRunDate | date:'mediumDate'}}
+
+        </td>
+        <td>
+          <a class="btn btn-danger" (click)="remove(row.ScriptId, template)">
+            <i class="icon-bin white"></i>
+          </a>
+          <a class="btn btn-info" [routerLink]="[row.ScriptId, 'details']">
+            <i class="icon-pencil white"></i>
+          </a>
+          <app-install [script]="row"></app-install>
+          <app-spreadsheet [script]="row"></app-spreadsheet>
+
+        </td>
+
+
+
+
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>The script will be deleted.</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">Continue</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Cancel</button>
+  </div>
+</ng-template>
+
+<app-loader [busy]="busy">
+  Loading
+</app-loader>
+
+<!-- 
+ 
+<app-dynamic-table [columns]="tableColumns" [tableData]="collectionData"></app-dynamic-table> -->

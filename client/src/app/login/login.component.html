@@ -1,0 +1,48 @@
+<div>
+
+    <button (click)="socialSignIn()" class="btn btn-primary" *ngIf="!userData">
+        <span class="icon-home"></span>
+        Login</button>
+
+    <ng-template #share>
+        <div class="modal-body text-center">
+
+            <p>Share your group.</p>
+            <pre>{{group.GroupId}}</pre>
+            <a type="button" class="btn btn-primary" (click)="decline()">Cancel</a>
+        </div>
+    </ng-template>
+
+    <ng-template #join>
+        <div class="modal-body text-center">
+            <p>Join a group.</p>
+            <div>
+                <label>Group code</label>
+                <input type="text" class="form-control" #group_code />
+            </div>
+            <a type="button" class="btn btn-primary" (click)="JoinConfirm(group_code.value)">Join</a>
+            <a type="button" class="btn btn-default" (click)="decline()">Cancel</a>
+        </div>
+    </ng-template>
+
+
+
+    <div class="btn-group" dropdown *ngIf="userData && group">
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            <span class="icon-home"></span> {{group.Name}}<span class="caret"></span>
+        </button>
+        <div *dropdownMenu class="dropdown-menu" role="menu">
+
+            <a class="dropdown-item" (click)="setGroup(item)" class="dropdown-item"
+                *ngFor="let item of userData.groups">{{item.Name}}</a>
+            <a class="dropdown-item" (click)="JoinGroup(join)">Join group</a>
+            <a class="dropdown-item" (click)="ShareGroup(share)">Share group</a>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,107 @@
+<ng-template #confirmationTemplate>
+  <div class="modal-body text-center">
+    <p>The result will be deleted.</p>
+    <a class="btn btn-danger white" (click)="confirm()">Continue</a>
+    <a class="btn btn-default " (click)="decline()">Cancel</a>
+  </div>
+</ng-template>
+
+ 
+<div class="fixed-header">
+  <h5 *ngIf="script">{{script.Name}}</h5>
+</div>
+<div class="d-flex row">
+  <div class="col-md-3 d-flex flex-column flex-sm-column pre-scrollable-fluid" [appAdaptHeight]="100">
+    <div class="list-group">
+    <div *ngFor="let row of listOfResults| orderBy: 'Date'">
+     
+     <div class="btn-group action-row d-flex" role="group" >
+       <a type="button" class="btn btn-primary" (click)="toggle(row)">
+          <i class="oi  white" [ngClass]="!row.opened ? 'oi-arrow-right' : 'oi-arrow-bottom'"></i>
+        </a>
+        <button type="button" class="list-group-item" class="btn fullsize" (click)="showResults(template, row)">{{row.Date
+          | date:'fullDate'}} {{row.Date
+            | date:'shortTime'}}</button>
+        <a type="button" class="btn btn-danger" (click)="remove(row,confirmationTemplate)">
+          <i class="icon-bin white"></i>
+        </a>
+      </div>
+     <div *ngIf="row.opened">
+     <app-variables-short [variables]="row.Variables"></app-variables-short>
+     
+     </div>  
+   
+    </div>
+    
+    </div>
+  </div>
+
+  <div class="col-md-9">
+     <div class="toolbar">
+    <select [(ngModel)]="identifier" class="float-right" *ngIf="identifiers" (change)="redraw($event)">
+      <option> All</option>
+      <option *ngFor="let c of identifiers" [ngValue]="c">{{c}}</option>
+    </select>
+
+
+   <app-install *ngIf="script" [script]="script"></app-install>
+  
+
+  <a *ngIf="script" class="btn btn-info" [routerLink]="['..',  'details']">
+            <i class="oi oi-pencil white"></i>
+          </a>
+  </div>
+
+    <tabset>
+      <tab heading="Data" id="tab_info">
+        <tabset>
+          <tab class="tabwidth" (select)="onSelect($event,sheet)" *ngFor="let sheet of sheets;let i=index;" id="sheet_{{i}}"
+            heading="{{sheet.name}}">
+
+            <div [appAdaptHeight]="100" class="container-fluid">
+              <!-- <super-table  [rows]="sheet.rows" [columns]="sheet.colHeaders" [options]="sheet.options">
+              </super-table> -->
+            </div>
+
+
+
+
+            <!-- <hot-table *ngIf="sheet.rows" [data]="sheet.rows" [options]="options" [colHeaders]="sheet.colHeaders"
+              [columns]="sheet.columns">
+            </hot-table> -->
+          </tab>
+        </tabset>
+
+        <!-- <ngx-datatable [rowHeight]="'auto'" [headerHeight]="50" [rows]="rows" class="material scroll-vertical ngx-datatable fixed-header fixed-row " [columns]="columns">
+    </ngx-datatable> -->
+
+        <!-- <google-chart [data]="tableChartData"></google-chart> -->
+        <!-- 
+    <table class="table table-responsive table-condensed">
+
+      <tr *ngFor="let d of Data">
+        <td>{{d.label}}</td>
+        <td *ngIf="d.label==='url'">
+          <a href="{{d.value}}" target="_blank">click to view</a>
+        </td>
+        <td *ngIf="d.label!=='url'">{{d.value}}</td>
+      </tr>
+    </table> -->
+      </tab>
+      <tab heading="Chart" id="tab_editor">
+        <div>
+          <app-chart *ngIf="isChart" [data]="Data" [script]="script"></app-chart>
+        </div>
+      </tab>
+      <tab heading="Raw result" id="tab_raw">
+        <pre class=" pre-scrollable-fluid" [appAdaptHeight]="100">
+
+
+          {{Data| json}}
+
+
+   </pre>
+      </tab>
+    </tabset>
+  </div>
+</div>

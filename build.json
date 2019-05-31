@@ -2,32 +2,35 @@
     "skribo": {
         "contractNameServer": "@skribo/server",
         "contractNameClient": "@skribo/client",
-        "buildPath": "../",
+        "buildPath": "./",
         "path": "./",
+        "buildFolder": "build",
+        "srcFolder": "src",
         "contracts": {
+          
             "Scripts": {
-                "path": "./controllers/scripts.ts"
+                "path": "./src/controllers/scripts.ts"
             },
             "Embed": {
-                "path": "./controllers/embed.ts"
+                "path": "./src/controllers/embed.ts"
             },
             "Log": {
-                "path": "./controllers/log.ts"
+                "path": "./src/controllers/log.ts"
             },
             "Serve": {
-                "path": "./controllers/serve.ts"
+                "path": "./src/controllers/serve.ts"
             },
             "Sync": {
-                "path": "./controllers/sync.ts"
+                "path": "./src/controllers/sync.ts"
             },
             "Results": {
-                "path": "./controllers/results.ts"
+                "path": "./src/controllers/results.ts"
             },
             "User": {
-                "path": "./controllers/user.ts"
+                "path": "./src/controllers/user.ts"
             },
-            "Alexa": {
-                "path": "./controllers/alexa.ts"
+            "Auth": {
+                "path": "./src/controllers/auth.controller.ts"
             }
         },
         "models": {
@@ -42,17 +45,14 @@
             },
             "UserAccountModel": {
                 "path": "./models/user-account.model.ts"
-            },
-            "ElectionModel": {
-                "path": "./models/election.model.ts"
-            }
+            } 
         },
         "includes": {
             "VariableModel": {
-                "path": "./models/variable.model.ts"
+                "path": "./src/models/variable.model.ts"
             },
             "ResultsDescriptor": {
-                "path": "./models/resultsDescriptor.model.ts"
+                "path": "./src/models/resultsDescriptor.model.ts"
             }
         },
         "dependencies": {},

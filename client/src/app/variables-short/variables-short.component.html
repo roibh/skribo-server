@@ -1,0 +1,30 @@
+<div class="btn btn-primary">
+ <div *ngFor="let variable of variables">
+
+ <div   >
+  {{variable.name}}: &nbsp; 
+  <span [ngSwitch]="variable.type" class="float-right"> 
+    <span *ngSwitchCase="'date-span'">
+         <label>{{variable.value}}</label>
+    </span>
+    <span *ngSwitchCase="'account'">
+    <span class="badge badge-light">
+    <span *ngFor="let account of objectValues(variable.value)">
+     {{account}} <br />
+      </span>  </span>
+
+       
+    </span>
+    <span *ngSwitchCase="'grid'">
+      <app-grid [variable]="variable"></app-grid>
+    </span>
+    <span *ngSwitchCase="'url'">
+      <label>{{variable.value}}</label>
+    </span>
+    <span *ngSwitchDefault>
+       <label>{{variable.value}}</label>
+    </span>    
+  </span>
+  </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<select [(ngModel)]="chartLabel" class="float-left" *ngIf="chartType=='bar'" (change)="redraw()">
+  <option *ngFor="let c of chartLabels" [ngValue]="c">{{c}}</option>
+</select>
+
+
+<select [(ngModel)]="chartValue" class="float-left" *ngIf="chartType=='bar'" (change)="redraw()">
+  <option *ngFor="let c of chartValues" [ngValue]="c">{{c}}</option>
+</select>
+
+
+<ngx-charts-line-chart *ngIf="chartData && chartType=='line'" class="chart-container" [results]="chartData" style="position: static; display: inline-block; transform: none;"
+  [view]="true" [animations]="true" [legend]="false" [legendTitle]="true" [gradient]="true" [xAxis]="true" [yAxis]="true"
+  [showXAxisLabel]="true" [showYAxisLabel]="true" [autoScale]="true" [timeline]="true" [showGridLines]="true"
+  [rangeFillOpacity]="true" [roundDomains]="true" [tooltipDisabled]="false">
+
+  >
+</ngx-charts-line-chart>
+ 
+<ngx-charts-bar-vertical *ngIf="chartData && chartType=='bar'" class="chart-container" [results]="chartData">
+</ngx-charts-bar-vertical>
+
+
+<ngx-charts-pie-chart *ngIf="chartData && chartType=='pie'" class="chart-container" [results]="chartData" [labels]="true"
+  [explodeSlices]="false" [doughnut]="false" [arcWidth]="0.25">
+</ngx-charts-pie-chart>
+
+
+<!-- <ngx-charts-pie-chart class="chart-container" 
+
+
+[view]="view" [scheme]="colorScheme" [results]="single" [animations]="animations"
+  [legend]="showLegend" 
+  [legendTitle]="legendTitle"
+   [explodeSlices]="explodeSlices"
+    [labels]="chartData.labels"
+     [doughnut]="doughnut"
+  [arcWidth]="arcWidth" 
+  (legendLabelClick)="onLegendLabelClick($event)" 
+  [gradient]="gradient" [tooltipDisabled]="tooltipDisabled"
+  [tooltipText]="pieTooltipText" (dblclick)="dblclick($event)" (select)="select($event)"
+  >
+</ngx-charts-pie-chart> -->

@@ -1,0 +1,93 @@
+<ng-template #template>
+  <div class="modal-header">
+
+    <h6>Edit Script Installations</h6>
+
+
+
+    <a type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <div class="modal-body">
+    <h4 class="modal-title"> {{script.Name}}</h4>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="NameInput">Installation Name:</label>
+          <textarea class="form-control" [(ngModel)]="embed.Name"></textarea>
+          <small id="emailHelp" class="form-text text-muted">it will help you understand what you're doing.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="NameInput">Installation Page:</label>
+          <textarea class="form-control" [(ngModel)]="embed.Page"></textarea>
+          <small id="emailHelp" class="form-text text-muted">paste the url of the page the script is installed.</small>
+        </div>
+      </div>
+      <div class="col-6">
+        <a class="btn btn-warning" title="Reset variables" (click)="resetEmbed()"> <i class="icon-bin white"></i></a>
+        <app-variables-fill [variables]="embed.Variables"></app-variables-fill>
+      </div>
+
+    </div>
+
+
+
+
+
+    <a class="btn btn-md btn-primary" *ngIf="embed.ID" (click)="saveEmbed()">Update embed script</a>
+
+    <a class="btn btn-md btn-primary" *ngIf="!embed.ID" (click)="saveEmbed()">Create embed script</a>
+
+  </div>
+</ng-template>
+
+<ng-template #delete>
+  <div class="modal-body text-center">
+    <p>Delete installed embed?</p>
+    <pre>You will lose all information for the script</pre>
+    <a type="button" class="btn btn-danger" (click)="confirm()">Continue</a>
+    <a type="button" class="btn btn-default" (click)="decline()">Cancel</a>
+  </div>
+</ng-template>
+
+<a class="btn btn-primary btn-xs white" (click)="newEmbed(template)">
+  <i class="icon-plus white"></i> New Installation
+</a>
+
+<div class="card border-primary mb-3 " *ngFor="let embed of list;let i=index;">
+  <div class="card-header">
+
+    {{embed.Name}}
+
+
+    <span class="float-right">
+      <a class="btn btn-danger" (click)="deleteEmbed(embed, i,delete)">
+        <i class="icon-bin white"></i>
+      </a>
+      <a class="btn btn-success" (click)="editEmbed(embed,template)">
+        <i class="icon-pencil white"></i>
+      </a>
+      <a class="btn btn-primary" (click)="createEmbed(embed)">
+        <i class="icon-embed white"></i>
+      </a>
+    </span>
+
+    <textarea class="form-control" [(ngModel)]="embed.generated"> </textarea>
+  </div>
+  <div class="card-body text-primary">
+    <ul class="card-text">
+      <a href="{{embed.Page}}" *ngIf="embed.Page" target="{{embed.Page}}">Open installation page</a><br />
+      <a href="{{embed.sourceUrl}}" *ngIf="embed.Page" target="_blank">View sciprt source</a>
+
+
+      <!-- <li *ngFor="let item of embed.Variables">
+        <b> {{item.name}}</b>: {{item.value}}
+      </li> -->
+
+    </ul>
+
+  </div>
+</div>

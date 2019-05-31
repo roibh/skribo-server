@@ -1,0 +1,41 @@
+<ng-template #template>
+  <div class="modal-header">
+
+    <h6>Account Selector</h6>
+
+
+
+    <a type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <div class="modal-body">
+    <h4 class="modal-title"> asdasdasd </h4>
+    <table>
+      <tr *ngFor="let account of list;let i=index;">
+        <td>{{account.AccountName}}</td>
+        <td>
+
+
+          <a class="btn btn-primary btn-xs" *ngIf="isChecked(account)" (click)="toggleAccounts(account)">
+            Unselect
+          </a>
+          <a class="btn btn-primary btn-xs" *ngIf="!isChecked(account)" (click)="toggleAccounts(account)">
+            Select
+          </a>
+        </td>
+      </tr>
+    </table>
+
+ 
+  </div>
+</ng-template>
+
+
+<a class="btn btn-success" (click)="browseToSelect(template)">
+  <span class="oi oi-spreadsheet white"></span>
+</a>
+
+<ul>
+  <li *ngFor="let account of variable.value | keyvalue;">{{account.value}}</li>
+</ul>

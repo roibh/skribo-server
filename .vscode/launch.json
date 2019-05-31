@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "R | local skribo server",
-            "program": "${workspaceRoot}\\index.js",
+            "program": "${workspaceRoot}\\build\\index.js",
             "cwd": "${workspaceRoot}\\",
             "console": "internalConsole",
             "outFiles": [],
@@ -104,7 +104,7 @@
             "type": "node",
             "request": "launch",
             "name": "U | build client contracts",
-            "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\client.js",
+            "program": "${workspaceRoot}\\node_modules\\@methodus\\contracts\\build\\client.js",
             "args": [
                 "./build.json"
             ],

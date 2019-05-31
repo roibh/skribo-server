@@ -7,6 +7,8 @@
             "es2017",
             "es2015"
         ],
+        "rootDir": "src",
+        "outDir": "build",
         "declaration": true,
         "target": "es2016",
         "module": "commonjs",

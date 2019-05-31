@@ -1,0 +1,36 @@
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="_fdd5c2b30528c7373154" InResponseTo="
+	admin.zscalerbeta.net"
+	 Version="2.0" IssueInstant="
+	2018-10-11T19:47:32.404Z" Destination="
+	https://admin.zscalerbeta.net/adminsso.do">
+	<saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+		admin.zscalerbeta.net
+	</saml:Issuer>
+	<samlp:Status xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+		<samlp:StatusCode xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Value="urn:oasis:names:tc:SAML:2.0:status:Success"></samlp:StatusCode>
+	</samlp:Status>
+	<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_ee8a7f50840a04b56d57" IssueInstant="2018-10-11T19:47:32.404Z"
+	 Version="2.0">
+		<saml:Issuer>
+			admin.zscalerbeta.net
+		</saml:Issuer>
+		<saml:Subject>
+			<saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress" NameQualifier="admin.zscalerbeta.net">
+				rb136m@mss.att.com
+			</saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData InResponseTo="
+					admin.zscalerbeta.net"
+					 NotOnOrAfter="
+					false" Recipient="
+					https://admin.zscalerbeta.net/adminsso.do"/>
+			</saml:SubjectConfirmation>
+		</saml:Subject>
+
+
+		<saml:AuthnStatement AuthnInstant="2018-10-11T19:47:32.404Z" SessionIndex="">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+	</saml:Assertion>

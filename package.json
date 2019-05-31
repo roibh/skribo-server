@@ -1,42 +1,38 @@
 {
   "name": "@skribo/server",
-  "version": "1.0.65",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "tsc",
+    "start": "node build/index.js",
+    "build": "trash build && tsc",
     "test": "nyc --reporter=lcov --reporter=html npm run xtest && nyc report",
-    "xtest": "npm run build && alsatian tests/setup.spec.js tests/user.spec.js tests/scripts.spec.js tests/embed.spec.js tests/serve.spec.js tests/sync.spec.js tests/results.spec.js  tests/log.spec.js tests/final.spec.js",
+    "xtest": "npm run build && alsatian build/tests/*.spec.js",
     "contracts": "npm version patch && npm run contract-publish && npm run client-publish",
-    "postpublish": "npm run tag && npm run contract-publish && npm run client-publish",
-    "contract": "node ./node_modules/@methodus/contracts/build.js ./build.json",
-    "client": "node ./node_modules/@methodus/contracts/client.js ./build.json",
-    "contract-publish": "node ./node_modules/@methodus/contracts/build.js ./build.json -p",
-    "client-publish": "node ./node_modules/@methodus/contracts/client.js ./build.json -p"
+    "contract": "contracts-server ./build.json",
+    "client": "contracts-client ./build.json",
+    "contract-publish": "contracts-server ./build.json -p",
+    "client-publish": "contracts-client ./build.json -p"
   },
   "author": "DO",
   "license": "ISC",
+  "peerDependencies": {
+    "@methodus/contracts": "latest"
+  },
   "dependencies": {
-    "@methodus/contracts": "^0.0.13",
-    "@methodus/data": "^1.0.1",
-    "@methodus/describe": "^1.0.8",
-    "@methodus/server": "^0.0.26",
+    "@methodus/data": "^2.0.23",
+    "@methodus/describe": "^4.0.1",
+    "@methodus/server": "^3.0.26",
     "@types/node": "^10.0.4",
-    "adwords-auth": "^0.0.10",
-    "alsatian": "^2.3.0",
-    "chrome-bridge": "^0.1.2",
-    "logelas": "^2.0.0",
-    "mongoose": "^5.2.10",
-    "node-adwords": "^201802.2.0",
-    "nyc": "^12.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "logelas": "^4.0.18",
     "object-hash": "^1.3.0",
-    "pg": "^7.4.3",
-    "raven": "^2.6.3",
-    "typegoose": "^5.2.1",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
+    "trash-cli": "^1.4.0",
+    "alsatian": "^2.3.0",
+    "nyc": "^13.0.2",
     "tslint": "^5.11.0"
   }
 }

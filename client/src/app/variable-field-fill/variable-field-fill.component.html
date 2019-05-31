@@ -1,0 +1,49 @@
+<div>
+
+ 
+  <div [ngSwitch]="variable.type" class="float-left">
+    <label>{{variable.name}}</label>
+    <div *ngSwitchCase="'string'">
+      <input type="text" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value">
+    </div>
+
+    <div *ngSwitchCase="'number'">
+      <input type="number" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value">
+    </div>
+
+    <div *ngSwitchCase="'date'">
+      <input type="date" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value">
+    </div>
+
+ <div *ngSwitchCase="'daterange'">
+      <input type="date" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value.start">
+       <input type="date" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value.end">
+    </div>
+
+    <div *ngSwitchCase="'date-span'">
+ 
+        <select class="float-left" [(ngModel)]="variable.value">
+        <option *ngFor="let c of ranges" [ngValue]="c">{{c}}</option>
+      </select>
+    </div>
+    <div *ngSwitchCase="'account'">
+    <div style="max-height: 200px;overflow: auto">
+
+     
+      <app-account-selector [variable]="variable"></app-account-selector>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'grid'">
+      <app-grid [variable]="variable"></app-grid>
+
+    </div>
+
+    <div *ngSwitchCase="'url'">
+      <input type="text" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value">
+    </div>
+    <div *ngSwitchDefault>
+      <input type="text" class="form-control input-sm textbox text-small" [(ngModel)]="variable.value">
+    </div>
+  </div>
+</div>

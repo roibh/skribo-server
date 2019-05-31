@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="toolbar">
+    <a class="btn btn-success btn-xs white" (click)="_Save(false)">Save</a>
+    <a class="btn btn-primary btn-xs white" (click)="_Save(true)">Save & finish</a>
+    <app-install [script]="script"></app-install>
+    <app-spreadsheet [script]="script"></app-spreadsheet>
+    <a class="btn btn-success btn-xs white" (click)="_Execute()">
+      <span class="oi oi-media-play"></span> Test Execution</a>
+  </div>
+  <h5 class="page-title" *ngIf="info">{{info.Name}}</h5>
+  <tabset>
+    <tab heading="Code" id="tab_editor">
+      <div [appAdaptHeight]="160" *ngIf="info">
+        <app-full-editor [code]="code" (notify)="onCode($event)" [script-name]="info.Name" [variables]="variables"></app-full-editor>
+      </div>
+    </tab>
+    <tab heading="Info" id="tab_info" [appAdaptHeight]="160">
+      <app-info [info]="info" [code]="code" [variables]="variables" [resultSample]="resultSample" [resultsDescriptor]="resultsDescriptor"
+        (notify)="onInfo($event)"></app-info>
+    </tab>
+    <tab heading="Variables" id="tab_variables" [appAdaptHeight]="160">
+      <app-variables [mode]="'edit'" [variables]="variables" (notify)="onvariables($event)"></app-variables>
+    </tab>
+  </tabset>
+
+  <div *ngIf="testResult">
+    <div>{{testResult.message}}</div>
+    <div>{{testResult.stack}}</div>
+  </div>
+</div>
+
+
+<!-- 
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="Code-tab" data-toggle="tab" href="#Code" role="tab">Code</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" id="Info-tab" data-toggle="tab" href="#Info" role="tab">Info</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" id="Variables-tab" data-toggle="tab" href="#Variables" role="tab">Variables</a>
+  </li>
+</ul> -->
+<!-- <div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="Code" role="tabpanel" aria-labelledby="Code-tab">
+    <app-editor></app-editor>
+  </div>
+  <div class="tab-pane fade " id="Info" role="tabpanel" aria-labelledby="Info-tab">
+
+  </div>
+
+  <div class="tab-pane fade" id="Variables" role="tabpanel" aria-labelledby="Variables-tab">
+    <app-variables></app-variables>
+  </div>
+</div> -->

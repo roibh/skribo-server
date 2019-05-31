@@ -1,0 +1,65 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"> {{script.Name}}</h4>
+    <a type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col"></th>
+          <th scope="col">
+
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of collectionData">
+          <th scope="row">
+          <td>
+            <app-result-viewer [resultData]="row" [script]="script"></app-result-viewer>
+            <!-- <a [routerLink]="[row.ScriptId,row.EmbedId, row.ID, 'spreadsheet']">{{row.Date}}</a>
+
+            <td> -->
+
+
+          </td>
+          <td>
+            <a class="btn btn-danger" (click)="remove(row,confirmationTemplate)">
+              <i class="icon-bin white"></i>
+            </a>
+
+
+
+
+          </td>
+
+
+
+
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</ng-template>
+
+<ng-template #confirmationTemplate>
+  <div class="modal-body text-center">
+    <p>The script will be deleted.</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">Continue</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Cancel</button>
+  </div>
+</ng-template>
+
+<!-- <a class="btn btn-success" (click)="spreadsheet(script, template)">
+
+  <span class="oi oi-spreadsheet white"></span>
+</a> -->
+
+<a *ngIf="script" class="btn  btn-success" [routerLink]="['/adscript/manage', script.ScriptId ,'explore']">
+  <span class="icon-stats-bars white"></span></a>

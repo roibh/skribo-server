@@ -75,6 +75,7 @@ var Util = {
                 date.setDate(date.getDate() - 30);
                 var dateString = date.toISOString().split('T')[0];
                 return { start: dateString, end: new Date().split('T')[0] }
+                
         }
     }
 }

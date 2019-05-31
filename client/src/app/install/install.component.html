@@ -1,0 +1,18 @@
+<a class="btn btn-primary" (click)="installDialog(template, script)">
+  <em class="icon-database text-white"></em>
+</a>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"> {{script.Name}}</h4>
+    <a type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </a>
+  </div>
+  <div class="modal-body">
+  
+    <div style="overflow: auto; height: 450px;">
+      <app-embed-list [list]="embedList" (notify)="onList($event)" [script]="script"></app-embed-list>
+    </div>
+  </div>
+</ng-template>
