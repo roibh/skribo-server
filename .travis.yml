@@ -10,10 +10,9 @@ before_script:
 env:
   - NODE_CONFIG_ENV=local
   - CC_TEST_REPORTER_ID=53901b8fe6d35edf022cb1c654f61144398408b0b35a32a2990a5aa884512186
-before_deploy: "mv .gitignore ..gitignore" 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-deploy:
+before_deploy:
   - npm i -g @methodus/contracts
   - npm run client
   - cd client
