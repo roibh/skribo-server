@@ -21,6 +21,11 @@ before_deploy:
   - ng build --prod
   - cd ..
   - npm run build
+deploy:
+  provider: heroku
+  api_key:
+    secure: "$HEROKU_TOKEN"
+  app: skribo    
 services:
   mongodb
  
