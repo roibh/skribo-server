@@ -24,6 +24,7 @@ before_deploy:
   - git add package.json
   - git commit -m "automatic deploy"
 deploy:
+  skip_cleanup: true
   provider: heroku
   api_key:
     secure: "$HEROKU_TOKEN"
