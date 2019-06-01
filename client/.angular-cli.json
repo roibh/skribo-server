@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../skribo-server/public",
+      "outDir": "../public",
       "assets": [
         {
           "glob": "**/*",
