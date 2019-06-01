@@ -20,6 +20,9 @@ before_deploy:
   - npm install
   - ng build --prod
   - cd ..
+  - cd public
+  - ls
+  - cd ..
   - npm run build
   - git add package.json
   - git commit -m "automatic deploy"
